@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="theme-color" content="#17403d"><style>:root{padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);box-sizing:border-box;height:100%}body{margin:0;height:100%}</style></head><body>
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Bounce Keeper"><link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="icon" href="apple-touch-icon.png"><meta name="theme-color" content="#17403d"><title>Bounce Keeper</title><style>:root{padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);box-sizing:border-box;height:100%}body{margin:0;height:100%}</style></head><body>
 <title>Bounce Keeper</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap">
@@ -195,6 +195,34 @@ textarea { width: 100%; min-height: 70px; border-radius: 12px; border: 1.5px sol
 @keyframes spFade { to { opacity: 1; } }
 @keyframes spPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .55; transform: scale(.97); } }
 @media (prefers-reduced-motion: reduce) { .sp-title i, .sp-kicker, .sp-sub { animation-duration: .01s; animation-delay: 0s; } }
+
+@media (max-width: 360px) { .card h2 { font-size: 22px; } .cardhead .wal { font-size: 15px; gap: 8px; } .tabs button { font-size: 12.5px; } .card { padding: 18px 14px; } }
+
+.layer.bottom { align-items: end; padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px)); background: linear-gradient(180deg, rgba(8,20,19,0) 55%, rgba(8,20,19,.35) 100%); }
+.card.lo { max-height: 64%; overflow-y: auto; gap: 10px; padding: 14px 14px 10px; border-radius: 24px; background: rgba(16,36,34,.94); }
+.card.lo .cardhead h2 { font-size: 21px; }
+.card.lo .tabs button { padding: 8px 2px; }
+.strip { display: flex; gap: 10px; overflow-x: auto; padding: 4px 2px 8px; scroll-snap-type: x proximity; touch-action: pan-x; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.strip::-webkit-scrollbar { display: none; }
+.strip .skin { flex: 0 0 132px; scroll-snap-align: center; padding: 8px 8px 9px; gap: 5px; border-radius: 18px; }
+.strip .skin canvas { width: 116px; height: 84px; border-radius: 12px; }
+.strip .skin .nm { font-size: 14px; line-height: 1.15; min-height: 2.3em; display: flex; align-items: center; }
+.strip .skin .lv { font-size: 12px; }
+.strip .skin .tag { font-size: 12px; min-height: 15px; }
+.card.lo .upbox { padding: 10px 12px; }
+.card.lo .upbox b { font-size: 16px; }
+.lohd { display: flex; gap: 14px; align-items: center; } .lohd .btn.sm { padding: 7px 16px; min-height: 0; }
+.card.lo .upbox b { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+@media (max-height: 640px) { .card.lo { max-height: 72%; gap: 8px; } .strip .skin { flex-basis: 112px; padding: 6px 6px 7px; gap: 3px; } .strip .skin canvas { width: 98px; height: 66px; } .strip .skin .nm { min-height: 0; font-size: 13px; } .card.lo .upbox { padding: 8px 10px; } #loPrev { display: none; } }
+.btn.mine { justify-content: center; gap: 10px; display: flex; align-items: center; }
+.mine-ic { display: inline-flex; gap: 4px; }
+.mine-ic canvas { width: 34px; height: 24px; border-radius: 6px; background: rgba(255,255,255,.06); }
+
+.kit { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; }
+.kit button { position: relative; display: grid; gap: 0; padding: 0; border: 1.5px solid var(--line); border-radius: 16px; background: rgba(8,20,19,.55); overflow: hidden; cursor: pointer; color: var(--sand); }
+.kit button:active { transform: scale(.97); }
+.kit canvas { width: 100%; aspect-ratio: 4 / 3; display: block; }
+.kit span { position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 4px 5px; font: 800 12px var(--body); letter-spacing: .03em; text-align: center; background: linear-gradient(180deg, rgba(8,20,19,0), rgba(8,20,19,.85)); }
 </style>
 
 <div id="wrap">
@@ -236,8 +264,27 @@ textarea { width: 100%; min-height: 70px; border-radius: 12px; border: 1.5px sol
         <span class="gems"><i class="gemico"></i><span class="vGems">0</span></span></div>
       <button class="btn" id="playBtn">Play</button>
       <button class="btn gold" id="menuChest" hidden>Open chest</button>
+      <div class="kit" id="kit">
+        <button data-k="ball" aria-label="Change ball"><canvas></canvas><span>Ball</span></button>
+        <button data-k="pad" aria-label="Change paddle"><canvas></canvas><span>Paddle</span></button>
+        <button data-k="world" aria-label="Change world"><canvas></canvas><span>World</span></button>
+      </div>
       <div class="row"><button class="btn alt" id="shopBtn">Shop</button><button class="btn alt" id="recBtn">Records</button></div>
       <div class="row"><button class="link" id="howBtn">How to play</button><button class="link" id="setBtn">Settings</button></div>
+    </div>
+  </div>
+
+  <!-- My skins: change and upgrade what you own, and see it live above -->
+  <div class="layer bottom" id="loadout" hidden>
+    <div class="card wide lo">
+      <div class="cardhead"><h2 id="loTitle">Choose</h2><div class="lohd"><button class="link" id="loShop">Shop</button><button class="btn sm" id="loDone">Done</button></div></div>
+      <div class="tabs" id="loTabs" role="tablist">
+        <button role="tab" data-lt="ball" aria-selected="true">Ball</button>
+        <button role="tab" data-lt="pad" aria-selected="false">Paddle</button>
+        <button role="tab" data-lt="world" aria-selected="false">World</button>
+      </div>
+      <div class="strip" id="loStrip"></div>
+      <div class="upbox" id="loUp"><div><b id="loName"></b><span id="loText"></span><button class="link" id="loPrev" style="justify-self:start;padding:4px 0;font-size:13px">▶ Preview all levels</button></div><button class="btn gold sm" id="loBtn"></button></div>
     </div>
   </div>
 
@@ -318,6 +365,9 @@ textarea { width: 100%; min-height: 70px; border-radius: 12px; border: 1.5px sol
       <div class="setrow"><label>Account and purchases</label>
         <p class="small">In the App Store version, your progress is saved to your Apple account with iCloud, so it comes back after you delete and reinstall. Purchases come back with Restore purchases.</p>
         <button class="btn alt" id="restoreBtn">Restore purchases</button></div>
+      <div class="setrow"><label>Developer test</label>
+        <p class="small">For testing only. Unlocks the skins that can't be bought: the 3 Mythic skins and the 12 bounce-reward skins. Remove this before publishing.</p>
+        <button class="btn alt" id="devUnlock">Unlock Mythic and reward skins</button></div>
       <div class="setrow"><label>Backup code</label>
         <p class="small">Copy this code and keep it safe. Paste it here on any device to bring back your coins, diamonds, skins and records.</p>
         <div class="row"><button class="btn alt" id="copyCode">Copy my code</button><button class="btn alt" id="loadCode">Load a code</button></div>
@@ -1603,7 +1653,8 @@ function sizeWorldCanvas() { WSC = Math.min(window.devicePixelRatio || 1, [1.5, 
 const HOME_WORLD = { id: 'home', name: 'Home', tier: 'normal', f: [['sky', ['#0f3330', '#1a4f48', '#2c6b5f']], ['glow', { x: .5, y: .1, r: .75, col: 'rgba(170,230,210,.14)' }],
   ['rays', { col: 'rgba(200,255,235,.03)' }], ['bubbles', { n: 16, col: 'rgba(159,211,193,.16)' }], ['dust', { n: 14, col: '#bfeee0' }]] };
 function setWorld(id) { worldId = id; world = initWorld(id === 'home' ? HOME_WORLD : itemOf('world', id), W, H, id === 'home' ? 1 : lvl('world', id)); buildWorldPlan(world, W, H, WSC); }
-function sceneWorldId() { if (preview && preview.cat === 'world') return preview.id; return ['play', 'count', 'paused', 'revive', 'over', 'guide'].includes(G.state) ? save.use.world : 'home'; }
+let loadoutOpen = false, sheetBack = 'shop';
+function sceneWorldId() { if (preview && preview.cat === 'world') return preview.id; if (G.state === 'menu' && loadoutOpen) return save.use.world; return ['play', 'count', 'paused', 'revive', 'over', 'guide'].includes(G.state) ? save.use.world : 'home'; }
 function refreshWorld(force) { const id = sceneWorldId(); if (force || id !== worldId || !world) setWorld(id); }
 
 function resize(keepWorld) {
@@ -1654,7 +1705,7 @@ function resetGame() {
     shield: save.up.shieldStart > 0, shake: 0, revives: 0, adRev: false, gemRev: 0, chest: false, chestSpawned: false, chestIn: -1, recordShown: false, gemRevUsed: false });
   G.fx = { grow: 0, slow: 0, shrink: 0, turbo: 0, flip: 0 };
   items = []; parts = []; ripples = []; texts = []; windLines = [];
-  pad.base = padBase(); pad.x = W / 2; pad.dir = R() < .5 ? -1 : 1; pad.w = pad.base;
+  pad.base = padBase(); pad.x = W / 2; pad.y = H - 84 * U; pad.dir = R() < .5 ? -1 : 1; pad.w = pad.base;
   $('hudCoin').textContent = 0; addScore(0); placeBall();
 }
 
@@ -1862,6 +1913,8 @@ function update(k) {
   { const I = moodI(); WK = k * (G.state === 'play' ? 1 + I * .35 : (G.state === 'menu' || G.state === 'splash') ? 1 : 0); wt += WK;
     if (G.state === 'play' && R() < I * .7) P({ x: R() * W, y: H + 5, vx: rn(.6), vy: -(1 + R() * 2) * U * (1 + I), decay: .01, size: (1.2 + R() * 2) * U, col: moodCol(), glow: true, grav: -.005 }); }
   const live = G.state === 'play', demo = G.state === 'menu' || G.state === 'splash';
+  if (demo && loadoutOpen && (G.loM = (G.loM || 0) + 1) % 8 === 0) measureLo();
+  if (demo) { const ty = loadoutOpen ? clamp(loTop - 40 * U, 150 * U, H * .58) : H - 84 * U; pad.y += (ty - pad.y) * Math.min(1, .14 * k); }
   if (!(live || demo)) return;
   const s = k * (live && G.fx.slow > 0 ? .55 : 1);
 
@@ -2046,18 +2099,20 @@ function loop(now) {
     if (Q.n >= 90) { const avg = Q.ft / Q.n; Q.ft = 0; Q.n = 0; if (avg > 18.3 && Q.level < 2) setQuality(Q.level + 1); } }
   FK = k; update(k); draw();
   if (++frame % 6 === 0 && G.state === 'play') renderChips();
+  if (frame % 2 === 0 && G.state === 'menu' && !$('menu').hidden) { NOSHADOW = true; drawKit(t); }
   requestAnimationFrame(loop);
 }
 
 // ================= Screens =================
-const LAYERS = ['splash', 'menu', 'guide', 'how', 'shop', 'records', 'settings', 'pause', 'revive', 'over', 'chest', 'ad', 'buy', 'countLayer'];
+const LAYERS = ['splash', 'menu', 'loadout', 'guide', 'how', 'shop', 'records', 'settings', 'pause', 'revive', 'over', 'chest', 'ad', 'buy', 'countLayer'];
 function show(id) { LAYERS.forEach(l => $(l).hidden = l !== id); $('hud').hidden = !['play', 'paused', 'count', 'over', 'revive'].includes(G.state); }
 
 function toMenu(msg) {
   clearPreview(); texts = [];
   G.state = 'menu'; refreshWorld(); items = []; G.shield = false; G.fx = { grow: 0, slow: 0, shrink: 0, turbo: 0, flip: 0 }; G.windT = 0;
-  pad.base = padBase(); $('menuBest').textContent = save.rec.best; wallet();
-  $('menuMsg').textContent = msg || 'Tilt your phone to steer the ball. Land it on the moving paddle.';
+  loadoutOpen = false; pad.base = padBase(); $('menuBest').textContent = save.rec.best; wallet(); renderMineIcons();
+  const nf = nextFree();
+  $('menuMsg').textContent = msg || (nf ? `Tilt to steer the ball. Make ${nf} bounces in one game to win 3 free skins.` : 'Tilt your phone to steer the ball. Land it on the moving paddle.');
   $('menuChest').hidden = save.chests < 1; $('menuChest').textContent = save.chests > 1 ? `Open chests (${save.chests})` : 'Open chest';
   placeBall(); show('menu');
 }
@@ -2181,9 +2236,11 @@ function openBuy(tierKey, name, opts, note) {
   opts.forEach(o => { const b = document.createElement('button'); b.className = 'btn ' + (o.cls || ''); b.innerHTML = o.html; b.disabled = !!o.disabled; b.onclick = o.fn; box.append(b); });
   show('buy');
 }
-$('buyNo').onclick = () => { clearPreview(); show('shop'); renderShop(); };
+$('buyNo').onclick = () => { clearPreview(); backFromSheet(); };
+function backFromSheet() { if (sheetBack === 'loadout') { show('loadout'); renderLoadout(); } else { show('shop'); renderShop(); } }
 
 function unlockSheet(cat, item) {
+  sheetBack = 'shop';
   setPreview(cat, item.id);
   const done = () => { clearPreview(); own(cat, item.id); equip(cat, item.id); sfx.buy(); show('shop'); renderShop(); toast(item.name + ' unlocked'); };
   const opts = [];
@@ -2197,12 +2254,13 @@ function unlockSheet(cat, item) {
     if (save.coins < item.coins) { note = `Needs ${item.coins.toLocaleString()} coins. You have ${save.coins.toLocaleString()}. Catch coins, open chests, or swap diamonds for coins.`;
       opts.push({ html: `Get coins with ${gemHtml(0).replace('0', '')}diamonds`, cls: 'alt', fn: () => { clearPreview(); tab = 'gems'; show('shop'); renderShop(); } }); }
   }
+  if (item.tier === 'special' && freeReq(cat, item)) { const n = freeReq(cat, item); note = (note ? note + ' ' : '') + `Or get it free: make ${n} bounces in one game and you also get the matching ball, paddle and world. Your best: ${save.rec.bestBounces || 0}.`; }
   openBuy(item.tier, item.name, opts, note);
 }
 
 function renderShop() {
   wallet();
-  document.querySelectorAll('.tabs button').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === tab));
+  document.querySelectorAll('#shop .tabs button').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === tab));
   const isGrid = ['ball', 'pad', 'world'].includes(tab);
   $('grid').hidden = !isGrid; $('list').hidden = isGrid;
   renderUpBox();
@@ -2214,6 +2272,14 @@ function renderShop() {
     const sec = document.createElement('div'); sec.className = 'sec ' + tier; sec.innerHTML = `<b>${TIER[tier][0]}</b><span>${TIER[tier][1]}</span>`; grid.append(sec);
     CAT[tab].filter(i => i.tier === tier).forEach(item => grid.append(skinCard(item)));
   });
+}
+function drawThumb(g, cat, item, w, h, L) {
+  const oldU = U; U = .9 * Math.min(w / 76, h / 54);
+  if (cat === 'world') { const S = initWorld(item, w, h, L || 1); drawWorld(g, S, w, h, 90); }
+  else { g.fillStyle = 'rgba(255,255,255,.04)'; g.fillRect(0, 0, w, h);
+    if (cat === 'ball') { g.save(); g.translate(w / 2, h / 2); drawBallBase(g, item, h * .28, .3, 30); g.restore(); }
+    else { const s2 = w / 76, PE = padEffects(item, 1), PP = { cx: w / 2, cy: h * .63, w: 50 * s2, h: 11 * s2, t: 40, s: .7 * s2, hist: [], vx: 1, beamH: 30 * s2 }; drawPadFx(g, PE.ex, PP, 'back'); drawPad(g, item, w / 2, h * .63, 50 * s2, 11 * s2, 40, 0); drawPadFx(g, PE.ex, PP, 'front'); } }
+  U = oldU;
 }
 function skinCard(item) {
   const has = owns(tab, item.id), using = save.use[tab] === item.id;
@@ -2234,9 +2300,10 @@ function skinCard(item) {
   else if (item.tier === 'legend') { tag.className = 'tag g'; tag.innerHTML = gemHtml(item.gems); }
   else if (item.tier === 'normal') { tag.className = 'tag c'; tag.innerHTML = `${coinHtml(item.coins)} or ▶`; }
   else { tag.className = 'tag c'; tag.innerHTML = coinHtml(item.coins); }
+  const fr = !has && item.tier === 'special' ? freeReq(tab, item) : 0;
   b.append(cv, nm, tag);
-  { const lv = document.createElement('span'); lv.className = 'lv'; const L = lvl(tab, item.id); lv.textContent = has && item.tier !== 'normal' ? '★'.repeat(L) + '☆'.repeat(3 - L) : ''; b.append(lv); }
-  b.onclick = () => !has ? (item.tier === 'mythic' ? mythicSheet(tab, item) : unlockSheet(tab, item)) : (using && !['normal', 'mythic'].includes(item.tier)) ? openLevelSheet(tab, item) : equip(tab, item.id);
+  { const lv = document.createElement('span'); lv.className = 'lv'; const L = lvl(tab, item.id); lv.textContent = has && item.tier !== 'normal' ? '★'.repeat(L) + '☆'.repeat(3 - L) : fr ? `or free at ${fr} bounces` : ''; if (fr) lv.style.cssText = 'letter-spacing:0;color:#8ff0bf;font-weight:800'; b.append(lv); }
+  b.onclick = () => !has ? (item.tier === 'mythic' ? mythicSheet(tab, item) : unlockSheet(tab, item)) : (using && !['normal', 'mythic'].includes(item.tier)) ? (sheetBack = 'shop', openLevelSheet(tab, item)) : equip(tab, item.id);
   return b;
 }
 function upCost(it, L) {
@@ -2264,7 +2331,7 @@ function renderUpBox() {
   let pv = $('upPrev'); if (!pv) { pv = document.createElement('button'); pv.id = 'upPrev'; pv.className = 'link'; pv.style.cssText = 'justify-self:start;padding:4px 0;font-size:13px'; $('upText').after(pv); }
   if (it.tier === 'mythic') { $('upName').textContent = `${it.name} · Mythic`; $('upText').textContent = 'Mythic skins come fully powered, with every effect at maximum.'; $('upBtn').hidden = true; pv.hidden = true; return; }
   if (it.tier === 'normal') { $('upName').textContent = `${it.name} · Normal skin`; $('upText').textContent = 'Normal skins have no upgrades. Special and Legendary skins can level up to 3.'; $('upBtn').hidden = true; pv.hidden = true; return; }
-  pv.hidden = false; pv.textContent = '▶ Preview all levels'; pv.onclick = () => openLevelSheet(tab, it);
+  pv.hidden = false; pv.textContent = '▶ Preview all levels'; pv.onclick = () => { sheetBack = 'shop'; openLevelSheet(tab, it); };
   $('upName').textContent = `${it.name} · Level ${L} of 3`;
   if (L >= 3) { $('upText').textContent = 'Fully upgraded. Maximum effects.'; $('upBtn').hidden = true; return; }
   const cost = upCost(it, L);
@@ -2287,8 +2354,8 @@ function openLevelSheet(cat, item, startL) {
     d.textContent = L === 1 ? 'Base effects.' : `Adds: ${upName(cat, item, L - 1)}.` + (L > own ? ' Preview only, not unlocked yet.' : '');
     box.append(seg, d);
     if (own < 3) { const c = upCost(item, own), b = document.createElement('button'); b.className = c.gems ? 'btn gem' : 'btn gold'; b.innerHTML = `Upgrade to level ${own + 1} · ${costHtml(c)}`;
-      b.onclick = () => { if (doUpgrade(cat, item)) { L = own + 1; render(); } else if (c.gems) { clearPreview(); tab = 'gems'; show('shop'); renderShop(); } }; box.append(b); }
-    if (save.use[cat] !== item.id) { const u = document.createElement('button'); u.className = 'btn alt'; u.textContent = 'Use this skin'; u.onclick = () => { clearPreview(); equip(cat, item.id); show('shop'); renderShop(); }; box.append(u); }
+      b.onclick = () => { if (doUpgrade(cat, item)) { L = own + 1; render(); } else if (c.gems) { loadoutOpen = false; sheetBack = 'shop'; clearPreview(); tab = 'gems'; show('shop'); renderShop(); } }; box.append(b); }
+    if (save.use[cat] !== item.id) { const u = document.createElement('button'); u.className = 'btn alt'; u.textContent = 'Use this skin'; u.onclick = () => { clearPreview(); equip(cat, item.id); backFromSheet(); }; box.append(u); }
   };
   show('buy'); render();
 }
@@ -2343,18 +2410,105 @@ function equip(cat, id) {
 function restorePurchases() { toast('Restore works in the App Store version. It brings back purchases on your Apple account.'); }
 
 // ================= Mythic =================
+// Special skins can also be won free: reach the bounce goal in one game and get the matching ball, paddle and world together
+const FREE_AT = [50, 75, 100, 125];
+const specials = cat => CAT[cat].filter(i => i.tier === 'special');
+// rewards go to the last four (most expensive) Special skins; they can still be bought with coins too
+const freeItem = (cat, j) => { const l = specials(cat); return l[l.length - FREE_AT.length + j]; };
+const freeReq = (cat, item) => { const j = FREE_AT.findIndex((n, j) => freeItem(cat, j) === item); return j >= 0 ? FREE_AT[j] : 0; };
+function grantFreeSet(i) {
+  const got = [];
+  ['ball', 'pad', 'world'].forEach(cat => { const it = freeItem(cat, i); if (it && !owns(cat, it.id)) { own(cat, it.id); got.push(it.name); } });
+  return got;
+}
+function checkFree() {
+  const i = FREE_AT.indexOf(G.bounces); if (i < 0) return;
+  const got = grantFreeSet(i);
+  if (got.length) { celebrate(`${FREE_AT[i]} bounces! Free skins`, '#8ff0bf'); sfx.gem(); toast(`New skins: ${got.join(', ')}. Find them in My skins.`); }
+}
+function grantFreeByBest() {
+  const best = save.rec.bestBounces || 0, got = [];
+  FREE_AT.forEach((n, i) => { if (best >= n) got.push(...grantFreeSet(i)); });
+  if (got.length) toast(`Free skins for your bounce record: ${got.join(', ')}`);
+}
+function nextFree() { return FREE_AT.find((n, i) => ['ball', 'pad', 'world'].some(c => freeItem(c, i) && !owns(c, freeItem(c, i).id))); }
 function checkMythic() {
   if (G.gemRevUsed) return;
+  checkFree();
   ['ball', 'pad', 'world'].forEach(cat => {
     const it = CAT[cat].find(i => i.tier === 'mythic');
     if (it && !owns(cat, it.id) && G.bounces >= MYTHIC_REQ[cat]) { own(cat, it.id); celebrate(`Mythic unlocked: ${it.name}`, '#ffd57a'); sfx.gem(); toast(`${it.name} is yours. Find it in the Shop.`); }
   });
 }
 function mythicSheet(cat, item) {
+  sheetBack = 'shop';
   setPreview(cat, item.id);
   const need = MYTHIC_REQ[cat], best = save.rec.bestBounces || 0;
   openBuy('mythic', item.name, [], `Earn it: make ${need} bounces in one game. Ad revives are fine, diamond revives don't count. Your best so far: ${best} bounces.`);
 }
+
+// ================= My skins (change and upgrade from the start page) =================
+let ltab = 'ball', loTop = 9999;
+function measureLo() { const c = $('loadout').querySelector('.card').getBoundingClientRect(), r = $('c').getBoundingClientRect(); if (c.height) loTop = c.top - r.top; }
+if (window.ResizeObserver) new ResizeObserver(measureLo).observe($('loadout').querySelector('.card'));
+addEventListener('resize', () => requestAnimationFrame(measureLo));
+function thumbCanvas(cat, it, w, h) {
+  const cv = document.createElement('canvas'), d = Math.min(window.devicePixelRatio || 1, 2); cv.width = w * d; cv.height = h * d;
+  const g = cv.getContext('2d'); g.scale(d, d); drawThumb(g, cat, it, w, h, ownLvl(cat, it.id)); return cv;
+}
+// Three live tiles on the start page: tap one to change that skin
+const KIT = { w: {} };
+function renderMineIcons() { KIT.w = {}; drawKit(t); }
+function drawKit(t) {
+  const d = Math.min(window.devicePixelRatio || 1, 2), oldU = U;
+  document.querySelectorAll('#kit button').forEach(b => {
+    const cv0 = b.querySelector('canvas'), cw = Math.round(cv0.clientWidth); if (cw && cv0._w !== cw) { cv0._w = cw; cv0._h = Math.round(cw * .75); cv0.width = cw * d; cv0.height = cv0._h * d; }
+    const cat = b.dataset.k, cv = b.querySelector('canvas'), w = cv._w || 100, h = cv._h || 75, g = cv.getContext('2d'), it = itemOf(cat, save.use[cat]), L = ownLvl(cat, it.id);
+    g.setTransform(d, 0, 0, d, 0, 0); g.clearRect(0, 0, w, h); U = .9 * w / 76;
+    if (cat === 'world') { const key = it.id + L + w; if (KIT.w.key !== key) KIT.w = { key, S: initWorld(it, w, h, L) }; drawWorld(g, KIT.w.S, w, h, 90 + t); }
+    else if (cat === 'ball') { const fb = { x: w / 2, y: h * .44, r: h * .22, trail: [] }; drawBallExtras(g, it, fb, t, 'back'); g.save(); g.translate(fb.x, fb.y); drawBallBase(g, it, fb.r, t * .03, t); g.restore(); drawBallExtras(g, it, fb, t, 'front'); }
+    else { const s2 = w / 76, PE = padEffects(it, L), PP = { cx: w / 2, cy: h * .5, w: 52 * s2, h: 11 * s2, t, s: .7 * s2, hist: [], vx: Math.sin(t / 40), beamH: 30 * s2 };
+      drawPadFx(g, PE.ex, PP, 'back'); drawPad(g, it, w / 2, h * .5, 52 * s2, 11 * s2, t, 0); drawPadFx(g, PE.ex, PP, 'front'); }
+  });
+  U = oldU;
+}
+document.querySelectorAll('#kit button').forEach(b => b.onclick = () => { ltab = b.dataset.k; openLoadout(); });
+function openLoadout() { loadoutOpen = true; sheetBack = 'loadout'; show('loadout'); refreshWorld(); renderLoadout(); measureLo(); }
+function closeLoadout() { loadoutOpen = false; toMenu(); }
+function renderLoadout() {
+  wallet();
+  document.querySelectorAll('#loTabs button').forEach(b => b.setAttribute('aria-selected', String(b.dataset.lt === ltab)));
+  $('loTitle').textContent = 'Choose ' + { ball: 'ball', pad: 'paddle', world: 'world' }[ltab];
+  const strip = $('loStrip'); strip.innerHTML = ''; let sel = null;
+  CAT[ltab].filter(it => owns(ltab, it.id)).forEach(it => {
+    const using = save.use[ltab] === it.id, L = ownLvl(ltab, it.id), b = document.createElement('button');
+    b.className = 'skin' + (using ? ' on' : '') + (it.tier === 'legend' ? ' legend' : '') + (it.tier === 'mythic' ? ' mythic' : '');
+    const nm = document.createElement('span'); nm.className = 'nm'; nm.textContent = it.name;
+    const tg = document.createElement('span'); tg.className = 'tag' + (using ? ' use' : ''); tg.textContent = using ? '✓ Using' : 'Tap to use';
+    const lv = document.createElement('span'); lv.className = 'lv'; lv.textContent = it.tier === 'normal' ? '' : '★'.repeat(L) + '☆'.repeat(3 - L);
+    b.append(thumbCanvas(ltab, it, 116, 84), nm, lv, tg);
+    b.onclick = () => { if (!using) { equip(ltab, it.id); renderLoadout(); } };
+    strip.append(b); if (using) sel = b;
+  });
+  if (sel) requestAnimationFrame(() => { strip.scrollLeft = sel.offsetLeft - (strip.clientWidth - sel.offsetWidth) / 2; });
+  const it = itemOf(ltab, save.use[ltab]), L = ownLvl(ltab, it.id), fixed = ['normal', 'mythic'].includes(it.tier);
+  const cost = L < 3 && !fixed ? upCost(it, L) : null;
+  $('loName').textContent = it.name;
+  $('loText').textContent = it.tier === 'normal' ? 'Normal skin · no upgrades' : it.tier === 'mythic' ? 'Mythic · every effect at maximum' : L >= 3 ? 'Level 3 of 3 · fully upgraded' : `Level ${L} of 3 · next: ${upName(ltab, it, L)}`;
+  $('loPrev').hidden = fixed;
+  $('loPrev').onclick = () => { sheetBack = 'loadout'; openLevelSheet(ltab, it); };
+  $('loBtn').hidden = !cost;
+  if (cost) {
+    $('loBtn').className = cost.gems ? 'btn gem sm' : 'btn gold sm'; $('loBtn').innerHTML = `Upgrade ${costHtml(cost)}`;
+    $('loBtn').onclick = () => {
+      if (doUpgrade(ltab, it)) { if (ltab === 'world') refreshWorld(true); renderLoadout(); renderMineIcons(); }
+      else if (cost.gems) { loadoutOpen = false; sheetBack = 'shop'; refreshWorld(); tab = 'gems'; show('shop'); renderShop(); }
+    };
+  }
+}
+$('loDone').onclick = closeLoadout;
+$('loShop').onclick = () => { loadoutOpen = false; refreshWorld(); tab = ltab; sheetBack = 'shop'; show('shop'); renderShop(); };
+document.querySelectorAll('#loTabs button').forEach(b => b.onclick = () => { ltab = b.dataset.lt; renderLoadout(); });
 
 // ================= Records =================
 function fmtTime(s) { return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }
@@ -2393,11 +2547,11 @@ function readCode(code) { const s = code.trim().replace(/^BK4-/, ''); const o = 
 $('playBtn').onclick = play;
 $('menuChest').onclick = () => openChestScreen('menu');
 $('overChest').onclick = () => openChestScreen('over');
-$('shopBtn').onclick = () => { show('shop'); renderShop(); };
+$('shopBtn').onclick = () => { sheetBack = 'shop'; show('shop'); renderShop(); };
 $('overShop').onclick = () => { finalize(); toMenu(); show('shop'); renderShop(); };
 $('shopBack').onclick = () => toMenu();
 $('plusGems').onclick = () => { tab = 'gems'; renderShop(); };
-document.querySelectorAll('.tabs button').forEach(b => b.onclick = () => { tab = b.dataset.tab; renderShop(); });
+document.querySelectorAll('#shop .tabs button').forEach(b => b.onclick = () => { tab = b.dataset.tab; renderShop(); });
 $('recBtn').onclick = () => { renderRecords(); show('records'); };
 $('recBack').onclick = () => toMenu();
 $('howBtn').onclick = () => show('how');
@@ -2416,6 +2570,11 @@ $('calBtn').onclick = async () => {
   }, 400);
 };
 $('restoreBtn').onclick = restorePurchases;
+// Developer test only (remove before publishing): unlock skins that can't be bought
+$('devUnlock').onclick = () => {
+  ['ball', 'pad', 'world'].forEach(cat => { CAT[cat].filter(i => i.tier === 'mythic').forEach(i => own(cat, i.id)); FREE_AT.forEach((n, j) => { const it = freeItem(cat, j); if (it) own(cat, it.id); }); });
+  renderMineIcons(); sfx.gem(); toast('Mythic and reward skins unlocked for testing');
+};
 $('copyCode').onclick = () => {
   const code = makeCode(), box = $('codeBox'); box.hidden = false; box.value = code; $('applyCode').hidden = true;
   try { navigator.clipboard.writeText(code).then(() => $('codeNote').textContent = 'Copied. Keep it somewhere safe, like Notes.', () => { box.select(); $('codeNote').textContent = 'Select the code above and copy it.'; }); }
@@ -2456,7 +2615,7 @@ resize();
   pad.x = W / 2; placeBall();
   requestAnimationFrame(() => requestAnimationFrame(() => $('spFill').style.width = '100%'));
   let ready = false, gone = false;
-  const go = () => { if (gone || !ready) return; gone = true; $('splash').classList.add('out'); setTimeout(() => { $('splash').classList.remove('out'); toMenu(); if (!save.seenHow) show('how'); }, 450); };
+  const go = () => { if (gone || !ready) return; gone = true; $('splash').classList.add('out'); setTimeout(() => { $('splash').classList.remove('out'); toMenu(); grantFreeByBest(); if (!save.seenHow) show('how'); }, 450); };
   Promise.all([new Promise(r => setTimeout(r, 2600)), (document.fonts && document.fonts.ready) || Promise.resolve()]).then(() => { ready = true; $('spLoad').textContent = 'Ready'; $('spLoad').classList.add('ready'); setTimeout(go, 700); });
   $('splash').onclick = () => { if (ready) go(); }; }
 requestAnimationFrame(loop);
