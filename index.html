@@ -242,6 +242,30 @@ textarea { width: 100%; min-height: 70px; border-radius: 12px; border: 1.5px sol
   .layer > .card { zoom: 1.22; }
   #hud { zoom: 1.3; }
 }
+
+/* Control picker */
+.cpick { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.cpick button { position: relative; display: grid; justify-items: center; gap: 4px; padding: 12px 8px 14px; border-radius: 18px; border: 2px solid var(--line); background: rgba(8,20,19,.55); color: var(--sand); cursor: pointer; font-family: var(--body); }
+.cpick button:active { transform: scale(.97); } .cpick button:hover { border-color: var(--gold); }
+.cpick b { font-family: var(--display); font-size: 21px; font-weight: 600; }
+.cpick span { font-size: 12.5px; color: var(--mist); line-height: 1.3; }
+.cpick em { position: absolute; top: -9px; right: 10px; font-style: normal; font-size: 11px; font-weight: 800; color: var(--ink); background: #8ff0bf; border-radius: 999px; padding: 2px 8px; }
+.cpic { position: relative; width: 100%; height: 92px; border-radius: 12px; background: rgba(255,255,255,.04); overflow: hidden; }
+.cp-phone { position: absolute; left: 50%; top: 10px; width: 38px; height: 66px; margin-left: -19px; border: 3px solid #fff8ec; border-radius: 10px; transform-origin: 50% 90%; animation: gtilt 2.4s ease-in-out infinite; }
+.cp-ball { position: absolute; left: 50%; width: 16px; height: 16px; margin-left: -8px; border-radius: 50%; background: #ff8a65; box-shadow: 0 0 10px rgba(255,138,101,.6); }
+.cp-ball.t { bottom: 8px; animation: cpslide 2.4s ease-in-out infinite; }
+.cp-ball.s { top: 12px; animation: cpslide 2.4s ease-in-out infinite; }
+.cp-pad { position: absolute; left: 50%; top: 36px; width: 44px; height: 7px; margin-left: -22px; border-radius: 4px; background: #f3e3c3; }
+.cp-zone { position: absolute; left: 8px; right: 8px; bottom: 8px; height: 34px; border-radius: 10px; background: rgba(255,255,255,.10); border: 1px solid rgba(255,255,255,.2); }
+.cp-finger { position: absolute; left: 50%; bottom: 15px; width: 20px; height: 20px; margin-left: -10px; border-radius: 50%; background: rgba(255,248,236,.9); box-shadow: 0 0 0 6px rgba(255,240,200,.22); animation: cpslide 2.4s ease-in-out infinite; }
+@keyframes cpslide { 0%, 100% { transform: translateX(-34px); } 50% { transform: translateX(34px); } }
+/* Guide in swipe mode */
+.gzone, .gfinger { display: none; }
+.guide.swipe .gphone, .guide.swipe .garrow { display: none; }
+.guide.swipe .gzone { display: block; position: absolute; left: 10px; right: 10px; bottom: 0; height: 70px; border-radius: 18px; background: rgba(255,255,255,.10); border: 1.5px solid rgba(255,255,255,.22); }
+.guide.swipe .gfinger { display: block; position: absolute; left: 50%; bottom: 20px; width: 30px; height: 30px; margin-left: -15px; border-radius: 50%; background: rgba(255,248,236,.92); box-shadow: 0 0 0 9px rgba(255,240,200,.22); animation: gslide 2.4s ease-in-out infinite; }
+.guide.swipe .gtrack { bottom: 104px; } .guide.swipe .gball { bottom: 112px; }
+.guide.swipe .gstatus { display: none; }
 </style>
 
 <div id="wrap">
@@ -308,11 +332,24 @@ textarea { width: 100%; min-height: 70px; border-radius: 12px; border: 1.5px sol
   </div>
 
   <!-- How to play -->
+  <!-- First game: choose how to steer -->
+  <div class="layer" id="ctrlPick" hidden>
+    <div class="card">
+      <p class="eyebrow">Before you play</p>
+      <h2>How do you want to steer?</h2>
+      <div class="cpick">
+        <button data-c="tilt"><div class="cpic"><i class="cp-phone"></i><i class="cp-ball t"></i></div><b>Tilt</b><span>Tilt your phone left and right</span></button>
+        <button data-c="swipe"><div class="cpic"><i class="cp-ball s"></i><i class="cp-pad"></i><i class="cp-zone"></i><i class="cp-finger"></i></div><b>Swipe</b><span>Slide your finger under the paddle</span><em>Easiest</em></button>
+      </div>
+      <p class="small">You can change this any time in Settings.</p>
+    </div>
+  </div>
+
   <div class="layer" id="how" hidden>
     <div class="card wide">
       <div class="cardhead"><h2>How to play</h2><button class="link" id="howBack">Done</button></div>
       <ol class="howto">
-        <li><i>1</i><span>Hold your phone upright. Tilt it left and right to steer the ball.</span></li>
+        <li><i>1</i><span>Steer the ball your way: tilt your phone left and right, or swipe in the strip under the paddle. Change it any time in Settings.</span></li>
         <li><i>2</i><span>The paddle moves by itself. Land the ball on it to score 1 point.</span></li>
         <li><i>3</i><span>The game slowly gets harder: the paddle speeds up, shrinks, and wind starts at 20 points.</span></li>
         <li><i>4</i><span>Rewards float down from the top. Steer the ball into the good ones and avoid the spiky ones.</span></li>
@@ -373,11 +410,14 @@ textarea { width: 100%; min-height: 70px; border-radius: 12px; border: 1.5px sol
       <div class="cardhead"><h2>Settings</h2><button class="link" id="setBack">Done</button></div>
       <div class="setrow"><label>Sound</label>
         <div class="seg" id="soundSeg"><button data-v="1">On</button><button data-v="0">Off</button></div></div>
-      <div class="setrow"><label>Tilt sensitivity</label>
+      <div class="setrow"><label>Controls</label>
+        <div class="seg" id="ctrlSeg"><button data-v="tilt">Tilt phone</button><button data-v="swipe">Swipe</button></div>
+        <p class="small" id="ctrlNote"></p></div>
+      <div class="setrow"><label>Sensitivity</label>
         <div class="seg" id="sensSeg"><button data-v="0.7">Gentle</button><button data-v="1">Normal</button><button data-v="1.4">Quick</button></div></div>
-      <div class="setrow"><label>Tilt direction</label>
+      <div class="setrow tiltonly"><label>Tilt direction</label>
         <div class="seg" id="dirSeg"><button data-v="1">Normal</button><button data-v="-1">Reversed</button></div></div>
-      <div class="setrow"><label>Straight position</label>
+      <div class="setrow tiltonly"><label>Straight position</label>
         <p class="small">Hold your phone the way you like to play, then tap the button. That angle becomes "no tilt".</p>
         <button class="btn alt" id="calBtn">Set straight position</button>
         <p class="small" id="calNote"></p></div>
@@ -466,12 +506,13 @@ textarea { width: 100%; min-height: 70px; border-radius: 12px; border: 1.5px sol
     <div class="guide">
       <div class="gstage" aria-hidden="true">
         <div class="gphone"></div>
+        <div class="gzone"></div><div class="gfinger"></div>
         <div class="gtrack"></div>
         <span class="garrow l">‹</span><span class="garrow r">›</span>
         <div class="gball"></div>
       </div>
-      <h2>Tilt to steer</h2>
-      <p>Tilt your phone left and right to move the ball. Land it on the moving paddle.</p>
+      <h2 id="gTitle">Tilt to steer</h2>
+      <p id="gText">Tilt your phone left and right to move the ball. Land it on the moving paddle.</p>
       <div class="gstatus" id="gStatus"></div>
       <div class="gtap">Tap to start</div>
     </div>
@@ -1611,7 +1652,7 @@ function rollChest() {
 
 // ================= Save data (works offline) =================
 const DEF = { v: 4, coins: 300, gems: 0, chests: 0, owned: { ball: ['classic'], pad: ['classic'], world: ['pond'] }, use: { ball: 'classic', pad: 'classic', world: 'pond' },
-  lv: { ball: {}, pad: {}, world: {} }, up: { size: 0, grow: 0, slow: 0, magnet: 0, lucky: 0, shieldStart: 0 }, sound: true, sens: 1, dir: 1, zero: 0, seenHow: false, gemAdDay: '',
+  lv: { ball: {}, pad: {}, world: {} }, up: { size: 0, grow: 0, slow: 0, magnet: 0, lucky: 0, shieldStart: 0 }, sound: true, sens: 1, dir: 1, zero: 0, ctrl: '', seenHow: false, gemAdDay: '',
   rec: { best: 0, games: 0, bounces: 0, stars: 0, coins: 0, bestTime: 0, chests: 0, gemsFound: 0, bestBounces: 0, hist: [] } };
 const clone = o => JSON.parse(JSON.stringify(o));
 function normalize(s) {
@@ -1688,7 +1729,12 @@ function tintBars() {
 }
 
 let SAFE_T = 0, SAFE_B = 0;
-const padHome = () => H - 84 * U - SAFE_B * .6;
+const swipeMode = () => save.ctrl === 'swipe';
+// Swipe strip: sits under the paddle, big enough for a thumb but not too tall
+const zoneH = () => clamp(H * .15, 104, 168);
+const padHome = () => swipeMode() ? H - SAFE_B * .6 - zoneH() - 26 * U : H - 84 * U - SAFE_B * .6;
+const zoneTop = () => padHome() + pad.h / 2 + 14 * U;
+const zoneBot = () => H - Math.max(8, SAFE_B * .55);
 function resize(keepWorld) {
   { const cs = getComputedStyle($('safe')); SAFE_T = parseFloat(cs.paddingTop) || 0; SAFE_B = parseFloat(cs.paddingBottom) || 0; }
   const d = Math.min(window.devicePixelRatio || 1, Q.dpr);
@@ -1977,7 +2023,13 @@ function update(k) {
   if (pad.x > W - pad.w / 2) { pad.x = W - pad.w / 2; pad.dir = -1; }
   pad.vx = pad.dir * pad.spd;
 
-  if (live) ball.vx += steerValue() * .42 * U * s;
+  if (live && swipeMode()) {
+    // swipe: holding the finger to one side keeps pushing (like tilting), and quick swipes give the ball a flick
+    const fl = G.fx.flip > 0 ? -1 : 1, sens = save.sens;
+    if (SW.id != null) { const R = 38 * U, off = clamp((SW.x - SW.anchor) / R, -1, 1); const fv = (SW.x - SW.lastX) / Math.max(k, .3);
+      ball.vx += off * .42 * U * s * sens * fl + clamp(fv, -40 * U, 40 * U) * .1 * sens * fl; }
+    SW.lastX = SW.x;
+  } else if (live) ball.vx += steerValue() * .42 * U * s;
   else ball.vx += clamp((pad.x - ball.x) * .004, -.3, .3) * U * s;
   ball.vx *= Math.pow(.972, s);
 
@@ -2074,6 +2126,7 @@ function draw() {
   if (windLines.length) { ctx.strokeStyle = 'rgba(255,255,255,.35)'; ctx.lineWidth = 1.5; ctx.beginPath();
     for (const l of windLines) { l.x += l.sp; ctx.moveTo(l.x, l.y); ctx.lineTo(l.x - Math.sign(l.sp) * l.l, l.y); } ctx.stroke(); windLines = windLines.filter(l => l.x > -120 && l.x < W + 120); }
 
+  drawSwipeZone(ctx);
   for (const it of items) drawItem(ctx, it, t);
 
   const frozen = G.state === 'paused' || G.state === 'over' || G.state === 'revive';
@@ -2152,7 +2205,7 @@ function loop(now) {
 }
 
 // ================= Screens =================
-const LAYERS = ['splash', 'menu', 'loadout', 'guide', 'how', 'shop', 'records', 'settings', 'pause', 'revive', 'over', 'chest', 'ad', 'buy', 'countLayer'];
+const LAYERS = ['splash', 'menu', 'loadout', 'ctrlPick', 'guide', 'how', 'shop', 'records', 'settings', 'pause', 'revive', 'over', 'chest', 'ad', 'buy', 'countLayer'];
 function show(id) { LAYERS.forEach(l => $(l).hidden = l !== id); $('hud').hidden = !['play', 'paused', 'count', 'over', 'revive'].includes(G.state); }
 
 function toMenu(msg) {
@@ -2173,11 +2226,65 @@ function countdown() {
     n--;
     if (n > 0) { $('countNum').textContent = n; sfx.tick(); return; }
     clearInterval(countIv);
-    if (!tiltSeen) { toMenu('No tilt signal. Open the game in Safari, tap Play, then tap Allow for motion.'); return; }
+    if (!tiltSeen && !swipeMode()) { toMenu('No tilt signal. Tap Play and allow motion, or switch to Swipe controls in Settings.'); return; }
     G.state = 'play'; show(null);
   }, 700);
 }
-async function play() { await enableTilt(); resetGame(); G.state = 'guide'; refreshWorld(); show('guide'); guideStatus(); }
+async function play() {
+  if (!save.ctrl) { show('ctrlPick'); return; } // first game: choose tilt or swipe
+  if (!swipeMode()) await enableTilt();
+  resetGame(); G.state = 'guide'; refreshWorld(); show('guide');
+  const sw = swipeMode(); $('guide').querySelector('.guide').classList.toggle('swipe', sw);
+  $('gTitle').textContent = sw ? 'Swipe to steer' : 'Tilt to steer';
+  $('gText').textContent = sw ? 'Slide your finger left and right in the glowing strip under the paddle. Hold to one side to keep pushing.' : 'Tilt your phone left and right to move the ball. Land it on the moving paddle.';
+  guideStatus();
+}
+document.querySelectorAll('#ctrlPick [data-c]').forEach(b => b.onclick = () => { save.ctrl = b.dataset.c; persist(); sfx.tick(); pad.y = padHome(); play(); });
+
+// ================= Swipe control =================
+const SW = { id: null, x: 0, anchor: 0, lastX: 0, used: 0 };
+function swipeDown(e) {
+  if (!swipeMode() || !(G.state === 'play' || G.state === 'count')) return;
+  if (e.target !== c && !e.target.closest('#countLayer')) return;
+  const r = c.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+  if (y < zoneTop() - 16 * U) return; // only the strip under the paddle
+  SW.id = e.pointerId; SW.x = SW.anchor = SW.lastX = x; SW.used++;
+  try { e.target.setPointerCapture(e.pointerId); } catch (er) {}
+  e.preventDefault();
+}
+function swipeMove(e) {
+  if (e.pointerId !== SW.id) return;
+  const r = c.getBoundingClientRect(); SW.x = clamp(e.clientX - r.left, 0, W);
+  const R = 38 * U, d = SW.x - SW.anchor; if (Math.abs(d) > R) SW.anchor = SW.x - Math.sign(d) * R; // the anchor follows, so you never run out of room
+  e.preventDefault();
+}
+function swipeUp(e) { if (e.pointerId === SW.id) SW.id = null; }
+document.addEventListener('pointerdown', swipeDown, { passive: false });
+document.addEventListener('pointermove', swipeMove, { passive: false });
+document.addEventListener('pointerup', swipeUp); document.addEventListener('pointercancel', swipeUp);
+function drawSwipeZone(g) {
+  if (!swipeMode() || !['play', 'count', 'paused', 'revive', 'guide'].includes(G.state)) return;
+  const top = zoneTop(), bot = zoneBot(), x0 = 12 * U, x1 = W - 12 * U, cy = (top + bot) / 2, on = SW.id != null && G.state === 'play';
+  g.save();
+  const gr = g.createLinearGradient(0, top, 0, bot); gr.addColorStop(0, on ? 'rgba(255,240,200,.16)' : 'rgba(255,255,255,.11)'); gr.addColorStop(1, 'rgba(255,255,255,.03)');
+  g.fillStyle = gr; rr(g, x0, top, x1 - x0, bot - top, 22 * U); g.fill();
+  g.strokeStyle = on ? 'rgba(255,225,160,.45)' : 'rgba(255,255,255,.2)'; g.lineWidth = 1.5; g.stroke();
+  g.lineCap = 'round'; g.strokeStyle = 'rgba(255,255,255,.16)'; g.lineWidth = 4 * U; g.beginPath(); g.moveTo(x0 + 34 * U, cy); g.lineTo(x1 - 34 * U, cy); g.stroke();
+  if (on) {
+    const fx = clamp(SW.x, x0 + 20 * U, x1 - 20 * U);
+    g.strokeStyle = 'rgba(255,213,122,.8)'; g.lineWidth = 4 * U; g.beginPath(); g.moveTo(clamp(SW.anchor, x0 + 20 * U, x1 - 20 * U), cy); g.lineTo(fx, cy); g.stroke();
+    g.fillStyle = 'rgba(255,240,200,.22)'; g.beginPath(); g.arc(fx, cy, 24 * U, 0, TAU); g.fill();
+    g.fillStyle = 'rgba(255,248,236,.95)'; g.beginPath(); g.arc(fx, cy, 10 * U, 0, TAU); g.fill();
+  } else {
+    const a = SW.used ? .35 : .55 + .35 * Math.sin(t / 14);
+    g.globalAlpha = a; g.fillStyle = '#fff8ec'; g.textAlign = 'center'; g.textBaseline = 'middle';
+    g.font = `700 ${26 * U}px Fredoka, system-ui, sans-serif`; const o = 46 * U + Math.sin(t / 14) * 4 * U;
+    g.fillText('‹', W / 2 - o, cy - 2 * U); g.fillText('›', W / 2 + o, cy - 2 * U);
+    if (!SW.used) { g.font = `800 ${12.5 * U}px Nunito, system-ui, sans-serif`; g.fillText('SWIPE HERE', W / 2, cy + 24 * U); }
+    g.fillStyle = 'rgba(255,248,236,.9)'; g.beginPath(); g.arc(W / 2, cy, 7 * U, 0, TAU); g.fill();
+  }
+  g.restore();
+}
 let guideIv = 0;
 function guideStatus() {
   clearInterval(guideIv);
@@ -2586,7 +2693,9 @@ function renderRecords() {
 // ================= Settings & backup =================
 function renderSettings() {
   const set = (id, val) => document.querySelectorAll(`#${id} button`).forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === String(val))));
-  set('soundSeg', save.sound ? 1 : 0); set('sensSeg', save.sens); set('dirSeg', save.dir);
+  set('soundSeg', save.sound ? 1 : 0); set('sensSeg', save.sens); set('dirSeg', save.dir); set('ctrlSeg', save.ctrl || 'tilt');
+  document.querySelectorAll('#settings .tiltonly').forEach(r => r.hidden = swipeMode());
+  $('ctrlNote').textContent = swipeMode() ? 'Slide your finger in the strip under the paddle.' : 'Tilt your phone left and right.';
 }
 function makeCode() { return 'BK4-' + btoa(unescape(encodeURIComponent(JSON.stringify(save)))); }
 function readCode(code) { const s = code.trim().replace(/^BK4-/, ''); const o = JSON.parse(decodeURIComponent(escape(atob(s)))); if (!o || o.v !== 4 || !o.owned) throw new Error('bad'); return normalize(o); }
@@ -2608,6 +2717,7 @@ $('howPlay').onclick = () => { save.seenHow = true; persist(); toMenu(); };
 $('setBtn').onclick = () => { renderSettings(); $('calNote').textContent = ''; $('codeNote').textContent = ''; $('codeBox').hidden = true; $('applyCode').hidden = true; show('settings'); };
 $('setBack').onclick = () => toMenu();
 document.querySelectorAll('#soundSeg button').forEach(b => b.onclick = () => { save.sound = b.dataset.v === '1'; persist(); renderSettings(); sfx.tick(); });
+document.querySelectorAll('#ctrlSeg button').forEach(b => b.onclick = () => { save.ctrl = b.dataset.v; persist(); if (!swipeMode()) enableTilt(); renderSettings(); });
 document.querySelectorAll('#sensSeg button').forEach(b => b.onclick = () => { save.sens = +b.dataset.v; persist(); renderSettings(); });
 document.querySelectorAll('#dirSeg button').forEach(b => b.onclick = () => { save.dir = +b.dataset.v; persist(); renderSettings(); });
 $('calBtn').onclick = async () => {
