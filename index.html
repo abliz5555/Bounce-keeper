@@ -214,7 +214,7 @@ textarea { width: 100%; min-height: 70px; border-radius: 12px; border: 1.5px sol
 .card.lo .upbox b { font-size: 16px; }
 .lohd { display: flex; gap: 14px; align-items: center; } .lohd .btn.sm { padding: 7px 16px; min-height: 0; }
 .card.lo .upbox b { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-@media (max-height: 640px) { .card.lo { max-height: 72%; gap: 8px; } .strip .skin { flex-basis: 112px; padding: 6px 6px 7px; gap: 3px; } .strip .skin canvas { width: 98px; height: 66px; } .strip .skin .nm { min-height: 0; font-size: 13px; } .card.lo .upbox { padding: 8px 10px; } #loPrev { display: none; } }
+@media (max-height: 640px) { .card.lo { max-height: 72%; gap: 8px; } .strip .skin { flex-basis: 112px; padding: 6px 6px 7px; gap: 3px; } .strip .skin canvas { width: 98px; height: 71px; } .strip .skin .nm { min-height: 0; font-size: 13px; } .card.lo .upbox { padding: 8px 10px; } #loPrev { display: none; } }
 .btn.mine { justify-content: center; gap: 10px; display: flex; align-items: center; }
 .mine-ic { display: inline-flex; gap: 4px; }
 .mine-ic canvas { width: 34px; height: 24px; border-radius: 6px; background: rgba(255,255,255,.06); }
@@ -224,6 +224,24 @@ textarea { width: 100%; min-height: 70px; border-radius: 12px; border: 1.5px sol
 .kit button:active { transform: scale(.97); }
 .kit canvas { width: 100%; aspect-ratio: 4 / 3; display: block; }
 .kit span { position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 4px 5px; font: 800 12px var(--body); letter-spacing: .03em; text-align: center; background: linear-gradient(180deg, rgba(8,20,19,0), rgba(8,20,19,.85)); }
+
+/* Short landscape phones: compact cards so everything fits without scrolling */
+@media (max-height: 500px) and (orientation: landscape) {
+  .card { padding: 12px 16px; gap: 8px; max-height: 96%; }
+  .card h1 { font-size: 26px; }
+  #menu .card { max-width: 560px; }
+  #menuMsg { display: none; }
+  .kit canvas { aspect-ratio: 2 / 1; }
+  .card .btn { min-height: 0; padding-block: 9px; }
+  #loadout.layer.bottom { align-items: center; justify-items: end; background: linear-gradient(90deg, rgba(8,20,19,0) 40%, rgba(8,20,19,.35)); }
+  .card.lo { max-height: 94%; max-width: 54%; }
+  .strip .skin canvas { width: 92px; height: 67px; }
+}
+/* Tablets (iPad): everything a little larger so it is easy to read and tap */
+@media (min-width: 740px) and (min-height: 700px) {
+  .layer > .card { zoom: 1.22; }
+  #hud { zoom: 1.3; }
+}
 </style>
 
 <div id="wrap">
@@ -1656,7 +1674,18 @@ const HOME_WORLD = { id: 'home', name: 'Home', tier: 'normal', f: [['sky', ['#0f
 function setWorld(id) { worldId = id; world = initWorld(id === 'home' ? HOME_WORLD : itemOf('world', id), W, H, id === 'home' ? 1 : lvl('world', id)); buildWorldPlan(world, W, H, WSC); }
 let loadoutOpen = false, sheetBack = 'shop';
 function sceneWorldId() { if (preview && preview.cat === 'world') return preview.id; if (G.state === 'menu' && loadoutOpen) return save.use.world; return ['play', 'count', 'paused', 'revive', 'over', 'guide'].includes(G.state) ? save.use.world : 'home'; }
-function refreshWorld(force) { const id = sceneWorldId(); if (force || id !== worldId || !world) setWorld(id); }
+function refreshWorld(force) { const id = sceneWorldId(); if (force || id !== worldId || !world) { setWorld(id); clearTimeout(tintBars.t); tintBars.t = setTimeout(tintBars, 140); } }
+// Some iPhone versions show plain bars above and below a Home Screen web app.
+// Colour them to match the current world's top and bottom so the screen feels edge to edge.
+function tintBars() {
+  try {
+    const px = (y) => { const d = wctx.getImageData(Math.floor(wc.width / 2) - 8, y, 16, 1).data; let r = 0, g = 0, b = 0; for (let i = 0; i < d.length; i += 4) { r += d[i]; g += d[i + 1]; b += d[i + 2]; } const n = d.length / 4; return `rgb(${r / n | 0},${g / n | 0},${b / n | 0})`; };
+    const top = px(1), bot = px(wc.height - 2);
+    let m = document.querySelector('meta[name="theme-color"]'); if (!m) { m = document.createElement('meta'); m.name = 'theme-color'; document.head.append(m); }
+    m.content = top;
+    document.documentElement.style.background = bot; document.body.style.background = `linear-gradient(${top}, ${bot})`;
+  } catch (e) {}
+}
 
 let SAFE_T = 0, SAFE_B = 0;
 const padHome = () => H - 84 * U - SAFE_B * .6;
@@ -1888,11 +1917,21 @@ function applyItem(it) {
 
 // ================= Tilt (works in portrait and landscape) =================
 let tiltRaw = 0, tiltSeen = false, tiltAsked = false;
-function screenAngle() { const a = screen.orientation && typeof screen.orientation.angle === 'number' ? screen.orientation.angle : (window.orientation || 0); return ((a % 360) + 360) % 360; }
+// iPhone and iPad report tilt relative to the device held upright (portrait), so on Apple devices
+// window.orientation is the most reliable way to know how the screen is turned.
+function screenAngle() { const a = typeof window.orientation === 'number' ? window.orientation : screen.orientation && typeof screen.orientation.angle === 'number' ? screen.orientation.angle : 0; return ((a % 360) + 360) % 360; }
 function onTilt(e) {
   if (e.gamma == null) return; tiltSeen = true;
-  const a = screenAngle();
-  tiltRaw = a === 90 ? e.beta : a === 270 ? -e.beta : a === 180 ? -e.gamma : e.gamma;
+  // Use the real direction of gravity, so steering feels the same in portrait and landscape,
+  // on iPhone and iPad, and however far back the device is tilted.
+  const a = screenAngle(), b = (+e.beta || 0) * PI / 180, g = (+e.gamma || 0) * PI / 180;
+  const dx = Math.cos(b) * Math.sin(g), dy = -Math.sin(b);
+  let ang = a; const land = innerWidth > innerHeight;
+  // safety check: if the reported angle doesn't match the screen shape, work it out from gravity
+  if (land && (ang === 0 || ang === 180)) ang = dx < 0 ? 90 : 270;
+  else if (!land && (ang === 90 || ang === 270)) ang = dy > 0 ? 180 : 0;
+  const side = ang === 90 ? -dy : ang === 270 ? dy : ang === 180 ? -dx : dx;
+  const tr = Math.asin(clamp(side, -1, 1)) * 180 / PI * 1.15; if (isFinite(tr)) tiltRaw = tr;
 }
 async function enableTilt() {
   if (tiltAsked) return; tiltAsked = true;
@@ -1918,7 +1957,12 @@ function update(k) {
     if (G.state === 'play' && R() < I * .7) P({ x: R() * W, y: H + 5, vx: rn(.6), vy: -(1 + R() * 2) * U * (1 + I), decay: .01, size: (1.2 + R() * 2) * U, col: moodCol(), glow: true, grav: -.005 }); }
   const live = G.state === 'play', demo = G.state === 'menu' || G.state === 'splash';
   if (demo && loadoutOpen && (G.loM = (G.loM || 0) + 1) % 8 === 0) measureLo();
-  if (demo) { const ty = loadoutOpen ? clamp(loTop - 40 * U, 150 * U, H * .58) : padHome(); pad.y += (ty - pad.y) * Math.min(1, .14 * k); }
+  if (demo) {
+    const side = loadoutOpen && loLeft > W * .35; // landscape: panel on the right, ball and paddle on the left
+    const ty = side ? H * .66 : loadoutOpen ? clamp(loTop - 40 * U, 150 * U, H * .58) : padHome();
+    pad.y += (ty - pad.y) * Math.min(1, .14 * k);
+    if ($('buy').hidden) { const tx = side ? loLeft / 2 : W / 2; pad.x += (tx - pad.x) * Math.min(1, .14 * k); }
+  }
   if (!(live || demo)) return;
   const s = k * (live && G.fx.slow > 0 ? .55 : 1);
 
@@ -2452,8 +2496,8 @@ function mythicSheet(cat, item) {
 }
 
 // ================= My skins (change and upgrade from the start page) =================
-let ltab = 'ball', loTop = 9999;
-function measureLo() { const c = $('loadout').querySelector('.card').getBoundingClientRect(), r = $('c').getBoundingClientRect(); if (c.height) loTop = c.top - r.top; }
+let ltab = 'ball', loTop = 9999, loLeft = 0;
+function measureLo() { const c = $('loadout').querySelector('.card').getBoundingClientRect(), r = $('c').getBoundingClientRect(); if (c.height) { loTop = c.top - r.top; loLeft = c.left - r.left; } }
 if (window.ResizeObserver) new ResizeObserver(measureLo).observe($('loadout').querySelector('.card'));
 addEventListener('resize', () => requestAnimationFrame(measureLo));
 function thumbCanvas(cat, it, w, h) {
@@ -2466,11 +2510,11 @@ function renderMineIcons() { KIT.w = {}; drawKit(t); }
 function drawKit(t) {
   const d = Math.min(window.devicePixelRatio || 1, 2), oldU = U;
   document.querySelectorAll('#kit button').forEach(b => {
-    const cv0 = b.querySelector('canvas'), cw = Math.round(cv0.clientWidth); if (cw && cv0._w !== cw) { cv0._w = cw; cv0._h = Math.round(cw * .75); cv0.width = cw * d; cv0.height = cv0._h * d; }
+    const cv0 = b.querySelector('canvas'), cw = Math.round(cv0.clientWidth), chh = Math.round(cv0.clientHeight); if (cw && (cv0._w !== cw || cv0._h !== chh)) { cv0._w = cw; cv0._h = chh || Math.round(cw * .75); cv0.width = cw * d; cv0.height = cv0._h * d; KIT.w = {}; }
     const cat = b.dataset.k, cv = b.querySelector('canvas'), w = cv._w || 100, h = cv._h || 75, g = cv.getContext('2d'), it = itemOf(cat, save.use[cat]), L = ownLvl(cat, it.id);
-    g.setTransform(d, 0, 0, d, 0, 0); g.clearRect(0, 0, w, h); U = .9 * w / 76;
+    g.setTransform(d, 0, 0, d, 0, 0); g.clearRect(0, 0, w, h); U = .9 * Math.min(w / 76, h / 57);
     if (cat === 'world') { const key = it.id + L + w; if (KIT.w.key !== key) KIT.w = { key, S: initWorld(it, w, h, L) }; drawWorld(g, KIT.w.S, w, h, 90 + t); }
-    else if (cat === 'ball') { const fb = { x: w / 2, y: h * .44, r: h * .22, trail: [] }; drawBallExtras(g, it, fb, t, 'back'); g.save(); g.translate(fb.x, fb.y); drawBallBase(g, it, fb.r, t * .03, t); g.restore(); drawBallExtras(g, it, fb, t, 'front'); }
+    else if (cat === 'ball') { const fb = { x: w / 2, y: h * .44, r: Math.min(h * .22, w * .17), trail: [] }; drawBallExtras(g, it, fb, t, 'back'); g.save(); g.translate(fb.x, fb.y); drawBallBase(g, it, fb.r, t * .03, t); g.restore(); drawBallExtras(g, it, fb, t, 'front'); }
     else { const s2 = w / 76, PE = padEffects(it, L), PP = { cx: w / 2, cy: h * .5, w: 52 * s2, h: 11 * s2, t, s: .7 * s2, hist: [], vx: Math.sin(t / 40), beamH: 30 * s2 };
       drawPadFx(g, PE.ex, PP, 'back'); drawPad(g, it, w / 2, h * .5, 52 * s2, 11 * s2, t, 0); drawPadFx(g, PE.ex, PP, 'front'); }
   });
@@ -2606,6 +2650,7 @@ window.addEventListener('online', () => { if (!$('records').hidden) renderRecord
 window.addEventListener('offline', () => { if (!$('records').hidden) renderRecords(); });
 window.addEventListener('resize', resize);
 if (screen.orientation && screen.orientation.addEventListener) screen.orientation.addEventListener('change', () => setTimeout(resize, 150));
+window.addEventListener('orientationchange', () => { setTimeout(resize, 150); setTimeout(resize, 500); });
 
 resize();
 // Loading screen first, then the menu
