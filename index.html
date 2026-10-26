@@ -556,117 +556,6 @@ function drawBallExtras(g, B, ball, t, phase) {
   }
 }
 
-// ================= PADDLES =================
-const PADS = [
-  { id: 'classic', name: 'Classic', tier: 'normal', base: { t: 'pill', c: '#f3e3c3' }, hit: { col: ['#f3e3c3', '#fff8ec'], n: 8 }, snd: 'chime', acc: '#f3e3c3' },
-  { id: 'wood', name: 'Wood', tier: 'normal', coins: 100, base: { t: 'grain' }, hit: { col: ['#c99561', '#8a5a33'], n: 8 }, snd: 'tok', acc: '#c99561' },
-  { id: 'stone', name: 'Stone', tier: 'normal', coins: 150, base: { t: 'stone', c: '#8f8a84' }, hit: { col: ['#b5b0aa', '#77726c'], n: 10 }, snd: 'stone', acc: '#b5b0aa' },
-  { id: 'steel', name: 'Steel', tier: 'normal', coins: 200, base: { t: 'steel' }, hit: { col: ['#e6edf5', '#9aa8b8'], n: 8 }, snd: 'metal', acc: '#e6edf5' },
-  { id: 'cloud', name: 'Cloud', tier: 'normal', coins: 200, base: { t: 'cloud' }, hit: { col: ['#ffffff', '#e8f4ff'], n: 10, size: 4 }, snd: 'air', acc: '#ffffff' },
-  { id: 'candy', name: 'Candy', tier: 'normal', coins: 250, base: { t: 'stripes', c1: '#fff4f8', c2: '#ff5a9b' }, hit: { col: ['#ff5a9b', '#ffffff', '#7ed6ff'], n: 12 }, snd: 'pop', acc: '#ff7eb6' },
-
-  { id: 'vine', name: 'Vine', tier: 'special', coins: 800, base: { t: 'vine' }, amb: [['petal', ['#7fd36b', '#4e8f3a'], .03]], hit: { col: ['#7fd36b', '#4e8f3a', '#ffd1e0'], n: 12, shape: 'ell' }, snd: 'harp', acc: '#7fd36b' },
-  { id: 'ice', name: 'Ice', tier: 'special', coins: 900, base: { t: 'facets', c: ['#f2fbff', '#7ccbf0'] }, glow: '#bfefff', amb: [['frost', ICEC, .06]], hit: { col: ICEC, n: 14 }, snd: 'glass', acc: '#bfefff' },
-  { id: 'jelly', name: 'Jelly', tier: 'special', coins: 1000, base: { t: 'jelly', c: 'rgba(124,242,154,.85)' }, glow: '#7cf29a', wob: true, hit: { col: ['#7cf29a', '#c8ffd6'], n: 12, size: 4 }, snd: 'boing', acc: '#7cf29a' },
-  { id: 'bubble', name: 'Bubble', tier: 'special', coins: 1100, base: { t: 'bubble' }, amb: [['bubble', ['rgba(200,240,255,.8)'], .07]], hit: { col: ['rgba(200,240,255,.9)'], n: 10, shape: 'ring' }, snd: 'bubble', acc: '#dff6ff' },
-  { id: 'water', name: 'Water', tier: 'special', coins: 1200, base: { t: 'water', c: ['#7fd4ff', '#1f7fd1'] }, amb: [['drip', ['#7fd4ff'], .05]], hit: { col: ['#bfe9ff', '#5fc8ff'], n: 16, grav: .15, sp: 4 }, snd: 'water', acc: '#5fc8ff' },
-  { id: 'circuit', name: 'Circuit', tier: 'special', coins: 1500, base: { t: 'circuit', c: '#3dffa8' }, glow: '#3dffa8', amb: [['pixel', ['#3dffa8', '#d6ffe9'], .04]], hit: { col: ['#3dffa8', '#d6ffe9'], n: 14, glow: true, sp: 4 }, snd: 'beep', acc: '#3dffa8' },
-  { id: 'crystal', name: 'Amethyst', tier: 'special', coins: 1700, base: { t: 'facets', c: ['#fdf0ff', '#b98cff'] }, glow: '#d8b4ff', shine: true, amb: [['glitter', ['#ffffff', '#d8b4ff'], .2]], hit: { col: ['#ffffff', '#d8b4ff', '#9b6bff'], n: 14, shape: 'star', glow: true }, snd: 'glass', acc: '#d8b4ff' },
-  { id: 'neon', name: 'Neon', tier: 'special', coins: 2000, base: { t: 'neon', c1: '#ff6af7', c2: '#9ffbff' }, amb: [['glitter', NEONC, .12]], hit: { col: NEONC, n: 14, glow: true }, snd: 'synth', acc: '#ff6af7' },
-  { id: 'lava', name: 'Lava', tier: 'special', coins: 2400, base: { t: 'cracks', c: '#2b1512', crack: '#ff8a1a' }, glow: '#ff6a1a', amb: [['ember', FIRE, .15]], hit: { col: FIRE, n: 18, glow: true }, snd: 'rumble', acc: '#ff6a1a' },
-  { id: 'arcade', name: 'Arcade', tier: 'special', coins: 2600, base: { t: 'pixel', cols: ['#3df5ff', '#ff3df5', '#ffe14d', '#3dff8a'] }, amb: [['pixel', ['#3df5ff', '#ff3df5', '#ffe14d'], .12]], hit: { col: ['#3df5ff', '#ff3df5', '#ffe14d'], n: 16, shape: 'sq' }, snd: 'beep8', acc: '#ffe14d' },
-
-  { id: 'thunder', name: 'Thunder', tier: 'legend', gems: 80, base: { t: 'neon', c1: '#7fe3ff', c2: '#ffffff', fill: '#14213d' }, arcs: true, flash: 'rgba(180,230,255,.25)', amb: [['spark', ['#bdf3ff', '#5ad1ff'], .2]], hit: { col: ['#bdf3ff', '#5ad1ff', '#ffffff'], n: 20, glow: true, sp: 5 }, snd: 'zap', acc: '#7fe3ff' },
-  { id: 'plasma', name: 'Plasma', tier: 'legend', gems: 100, base: { t: 'grad', cols: ['#7a1bff', '#ff6af0', '#7a1bff'], anim: true }, glow: '#ff6af0', amb: [['spark', ['#ff9cf5', '#ffffff'], .15]], hit: { col: ['#ff9cf5', '#ffffff', '#b06bff'], n: 18, glow: true }, snd: 'plasma', acc: '#ff6af0' },
-  { id: 'rainbow', name: 'Rainbow', tier: 'legend', gems: 100, base: { t: 'rainbow' }, glow: '#ffffff', amb: [['star', RAINBOW, .08]], hit: { col: RAINBOW, n: 20 }, snd: 'chord', acc: 'rainbow' },
-  { id: 'gold', name: 'Gold Bar', tier: 'legend', gems: 120, base: { t: 'gold' }, glow: '#ffd57a', shine: true, amb: [['glitter', GOLDC, .25]], hit: { col: GOLDC, n: 18, glow: true, shape: 'star' }, snd: 'coin', acc: '#ffd57a' },
-  { id: 'inferno', name: 'Inferno', tier: 'legend', gems: 140, base: { t: 'cracks', c: '#1a0606', crack: '#ffcc33' }, glow: '#ff4400', amb: [['flame', FIRE, .45], ['ember', FIRE, .15]], hit: { col: FIRE, n: 24, glow: true, sp: 4 }, snd: 'rumble', acc: '#ff5e1a' },
-  { id: 'galaxy', name: 'Galaxy', tier: 'legend', gems: 150, base: { t: 'galaxy' }, glow: '#9b6bff', amb: [['star', PURP, .07], ['glitter', ['#ffffff', '#7fd4ff'], .25]], hit: { col: PURP, n: 20, glow: true, shape: 'star' }, snd: 'cosmic', acc: '#b98cff' },
-  { id: 'aurora', name: 'Aurora', tier: 'legend', gems: 150, base: { t: 'aurora' }, glow: '#50ffaa', amb: [['glitter', ['#50ffaa', '#9b7bff'], .3]], hit: { col: ['#50ffaa', '#9b7bff', '#ffffff'], n: 20, glow: true }, snd: 'harp', acc: '#50ffaa' },
-  { id: 'sakura', name: 'Sakura', tier: 'legend', gems: 150, base: { t: 'grad', cols: ['#ffd1e0', '#ff8fb8', '#ffd1e0'] }, glow: '#ff8fb8', amb: [['petal', PINK, .12]], hit: { col: PINK, n: 18, shape: 'ell' }, snd: 'koto', acc: '#ff8fb8' },
-  { id: 'heart', name: 'Heartbeat', tier: 'legend', gems: 160, base: { t: 'heart' }, glow: '#ff4f7b', amb: [['heart', ['#ff4f7b', '#ff8fb8'], .06]], hit: { col: ['#ff4f7b', '#ff8fb8', '#ffd6e3'], n: 14, shape: 'heart', glow: true }, snd: 'heart', acc: '#ff4f7b' },
-  { id: 'synth', name: 'Synthwave', tier: 'legend', gems: 170, base: { t: 'neon', c1: '#ff3df5', c2: '#3df5ff', fill: '#14001f', grid: true }, amb: [['pixel', ['#ff3df5', '#3df5ff'], .09]], hit: { col: NEONC, n: 20, glow: true }, snd: 'synth', acc: '#ff3df5' },
-  { id: 'frozen', name: 'Frozen Crown', tier: 'legend', gems: 180, base: { t: 'facets', c: ['#ffffff', '#9fdcff'] }, glow: '#dff6ff', shine: true, amb: [['frost', ICEC, .25], ['star', ['#ffffff'], .05]], hit: { col: ICEC, n: 22, shape: 'star', glow: true }, snd: 'glass', acc: '#dff6ff' },
-  { id: 'toxic', name: 'Toxic', tier: 'legend', gems: 180, base: { t: 'grad', cols: ['#2f8f1a', '#9dff3a', '#2f8f1a'], anim: true }, glow: '#9dff3a', amb: [['bubble', ['rgba(157,255,58,.8)'], .1], ['drip', GREENC, .06]], hit: { col: GREENC, n: 18, glow: true }, snd: 'bubble', acc: '#9dff3a' },
-  { id: 'disco', name: 'Disco Floor', tier: 'legend', gems: 200, base: { t: 'disco' }, glow: '#ffffff', amb: [['confetti', RAINBOW, .1], ['star', RAINBOW, .04]], hit: { col: RAINBOW, n: 22, shape: 'rect' }, snd: 'chord', acc: 'rainbow' },
-  { id: 'ocean', name: 'Ocean Wave', tier: 'legend', gems: 200, base: { t: 'water', c: ['#4fd1ff', '#0a3d8f'] }, glow: '#4fd1ff', amb: [['bubble', ['rgba(190,240,255,.85)'], .14]], hit: { col: ['#bfe9ff', '#5fc8ff', '#ffffff'], n: 22, grav: .15, sp: 4 }, snd: 'water', acc: '#4fd1ff' },
-  { id: 'dragon', name: 'Dragon Scale', tier: 'legend', gems: 230, base: { t: 'scales', c1: '#5a0f0f', c2: '#d4a017' }, glow: '#ff4400', amb: [['ember', FIRE, .22], ['flame', ['#ff3d1a', '#ff8a1a'], .15]], hit: { col: FIRE, n: 24, glow: true, sp: 5 }, snd: 'rumble', acc: '#ff3d1a' },
-  { id: 'blackhole', name: 'Event Horizon', tier: 'legend', gems: 250, base: { t: 'void' }, glow: '#9b6bff', amb: [['inward', ['#c9a0ff', '#7a3dff', '#ffffff'], .5]], hit: { col: PURP, n: 22, glow: true }, snd: 'cosmic', acc: '#9b6bff' },
-  { id: 'phoenix', name: 'Phoenix', tier: 'legend', gems: 260, base: { t: 'grad', cols: ['#ff5e1a', '#ffd166', '#ff5e1a'], anim: true }, glow: '#ff9a1a', amb: [['flame', FIRE, .55], ['star', GOLDC, .05]], hit: { col: [...FIRE, '#ffffff'], n: 26, glow: true, sp: 5 }, snd: 'phoenix', acc: '#ff9a1a' },
-  { id: 'quantum', name: 'Quantum', tier: 'legend', gems: 270, base: { t: 'glitch' }, amb: [['pixel', ['#3df5ff', '#ff3df5', '#ffffff'], .16]], hit: { col: ['#3df5ff', '#ff3df5', '#ffffff'], n: 22, glow: true, shape: 'sq' }, snd: 'glitch', acc: '#3df5ff' },
-  { id: 'starlight', name: 'Starlight', tier: 'legend', gems: 280, base: { t: 'stars' }, glow: '#9fb8ff', amb: [['star', ['#ffffff', '#ffe9b0', '#9fb8ff'], .14]], hit: { col: ['#ffffff', '#ffe9b0', '#9fb8ff'], n: 22, glow: true, shape: 'star' }, snd: 'cosmic', acc: '#ffe9b0' },
-  { id: 'king', name: 'Royal Throne', tier: 'legend', gems: 300, base: { t: 'royal' }, glow: '#ffd57a', shine: true, amb: [['glitter', GOLDC, .35], ['star', GOLDC, .08]], hit: { col: [...GOLDC, '#ff4f7b'], n: 26, glow: true, shape: 'star' }, snd: 'coin', acc: '#ffd57a' },
-];
-
-const CRACK = [0, -3, 2, -2, 3, -1, 2, -2, 0];
-function drawPad(g, Pd, cx, cy, w, h, t, wob) {
-  const b = Pd.base, x = cx - w / 2, y = cy - h / 2;
-  g.save();
-  if (Pd.glow) { g.shadowColor = Pd.glow; g.shadowBlur = 14 * U; }
-  switch (b.t) {
-    case 'pill': g.fillStyle = b.c; rr(g, x, y, w, h, h / 2); g.fill(); break;
-    case 'grain': g.fillStyle = '#a8703f'; rr(g, x, y, w, h, 6); g.fill(); g.strokeStyle = '#7d4f2a'; g.lineWidth = 1.5;
-      for (let i = 1; i < 3; i++) { g.beginPath(); g.moveTo(x + 6, y + h * i / 3); g.bezierCurveTo(x + w * .3, y + h * i / 3 - 3, x + w * .6, y + h * i / 3 + 3, x + w - 6, y + h * i / 3); g.stroke(); } break;
-    case 'stone': g.fillStyle = b.c; rr(g, x, y, w, h, 5); g.fill(); g.shadowBlur = 0; g.fillStyle = 'rgba(0,0,0,.18)';
-      for (let i = 0; i < 9; i++) circle(g, x + ((i * 37) % w), y + 3 + ((i * 13) % (h - 6)), 1.6 * U); g.fillStyle = 'rgba(255,255,255,.2)'; g.fillRect(x + 4, y + 2, w - 8, 2); break;
-    case 'steel': { const gr = g.createLinearGradient(0, y, 0, y + h); gr.addColorStop(0, '#f2f6fa'); gr.addColorStop(.5, '#9aa8b8'); gr.addColorStop(1, '#5e6b7a');
-      g.fillStyle = gr; rr(g, x, y, w, h, 4); g.fill(); g.shadowBlur = 0; g.fillStyle = '#4a5562'; circle(g, x + 7, cy, 2 * U); circle(g, x + w - 7, cy, 2 * U); break; }
-    case 'cloud': { g.fillStyle = '#ffffff'; const n = Math.max(4, Math.round(w / 22));
-      for (let i = 0; i < n; i++) circle(g, x + (i + .5) * w / n, cy - (i % 2 ? 2 : 4), h * .75); rr(g, x, cy - h * .3, w, h * .8, h * .4); g.fill(); break; }
-    case 'stripes': g.save(); rr(g, x, y, w, h, h / 2); g.clip(); g.fillStyle = b.c1; g.fillRect(x, y, w, h); g.fillStyle = b.c2;
-      for (let i = -2; i < w / 12 + 2; i++) { const sx = x + i * 12 + (t * .5 % 12); g.beginPath(); g.moveTo(sx, y + h); g.lineTo(sx + 6, y + h); g.lineTo(sx + 12, y); g.lineTo(sx + 6, y); g.fill(); }
-      g.restore(); break;
-    case 'vine': g.fillStyle = '#4e8f3a'; rr(g, x, y + 2, w, h - 4, h / 2); g.fill(); g.shadowBlur = 0; g.fillStyle = '#7fd36b';
-      for (let i = 0; i < Math.round(w / 18); i++) { g.save(); g.translate(x + 8 + i * 18, y + (i % 2 ? h : 2)); g.rotate(i % 2 ? .6 : -.6); g.beginPath(); g.ellipse(0, 0, 6 * U, 3 * U, 0, 0, TAU); g.fill(); g.restore(); }
-      g.fillStyle = '#ffd1e0'; circle(g, x + w * .7, y + 3, 3 * U); break;
-    case 'facets': { const gr = g.createLinearGradient(x, y, x + w, y + h); gr.addColorStop(0, b.c[0]); gr.addColorStop(1, b.c[1]);
-      g.fillStyle = gr; rr(g, x, y, w, h, 4); g.fill(); g.shadowBlur = 0; g.strokeStyle = 'rgba(255,255,255,.8)'; g.lineWidth = 1; g.beginPath();
-      for (let i = 1; i < 5; i++) { g.moveTo(x + i * w / 5, y); g.lineTo(x + i * w / 5 - 8, y + h); } g.stroke(); break; }
-    case 'jelly': { const sq = (wob || 0) * Math.sin(t / 2.2), jw = w * (1 + .1 * sq), jh = h * (1 - .35 * sq);
-      g.fillStyle = b.c; rr(g, cx - jw / 2, cy - jh / 2, jw, jh, jh / 2); g.fill(); g.shadowBlur = 0; g.fillStyle = 'rgba(255,255,255,.55)'; rr(g, cx - jw / 2 + 8, cy - jh / 2 + 3, jw * .35, 3, 2); g.fill(); break; }
-    case 'bubble': g.fillStyle = 'rgba(180,235,255,.22)'; rr(g, x, y, w, h, h / 2); g.fill(); g.strokeStyle = 'rgba(220,250,255,.9)'; g.lineWidth = 2; g.stroke();
-      g.strokeStyle = hue(t, 0, 78); g.globalAlpha = .7; g.beginPath(); g.moveTo(x + h / 2, y + 3); g.lineTo(x + w * .45, y + 3); g.stroke(); break;
-    case 'water': { const gr = g.createLinearGradient(0, y - 4, 0, y + h); gr.addColorStop(0, b.c[0]); gr.addColorStop(1, b.c[1]); g.fillStyle = gr;
-      g.beginPath(); g.moveTo(x, y + h); for (let i = 0; i <= 12; i++) { const px = x + i * w / 12; g.lineTo(px, y + Math.sin(i * 1.2 + t / 6) * 2.5); } g.lineTo(x + w, y + h); g.closePath(); g.fill(); break; }
-    case 'circuit': g.fillStyle = '#0d1f1a'; rr(g, x, y, w, h, 4); g.fill(); g.strokeStyle = b.c; g.lineWidth = 1.2; g.strokeRect(x + .5, y + .5, w - 1, h - 1); g.beginPath();
-      for (let i = 0; i < 4; i++) { const lx = x + 10 + i * (w - 20) / 3; g.moveTo(lx, y + 3); g.lineTo(lx, cy); g.lineTo(lx + 10, cy); } g.stroke();
-      g.fillStyle = '#d6ffe9'; circle(g, x + 4 + ((t * 2) % (w - 8)), cy, 2.2 * U); break;
-    case 'neon': if (b.fill) { g.fillStyle = b.fill; rr(g, x, y, w, h, h / 2); g.fill(); }
-      g.shadowColor = b.c1; g.shadowBlur = 18 * U; g.strokeStyle = b.c1; g.lineWidth = 3; rr(g, x + 2, y + 2, w - 4, h - 4, h / 2); g.stroke();
-      g.shadowColor = b.c2; g.shadowBlur = 8; g.strokeStyle = b.c2; g.lineWidth = 1.2; rr(g, x + 6, y + 6, w - 12, h - 12, h / 2); g.stroke();
-      if (b.grid) { g.globalAlpha = .5; g.beginPath(); for (let i = 1; i < 8; i++) { const px = x + i * w / 8; g.moveTo(px, y + 3); g.lineTo(px, y + h - 3); } g.stroke(); } break;
-    case 'cracks': g.fillStyle = b.c; rr(g, x, y, w, h, h / 2); g.fill(); g.shadowColor = b.crack; g.shadowBlur = 10;
-      g.strokeStyle = b.crack; g.globalAlpha = .75 + .25 * Math.sin(t / 12); g.lineWidth = 2.2; g.beginPath();
-      CRACK.forEach((o, i) => { const px = x + 8 + i * (w - 16) / (CRACK.length - 1), py = cy + o * h / 9; i ? g.lineTo(px, py) : g.moveTo(px, py); }); g.stroke(); break;
-    case 'pixel': { const n = Math.max(6, Math.round(w / 12)), s = w / n; for (let i = 0; i < n; i++) { g.fillStyle = b.cols[(i + ((t / 8) | 0)) % b.cols.length]; g.fillRect(x + i * s, y, s - 1, h); } break; }
-    case 'grad': { const gr = g.createLinearGradient(x, 0, x + w, 0); const off = b.anim ? (Math.sin(t / 20) * .25) : 0;
-      b.cols.forEach((col, i) => gr.addColorStop(clamp(i / (b.cols.length - 1) + off * (i === 1 ? 1 : 0), 0, 1), col)); g.fillStyle = gr; rr(g, x, y, w, h, h / 2); g.fill(); break; }
-    case 'rainbow': { const gr = g.createLinearGradient(x, 0, x + w, 0); for (let i = 0; i <= 6; i++) gr.addColorStop(i / 6, hue(t, i * 60)); g.fillStyle = gr; rr(g, x, y, w, h, h / 2); g.fill(); break; }
-    case 'gold': case 'royal': { const gr = g.createLinearGradient(0, y, 0, y + h); gr.addColorStop(0, '#fff1b0'); gr.addColorStop(.5, '#f2c14e'); gr.addColorStop(1, '#b8862b');
-      g.fillStyle = gr; rr(g, x, y, w, h, b.t === 'royal' ? 4 : h / 2); g.fill();
-      if (b.t === 'royal') { g.shadowBlur = 0; ['#ff4f7b', '#3fa7ff', '#4cc38a', '#3fa7ff', '#ff4f7b'].forEach((col, i) => { g.fillStyle = col; g.save(); g.translate(x + w * (i + 1) / 6, cy); g.rotate(PI / 4); g.fillRect(-2.5 * U, -2.5 * U, 5 * U, 5 * U); g.restore(); }); } break; }
-    case 'galaxy': case 'stars': { const gr = g.createLinearGradient(x, 0, x + w, 0);
-      if (b.t === 'galaxy') { gr.addColorStop(0, '#1b0b3a'); gr.addColorStop(.5, '#5b2aa8'); gr.addColorStop(1, '#1b0b3a'); } else { gr.addColorStop(0, '#0b1a3a'); gr.addColorStop(1, '#2a3f8f'); }
-      g.fillStyle = gr; rr(g, x, y, w, h, h / 2); g.fill(); g.shadowBlur = 0;
-      for (let i = 0; i < 10; i++) { g.fillStyle = `rgba(255,255,255,${.4 + .6 * Math.abs(Math.sin(t / 15 + i))})`; circle(g, x + 6 + ((i * 29) % (w - 12)), y + 3 + ((i * 7) % (h - 6)), 1.2 * U); } break; }
-    case 'aurora': { const gr = g.createLinearGradient(x, 0, x + w, 0); for (let i = 0; i <= 4; i++) gr.addColorStop(i / 4, (i + ((t / 30) | 0)) % 2 ? '#50ffaa' : '#9b7bff');
-      g.fillStyle = gr; rr(g, x, y, w, h, h / 2); g.fill(); g.shadowBlur = 0; g.fillStyle = 'rgba(255,255,255,.35)'; rr(g, x + 6, y + 2, w - 12, 3, 2); g.fill(); break; }
-    case 'heart': { const gr = g.createLinearGradient(x, 0, x + w, 0); gr.addColorStop(0, '#ff8fb8'); gr.addColorStop(.5, '#ff4f7b'); gr.addColorStop(1, '#ff8fb8');
-      g.fillStyle = gr; rr(g, x, y, w, h, h / 2); g.fill(); g.shadowBlur = 0; const beat = 1 + .25 * Math.max(0, Math.sin(t / 6)) ** 8; g.fillStyle = '#fff'; heartPath(g, cx, cy, h * .55 * beat); g.fill(); break; }
-    case 'disco': { g.fillStyle = '#20202a'; rr(g, x, y, w, h, 4); g.fill(); g.shadowBlur = 0; const n = Math.max(6, Math.round(w / 14)), s = w / n;
-      for (let i = 0; i < n; i++) for (let j = 0; j < 2; j++) { const v = Math.sin(t / 7 + i * 1.3 + j * 2); g.fillStyle = v > .3 ? hue(t, i * 40 + j * 90, 65) : 'rgba(255,255,255,.08)'; g.fillRect(x + i * s + 1, y + j * h / 2 + 1, s - 2, h / 2 - 2); } break; }
-    case 'scales': g.fillStyle = b.c1; rr(g, x, y, w, h, h / 2); g.fill(); g.shadowBlur = 0; g.save(); rr(g, x, y, w, h, h / 2); g.clip(); g.strokeStyle = b.c2; g.lineWidth = 1.3;
-      for (let j = 0; j < 3; j++) for (let i = -1; i < w / 10 + 1; i++) { g.beginPath(); g.arc(x + i * 10 + (j % 2) * 5, y + j * h / 3, 5 * U, 0, PI); g.stroke(); } g.restore(); break;
-    case 'void': g.fillStyle = '#05010c'; rr(g, x, y, w, h, h / 2); g.fill(); g.strokeStyle = `rgba(201,160,255,${.7 + .3 * Math.sin(t / 6)})`; g.lineWidth = 2; g.stroke(); break;
-    case 'glitch': { g.shadowBlur = 0; const o = Math.sin(t / 3) > .7 ? rn(6) : 0;
-      g.globalCompositeOperation = 'lighter'; g.fillStyle = 'rgba(255,61,245,.8)'; rr(g, x + o - 2, y, w, h, 3); g.fill(); g.fillStyle = 'rgba(61,245,255,.8)'; rr(g, x - o + 2, y, w, h, 3); g.fill();
-      g.globalCompositeOperation = 'source-over'; g.fillStyle = 'rgba(255,255,255,.85)'; rr(g, x + 3, y + 3, w - 6, h - 6, 2); g.fill(); break; }
-  }
-  g.restore();
-  if (Pd.shine) { const sx = x + ((t * 2) % (w + 40)) - 20; g.save(); rr(g, x, y, w, h, h / 2); g.clip(); g.fillStyle = 'rgba(255,255,255,.55)'; g.fillRect(sx, y, 7 * U, h); g.restore(); }
-  if (Pd.arcs && t % 46 < 5) { g.save(); g.strokeStyle = '#bdf3ff'; g.shadowColor = '#5ad1ff'; g.shadowBlur = 10; g.lineWidth = 1.5; zig(g, x + R() * w * .3, y - 2, x + w * (.6 + R() * .4), y - 2, 6, 10 * U); g.restore(); }
-}
-
 // ================= WORLDS =================
 // Each world is a stack of animated layers (features)
 const FEAT = {
@@ -834,14 +723,473 @@ const WORLDS = [
   { id: 'northlake', name: 'Northern Lake', tier: 'legend', gems: 300, f: [['sky', ['#020812', '#071a2e', '#0b2a3a']], ['stars', { n: 90, yMax: .55 }], ['aurora', { cols: ['rgba(80,255,170,.26)', 'rgba(160,100,255,.24)', 'rgba(80,220,255,.22)'] }], ['mountains', { col: '#040c14', base: .68, amp: .12 }], ['lake', { y: .72, col: '#04121c', shim: ['#50ffaa', '#9b7bff', '#5ad1ff'] }]] },
 ];
 
-function initWorld(def, w, h) { return { def, st: def.f.map(([k, p]) => FEAT[k].init ? FEAT[k].init(w, h, p) : {}) }; }
-function drawWorld(g, S, w, h, t) { S.def.f.forEach(([k, p], i) => FEAT[k].draw(g, S.st[i], w, h, t, p)); }
+function worldLayers(def, L) {
+  const ls = def.f.map(x => [x[0], x[1]]);
+  for (let i = 0; i < L - 1; i++) { const u = def.up && def.up[i]; if (!u) continue; u.layers.forEach(([k, p, at]) => { if (at != null) ls.splice(at, 0, [k, p]); else ls.push([k, p]); }); }
+  return ls.map(([k, p]) => (p && p.n && L > 1) ? [k, Object.assign({}, p, { n: Math.round(p.n * (1 + .35 * (L - 1))) })] : [k, p]);
+}
+function initWorld(def, w, h, L) { const layers = worldLayers(def, L || 1); return { def, layers, st: layers.map(([k, p]) => FEAT[k].init ? FEAT[k].init(w, h, p) : {}) }; }
+function drawWorld(g, S, w, h, t) { S.layers.forEach(([k, p], i) => FEAT[k].draw(g, S.st[i], w, h, t, p)); }
 
+
+// ================= PADDLES =================
+// base: the paddle body. ex: effects always on. up: [level 2, level 3] each adds its own effects (fx particles + ex drawn effects).
+// sig: signature burst on every bounce.
+const PADS = [
+  // Normal
+  { id: 'classic', name: 'Classic', tier: 'normal', base: { t: 'pill', c: '#f3e3c3' }, hit: { col: ['#f3e3c3', '#fff8ec'], n: 8 }, snd: 'chime', acc: '#f3e3c3',
+    up: [{ name: 'Sand sparkle trail', fx: [['glitter', ['#fff8ec', '#f3e3c3'], .25]], ex: [{ t: 'trail', col: '#f3e3c3' }] }, { name: 'Light beam and twin stars', ex: [{ t: 'beam', col: '#fff1d0' }, { t: 'flares', col: '#ffffff' }] }] },
+  { id: 'wood', name: 'Wood', tier: 'normal', coins: 100, base: { t: 'grain' }, hit: { col: ['#c99561', '#8a5a33'], n: 8 }, snd: 'tok', acc: '#c99561',
+    up: [{ name: 'Falling leaves', fx: [['petal', ['#7fd36b', '#c99561', '#e8a33c'], .06]] }, { name: 'Growing vines and warm glow', ex: [{ t: 'leaves', col: '#7fd36b' }, { t: 'halo', col: '#e8b070' }] }] },
+  { id: 'stone', name: 'Stone', tier: 'normal', coins: 150, base: { t: 'stone', c: '#8f8a84' }, hit: { col: ['#b5b0aa', '#77726c'], n: 10 }, snd: 'stone', acc: '#7fe3ff',
+    up: [{ name: 'Crumbling pebbles', fx: [['drip', ['#b5b0aa', '#77726c'], .08]] }, { name: 'Glowing ancient runes', ex: [{ t: 'runes', col: '#7fe3ff' }, { t: 'ring', col: '#7fe3ff' }] }] },
+  { id: 'steel', name: 'Steel', tier: 'normal', coins: 200, base: { t: 'steel' }, hit: { col: ['#e6edf5', '#9aa8b8'], n: 8 }, snd: 'metal', acc: '#bfe6ff',
+    up: [{ name: 'Grinding sparks', fx: [['spark', ['#ffd27a', '#ffffff'], .15]] }, { name: 'Electric edge', ex: [{ t: 'arc', col: '#bfe6ff' }, { t: 'flares', col: '#bfe6ff' }] }] },
+  { id: 'cloud', name: 'Cloud', tier: 'normal', coins: 200, base: { t: 'cloud' }, hit: { col: ['#ffffff', '#e8f4ff'], n: 10, size: 4 }, snd: 'air', acc: '#bfe9ff',
+    up: [{ name: 'Gentle rain', fx: [['drip', ['#bfe9ff', '#8fd0ff'], .12]] }, { name: 'Little rainbow', ex: [{ t: 'rainbowArc' }] }] },
+  { id: 'candy', name: 'Candy', tier: 'normal', coins: 250, base: { t: 'stripes', c1: '#fff4f8', c2: '#ff5a9b' }, hit: { col: ['#ff5a9b', '#ffffff', '#7ed6ff'], n: 12 }, snd: 'pop', acc: '#ff7eb6',
+    up: [{ name: 'Sprinkle shower', fx: [['confetti', ['#ff7eb6', '#7ed6ff', '#ffd23f'], .1]] }, { name: 'Orbiting gumdrops', ex: [{ t: 'orbit', col: 'rainbow', n: 4 }, { t: 'ring', col: '#ff7eb6' }] }] },
+
+  // Special
+  { id: 'vine', name: 'Vine', tier: 'special', coins: 800, base: { t: 'vine' }, amb: [['petal', ['#7fd36b', '#4e8f3a'], .03]], hit: { col: ['#7fd36b', '#4e8f3a', '#ffd1e0'], n: 12, shape: 'ell' }, snd: 'harp', acc: '#7fd36b',
+    up: [{ name: 'Blossom petals', fx: [['petal', PINK, .1]] }, { name: 'Wild leaves and pink sparkles', ex: [{ t: 'leaves', col: '#7fd36b' }, { t: 'flares', col: '#ffc2d9' }] }] },
+  { id: 'ice', name: 'Ice', tier: 'special', coins: 900, base: { t: 'facets', c: ['#f2fbff', '#7ccbf0'] }, glow: '#bfefff', amb: [['frost', ICEC, .06]], hit: { col: ICEC, n: 14 }, snd: 'glass', acc: '#bfefff',
+    up: [{ name: 'Diamond dust', fx: [['star', ['#ffffff', '#c4ecff'], .06]] }, { name: 'Ice crystals and frost ring', ex: [{ t: 'spikes', col: '#dff6ff' }, { t: 'halo', col: '#bfefff' }] }] },
+  { id: 'jelly', name: 'Jelly', tier: 'special', coins: 1000, base: { t: 'jelly', c: 'rgba(124,242,154,.85)' }, glow: '#7cf29a', wob: true, hit: { col: ['#7cf29a', '#c8ffd6'], n: 12, size: 4 }, snd: 'boing', acc: '#7cf29a',
+    up: [{ name: 'Slime bubbles', fx: [['bubble', ['rgba(124,242,154,.8)'], .1]] }, { name: 'Jelly dome', ex: [{ t: 'shield', col: '#7cf29a' }, { t: 'ring', col: '#7cf29a' }] }] },
+  { id: 'bubble', name: 'Bubble', tier: 'special', coins: 1100, base: { t: 'bubble' }, amb: [['bubble', ['rgba(200,240,255,.8)'], .07]], hit: { col: ['rgba(200,240,255,.9)'], n: 10, shape: 'ring' }, snd: 'bubble', acc: '#dff6ff',
+    up: [{ name: 'Rainbow bubbles', fx: [['bubble', ['rgba(255,190,240,.8)', 'rgba(190,255,230,.8)', 'rgba(255,240,190,.8)'], .12]] }, { name: 'Bubble shield and orbit', ex: [{ t: 'shield', col: '#dff6ff' }, { t: 'orbit', col: '#dff6ff', n: 3 }] }] },
+  { id: 'water', name: 'Water', tier: 'special', coins: 1200, base: { t: 'water', c: ['#7fd4ff', '#1f7fd1'] }, amb: [['drip', ['#7fd4ff'], .05]], hit: { col: ['#bfe9ff', '#5fc8ff'], n: 16, grav: .15, sp: 4 }, snd: 'water', acc: '#5fc8ff',
+    up: [{ name: 'Rising bubbles', fx: [['bubble', ['rgba(190,240,255,.85)'], .1]] }, { name: 'Splash wake and ripples', ex: [{ t: 'comet', col: '#7fd4ff' }, { t: 'ring', col: '#5fc8ff' }] }] },
+  { id: 'circuit', name: 'Circuit', tier: 'special', coins: 1500, base: { t: 'circuit', c: '#3dffa8' }, glow: '#3dffa8', amb: [['pixel', ['#3dffa8', '#d6ffe9'], .04]], hit: { col: ['#3dffa8', '#d6ffe9'], n: 14, glow: true, sp: 4 }, snd: 'beep', acc: '#3dffa8',
+    up: [{ name: 'Data sparks', fx: [['spark', ['#3dffa8', '#ffffff'], .12]] }, { name: 'Scanner and code runes', ex: [{ t: 'scan', col: '#3dffa8' }, { t: 'runes', col: '#3dffa8' }] }] },
+  { id: 'crystal', name: 'Amethyst', tier: 'special', coins: 1700, base: { t: 'facets', c: ['#fdf0ff', '#b98cff'] }, glow: '#d8b4ff', shine: true, amb: [['glitter', ['#ffffff', '#d8b4ff'], .2]], hit: { col: ['#ffffff', '#d8b4ff', '#9b6bff'], n: 14, shape: 'star', glow: true }, snd: 'glass', acc: '#d8b4ff',
+    up: [{ name: 'Purple starlight', fx: [['star', PURP, .06]] }, { name: 'Amethyst spikes and gem orbit', ex: [{ t: 'spikes', col: '#d8b4ff' }, { t: 'orbit', col: '#d8b4ff', n: 3 }] }] },
+  { id: 'neon', name: 'Neon', tier: 'special', coins: 2000, base: { t: 'neon', c1: '#ff6af7', c2: '#9ffbff' }, amb: [['glitter', NEONC, .12]], hit: { col: NEONC, n: 14, glow: true }, snd: 'synth', acc: '#ff6af7',
+    up: [{ name: 'Neon speed trail', ex: [{ t: 'trail', col: '#ff6af7' }] }, { name: 'Neon halo and light beam', ex: [{ t: 'halo', col: '#9ffbff' }, { t: 'beam', col: '#ff6af7' }] }] },
+  { id: 'lava', name: 'Lava', tier: 'special', coins: 2400, base: { t: 'cracks', c: '#2b1512', crack: '#ff8a1a' }, glow: '#ff6a1a', amb: [['ember', FIRE, .15]], hit: { col: FIRE, n: 18, glow: true }, snd: 'rumble', acc: '#ff6a1a',
+    up: [{ name: 'Lava flames', fx: [['flame', FIRE, .25]] }, { name: 'Fire crown and heat ring', ex: [{ t: 'flames', cols: FIRE }, { t: 'ring', col: '#ff8a1a' }] }] },
+  { id: 'arcade', name: 'Arcade', tier: 'special', coins: 2600, base: { t: 'pixel', cols: ['#3df5ff', '#ff3df5', '#ffe14d', '#3dff8a'] }, amb: [['pixel', ['#3df5ff', '#ff3df5', '#ffe14d'], .12]], hit: { col: ['#3df5ff', '#ff3df5', '#ffe14d'], n: 16, shape: 'sq' }, snd: 'beep8', acc: '#ffe14d',
+    up: [{ name: '8-bit rainbow trail', ex: [{ t: 'trail', col: 'rainbow' }] }, { name: 'Bonus stars and pixel orbit', ex: [{ t: 'flares', col: '#ffe14d' }, { t: 'orbit', col: 'rainbow', n: 4, sq: true }] }] },
+
+  // Legendary: strong effects from level 1, two more on upgrade, and a signature burst on every bounce
+  { id: 'thunder', name: 'Thunder', tier: 'legend', gems: 80, base: { t: 'neon', c1: '#7fe3ff', c2: '#ffffff', fill: '#14213d' }, flash: true, sig: 'bolt',
+    ex: [{ t: 'arc', col: '#bdf3ff' }, { t: 'flares', col: '#ffffff' }], amb: [['spark', ['#bdf3ff', '#5ad1ff'], .2]], hit: { col: ['#bdf3ff', '#5ad1ff', '#ffffff'], n: 20, glow: true, sp: 5 }, snd: 'zap', acc: '#7fe3ff',
+    up: [{ name: 'Storm halo', fx: [['spark', ['#ffffff'], .15]], ex: [{ t: 'halo', col: '#7fe3ff' }] }, { name: 'Sky beam and thunder ring', ex: [{ t: 'beam', col: '#7fe3ff' }, { t: 'ring', col: '#bdf3ff' }] }] },
+  { id: 'plasma', name: 'Plasma', tier: 'legend', gems: 100, base: { t: 'grad', cols: ['#7a1bff', '#ff6af0', '#7a1bff'], anim: true }, glow: '#ff6af0', sig: 'starburst',
+    ex: [{ t: 'orbit', col: '#ff9cf5', n: 3 }], amb: [['spark', ['#ff9cf5', '#ffffff'], .15]], hit: { col: ['#ff9cf5', '#ffffff', '#b06bff'], n: 18, glow: true }, snd: 'plasma', acc: '#ff6af0',
+    up: [{ name: 'Plasma halo and trail', ex: [{ t: 'halo', col: '#ff9cf5' }, { t: 'trail', col: '#ff6af0' }] }, { name: 'Plasma disk and beam', ex: [{ t: 'accretion', cols: ['#ff6af0', '#b06bff', '#ffffff'] }, { t: 'beam', col: '#ff6af0' }] }] },
+  { id: 'rainbow', name: 'Rainbow', tier: 'legend', gems: 100, base: { t: 'rainbow' }, glow: '#ffffff', sig: 'starburst',
+    ex: [{ t: 'rainbowArc' }], amb: [['star', RAINBOW, .08]], hit: { col: RAINBOW, n: 20 }, snd: 'chord', acc: 'rainbow',
+    up: [{ name: 'Rainbow trail', fx: [['confetti', RAINBOW, .06]], ex: [{ t: 'trail', col: 'rainbow' }] }, { name: 'Prism orbit and color ring', ex: [{ t: 'orbit', col: 'rainbow', n: 6 }, { t: 'ring', col: 'rainbow' }] }] },
+  { id: 'gold', name: 'Gold Bar', tier: 'legend', gems: 120, base: { t: 'gold' }, glow: '#ffd57a', shine: true, sig: 'coins',
+    ex: [{ t: 'flares', col: '#fff1b0' }], amb: [['glitter', GOLDC, .25]], hit: { col: GOLDC, n: 18, glow: true, shape: 'star' }, snd: 'coin', acc: '#ffd57a',
+    up: [{ name: 'Golden beam', ex: [{ t: 'beam', col: '#ffd57a' }] }, { name: 'Crown and coin orbit', ex: [{ t: 'crown', col: '#ffd57a' }, { t: 'orbit', col: '#ffd57a', n: 4, coin: true }] }] },
+  { id: 'inferno', name: 'Inferno', tier: 'legend', gems: 140, base: { t: 'cracks', c: '#1a0606', crack: '#ffcc33' }, glow: '#ff4400', sig: 'fire',
+    ex: [{ t: 'flames', cols: FIRE }], amb: [['flame', FIRE, .45], ['ember', FIRE, .15]], hit: { col: FIRE, n: 24, glow: true, sp: 4 }, snd: 'rumble', acc: '#ff5e1a',
+    up: [{ name: 'Fire wake and heat ring', ex: [{ t: 'comet', col: '#ff8a1a' }, { t: 'ring', col: '#ff5e1a' }] }, { name: 'Wings of fire', ex: [{ t: 'wings', cols: ['#ffd166', '#ff3d1a'] }, { t: 'beam', col: '#ff5e1a' }] }] },
+  { id: 'galaxy', name: 'Galaxy', tier: 'legend', gems: 150, base: { t: 'galaxy' }, glow: '#9b6bff', sig: 'starburst',
+    ex: [{ t: 'orbit', col: '#c9a0ff', n: 3 }, { t: 'constellation', col: '#ffffff' }], amb: [['star', PURP, .07], ['glitter', ['#ffffff', '#7fd4ff'], .25]], hit: { col: PURP, n: 20, glow: true, shape: 'star' }, snd: 'cosmic', acc: '#b98cff',
+    up: [{ name: 'Cosmic halo', ex: [{ t: 'halo', col: '#c9a0ff' }] }, { name: 'Spiral galaxy disk and beam', ex: [{ t: 'accretion', cols: ['#c9a0ff', '#7fd4ff', '#ff9cf5'] }, { t: 'beam', col: '#9b6bff' }] }] },
+  { id: 'aurora', name: 'Aurora', tier: 'legend', gems: 150, base: { t: 'aurora' }, glow: '#50ffaa', sig: 'starburst',
+    ex: [{ t: 'beam', col: '#50ffaa' }], amb: [['glitter', ['#50ffaa', '#9b7bff'], .3]], hit: { col: ['#50ffaa', '#9b7bff', '#ffffff'], n: 20, glow: true }, snd: 'harp', acc: '#50ffaa',
+    up: [{ name: 'Northern light trail', ex: [{ t: 'trail', col: '#50ffaa' }] }, { name: 'Aurora halo and ring', ex: [{ t: 'halo', col: '#9b7bff' }, { t: 'ring', col: '#50ffaa' }] }] },
+  { id: 'sakura', name: 'Sakura', tier: 'legend', gems: 150, base: { t: 'grad', cols: ['#ffd1e0', '#ff8fb8', '#ffd1e0'] }, glow: '#ff8fb8', sig: 'petals',
+    ex: [{ t: 'leaves', col: '#ffb6d0' }, { t: 'flares', col: '#ffe6f0' }], amb: [['petal', PINK, .12]], hit: { col: PINK, n: 18, shape: 'ell' }, snd: 'koto', acc: '#ff8fb8',
+    up: [{ name: 'Petal storm trail', fx: [['petal', PINK, .2]], ex: [{ t: 'trail', col: '#ff8fb8' }] }, { name: 'Spirit wings', ex: [{ t: 'wings', cols: ['#ffffff', '#ff8fb8'] }, { t: 'halo', col: '#ffc2d9' }] }] },
+  { id: 'heart', name: 'Heartbeat', tier: 'legend', gems: 160, base: { t: 'heart' }, glow: '#ff4f7b', sig: 'hearts',
+    ex: [{ t: 'ring', col: '#ff4f7b' }], amb: [['heart', ['#ff4f7b', '#ff8fb8'], .06]], hit: { col: ['#ff4f7b', '#ff8fb8', '#ffd6e3'], n: 14, shape: 'heart', glow: true }, snd: 'heart', acc: '#ff4f7b',
+    up: [{ name: 'Orbiting hearts', ex: [{ t: 'orbit', col: '#ff8fb8', n: 3, heart: true }] }, { name: 'Angel wings', ex: [{ t: 'wings', cols: ['#ffffff', '#ffc2d9'] }, { t: 'beam', col: '#ff8fb8' }] }] },
+  { id: 'synth', name: 'Synthwave', tier: 'legend', gems: 170, base: { t: 'neon', c1: '#ff3df5', c2: '#3df5ff', fill: '#14001f', grid: true }, sig: 'starburst',
+    ex: [{ t: 'trail', col: '#ff3df5' }, { t: 'scan', col: '#3df5ff' }], amb: [['pixel', ['#ff3df5', '#3df5ff'], .09]], hit: { col: NEONC, n: 20, glow: true }, snd: 'synth', acc: '#ff3df5',
+    up: [{ name: 'Retro light beam', ex: [{ t: 'beam', col: '#ff3df5' }] }, { name: 'Disco spotlights and ring', ex: [{ t: 'spots' }, { t: 'ring', col: '#3df5ff' }] }] },
+  { id: 'frozen', name: 'Frozen Crown', tier: 'legend', gems: 180, base: { t: 'facets', c: ['#ffffff', '#9fdcff'] }, glow: '#dff6ff', shine: true, sig: 'starburst',
+    ex: [{ t: 'spikes', col: '#dff6ff' }, { t: 'flares', col: '#ffffff' }], amb: [['frost', ICEC, .25], ['star', ['#ffffff'], .05]], hit: { col: ICEC, n: 22, shape: 'star', glow: true }, snd: 'glass', acc: '#dff6ff',
+    up: [{ name: 'Blizzard halo', fx: [['frost', ICEC, .3]], ex: [{ t: 'halo', col: '#bfefff' }] }, { name: 'Ice crown and frost beam', ex: [{ t: 'crown', col: '#dff6ff' }, { t: 'beam', col: '#bfefff' }] }] },
+  { id: 'toxic', name: 'Toxic', tier: 'legend', gems: 180, base: { t: 'grad', cols: ['#2f8f1a', '#9dff3a', '#2f8f1a'], anim: true }, glow: '#9dff3a', sig: 'splat',
+    ex: [{ t: 'shield', col: '#9dff3a' }], amb: [['bubble', ['rgba(157,255,58,.8)'], .1], ['drip', GREENC, .06]], hit: { col: GREENC, n: 18, glow: true }, snd: 'bubble', acc: '#9dff3a',
+    up: [{ name: 'Radiation ring', ex: [{ t: 'ring', col: '#9dff3a' }] }, { name: 'Atom orbit and green beam', ex: [{ t: 'orbit', col: '#cfff6a', n: 3 }, { t: 'beam', col: '#9dff3a' }] }] },
+  { id: 'disco', name: 'Disco Floor', tier: 'legend', gems: 200, base: { t: 'disco' }, glow: '#ffffff', sig: 'starburst',
+    ex: [{ t: 'orbit', col: 'rainbow', n: 4 }], amb: [['confetti', RAINBOW, .1], ['star', RAINBOW, .04]], hit: { col: RAINBOW, n: 22, shape: 'rect' }, snd: 'chord', acc: 'rainbow',
+    up: [{ name: 'Party ring', ex: [{ t: 'ring', col: 'rainbow' }] }, { name: 'Disco spotlights', ex: [{ t: 'spots' }, { t: 'flares', col: '#ffffff' }] }] },
+  { id: 'ocean', name: 'Ocean Wave', tier: 'legend', gems: 200, base: { t: 'water', c: ['#4fd1ff', '#0a3d8f'] }, glow: '#4fd1ff', sig: 'splash',
+    ex: [{ t: 'comet', col: '#4fd1ff' }], amb: [['bubble', ['rgba(190,240,255,.85)'], .14]], hit: { col: ['#bfe9ff', '#5fc8ff', '#ffffff'], n: 22, grav: .15, sp: 4 }, snd: 'water', acc: '#4fd1ff',
+    up: [{ name: 'Tide rings', ex: [{ t: 'ring', col: '#4fd1ff' }] }, { name: 'Water dome and fish orbit', ex: [{ t: 'shield', col: '#4fd1ff' }, { t: 'orbit', col: '#bfe9ff', n: 3 }] }] },
+  { id: 'dragon', name: 'Dragon Scale', tier: 'legend', gems: 230, base: { t: 'scales', c1: '#5a0f0f', c2: '#d4a017' }, glow: '#ff4400', sig: 'fire',
+    ex: [{ t: 'flames', cols: ['#ff3d1a', '#ff8a1a'] }, { t: 'spikes', col: '#d4a017' }], amb: [['ember', FIRE, .22], ['flame', ['#ff3d1a', '#ff8a1a'], .15]], hit: { col: FIRE, n: 24, glow: true, sp: 5 }, snd: 'rumble', acc: '#ff3d1a',
+    up: [{ name: 'Dragon fire wake', ex: [{ t: 'comet', col: '#ff3d1a' }, { t: 'ring', col: '#ff8a1a' }] }, { name: 'Dragon wings', ex: [{ t: 'wings', cols: ['#d4a017', '#7a0f0f'], bat: true }, { t: 'beam', col: '#ff3d1a' }] }] },
+  { id: 'blackhole', name: 'Event Horizon', tier: 'legend', gems: 250, base: { t: 'void' }, glow: '#9b6bff', sig: 'implode',
+    ex: [{ t: 'accretion', cols: ['#ff9a3d', '#c9a0ff', '#7a3dff', '#ffffff'] }], amb: [['inward', ['#c9a0ff', '#7a3dff', '#ffffff'], .6]], hit: { col: PURP, n: 22, glow: true }, snd: 'cosmic', acc: '#9b6bff',
+    up: [{ name: 'Gravity rings', ex: [{ t: 'ring', col: '#c9a0ff' }, { t: 'halo', col: '#7a3dff' }] }, { name: 'Light jets and captured stars', ex: [{ t: 'jets', col: '#c9a0ff' }, { t: 'orbit', col: '#ffffff', n: 4 }] }] },
+  { id: 'phoenix', name: 'Phoenix', tier: 'legend', gems: 260, base: { t: 'phoenix' }, glow: '#ff9a1a', sig: 'phoenix',
+    ex: [{ t: 'wings', cols: ['#ffe9a0', '#ff5e1a'] }, { t: 'flames', cols: FIRE }], amb: [['flame', FIRE, .55], ['star', GOLDC, .05]], hit: { col: [...FIRE, '#ffffff'], n: 26, glow: true, sp: 5 }, snd: 'phoenix', acc: '#ff9a1a',
+    up: [{ name: 'Rebirth beam', ex: [{ t: 'beam', col: '#ffb347' }, { t: 'comet', col: '#ff8a1a' }] }, { name: 'Sun crown and fire ring', ex: [{ t: 'crown', col: '#ffd166' }, { t: 'ring', col: '#ffb347' }, { t: 'halo', col: '#ffd166' }] }] },
+  { id: 'quantum', name: 'Quantum', tier: 'legend', gems: 270, base: { t: 'glitch' }, sig: 'glitch',
+    ex: [{ t: 'shards' }, { t: 'scan', col: '#3df5ff' }, { t: 'trail', col: '#3df5ff' }], amb: [['pixel', ['#3df5ff', '#ff3df5', '#ffffff'], .16]], hit: { col: ['#3df5ff', '#ff3df5', '#ffffff'], n: 22, glow: true, shape: 'sq' }, snd: 'glitch', acc: '#3df5ff',
+    up: [{ name: 'Particle orbit', ex: [{ t: 'orbit', col: '#ff3df5', n: 4, sq: true }, { t: 'ring', col: '#3df5ff' }] }, { name: 'Twin clones and data beam', ex: [{ t: 'clones' }, { t: 'beam', col: '#3df5ff' }] }] },
+  { id: 'starlight', name: 'Starlight', tier: 'legend', gems: 280, base: { t: 'stars' }, glow: '#9fb8ff', sig: 'starburst',
+    ex: [{ t: 'constellation', col: '#ffe9b0' }, { t: 'flares', col: '#ffffff' }, { t: 'orbit', col: '#ffe9b0', n: 2, star: true }], amb: [['star', ['#ffffff', '#ffe9b0', '#9fb8ff'], .14]], hit: { col: ['#ffffff', '#ffe9b0', '#9fb8ff'], n: 22, glow: true, shape: 'star' }, snd: 'cosmic', acc: '#ffe9b0',
+    up: [{ name: 'Comet tails and golden halo', ex: [{ t: 'comet', col: '#ffffff' }, { t: 'halo', col: '#ffe9b0' }] }, { name: 'Heaven beam and star ring', fx: [['star', ['#ffffff', '#ffe9b0'], .15]], ex: [{ t: 'beam', col: '#9fb8ff' }, { t: 'ring', col: '#ffe9b0' }] }] },
+  { id: 'king', name: 'Royal Throne', tier: 'legend', gems: 300, base: { t: 'royal' }, glow: '#ffd57a', shine: true, sig: 'coins',
+    ex: [{ t: 'crown', col: '#ffd57a' }, { t: 'jewels' }], amb: [['glitter', GOLDC, .35], ['star', GOLDC, .08]], hit: { col: [...GOLDC, '#ff4f7b'], n: 26, glow: true, shape: 'star' }, snd: 'coin', acc: '#ffd57a',
+    up: [{ name: 'Royal halo and gold orbit', ex: [{ t: 'halo', col: '#ffd57a' }, { t: 'orbit', col: '#ffd57a', n: 4, coin: true }] }, { name: 'Golden wings and throne light', ex: [{ t: 'wings', cols: ['#fff1b0', '#d4a017'] }, { t: 'beam', col: '#ffd57a' }, { t: 'ring', col: '#ffd57a' }] }] },
+];
+
+const CRACK = [0, -3, 2, -2, 3, -1, 2, -2, 0];
+function drawPad(g, Pd, cx, cy, w, h, t, wob) {
+  const b = Pd.base, x = cx - w / 2, y = cy - h / 2;
+  g.save();
+  if (Pd.glow) { g.shadowColor = Pd.glow; g.shadowBlur = 14 * U; }
+  switch (b.t) {
+    case 'pill': g.fillStyle = b.c; rr(g, x, y, w, h, h / 2); g.fill(); break;
+    case 'grain': g.fillStyle = '#a8703f'; rr(g, x, y, w, h, 6); g.fill(); g.strokeStyle = '#7d4f2a'; g.lineWidth = 1.5;
+      for (let i = 1; i < 3; i++) { g.beginPath(); g.moveTo(x + 6, y + h * i / 3); g.bezierCurveTo(x + w * .3, y + h * i / 3 - 3, x + w * .6, y + h * i / 3 + 3, x + w - 6, y + h * i / 3); g.stroke(); } break;
+    case 'stone': g.fillStyle = b.c; rr(g, x, y, w, h, 5); g.fill(); g.shadowBlur = 0; g.fillStyle = 'rgba(0,0,0,.18)';
+      for (let i = 0; i < 9; i++) circle(g, x + ((i * 37) % w), y + 3 + ((i * 13) % Math.max(1, h - 6)), 1.6 * U); g.fillStyle = 'rgba(255,255,255,.2)'; g.fillRect(x + 4, y + 2, w - 8, 2); break;
+    case 'steel': { const gr = g.createLinearGradient(0, y, 0, y + h); gr.addColorStop(0, '#f2f6fa'); gr.addColorStop(.5, '#9aa8b8'); gr.addColorStop(1, '#5e6b7a');
+      g.fillStyle = gr; rr(g, x, y, w, h, 4); g.fill(); g.shadowBlur = 0; g.fillStyle = '#4a5562'; circle(g, x + 7, cy, 2 * U); circle(g, x + w - 7, cy, 2 * U); break; }
+    case 'cloud': { g.fillStyle = '#ffffff'; const n = Math.max(4, Math.round(w / 22));
+      for (let i = 0; i < n; i++) circle(g, x + (i + .5) * w / n, cy - (i % 2 ? 2 : 4), h * .75); rr(g, x, cy - h * .3, w, h * .8, h * .4); g.fill(); break; }
+    case 'stripes': g.save(); rr(g, x, y, w, h, h / 2); g.clip(); g.fillStyle = b.c1; g.fillRect(x, y, w, h); g.fillStyle = b.c2;
+      for (let i = -2; i < w / 12 + 2; i++) { const sx = x + i * 12 + (t * .5 % 12); g.beginPath(); g.moveTo(sx, y + h); g.lineTo(sx + 6, y + h); g.lineTo(sx + 12, y); g.lineTo(sx + 6, y); g.fill(); }
+      g.restore(); break;
+    case 'vine': g.fillStyle = '#4e8f3a'; rr(g, x, y + 2, w, h - 4, h / 2); g.fill(); g.shadowBlur = 0; g.fillStyle = '#7fd36b';
+      for (let i = 0; i < Math.round(w / 18); i++) { g.save(); g.translate(x + 8 + i * 18, y + (i % 2 ? h : 2)); g.rotate(i % 2 ? .6 : -.6); g.beginPath(); g.ellipse(0, 0, 6 * U, 3 * U, 0, 0, TAU); g.fill(); g.restore(); }
+      g.fillStyle = '#ffd1e0'; circle(g, x + w * .7, y + 3, 3 * U); break;
+    case 'facets': { const gr = g.createLinearGradient(x, y, x + w, y + h); gr.addColorStop(0, b.c[0]); gr.addColorStop(1, b.c[1]);
+      g.fillStyle = gr; rr(g, x, y, w, h, 4); g.fill(); g.shadowBlur = 0; g.strokeStyle = 'rgba(255,255,255,.8)'; g.lineWidth = 1; g.beginPath();
+      for (let i = 1; i < 5; i++) { g.moveTo(x + i * w / 5, y); g.lineTo(x + i * w / 5 - 8, y + h); } g.stroke(); break; }
+    case 'jelly': { const sq = (wob || 0) * Math.sin(t / 2.2), jw = w * (1 + .1 * sq), jh = h * (1 - .35 * sq);
+      g.fillStyle = b.c; rr(g, cx - jw / 2, cy - jh / 2, jw, jh, jh / 2); g.fill(); g.shadowBlur = 0; g.fillStyle = 'rgba(255,255,255,.55)'; rr(g, cx - jw / 2 + 8, cy - jh / 2 + 3, jw * .35, 3, 2); g.fill(); break; }
+    case 'bubble': g.fillStyle = 'rgba(180,235,255,.22)'; rr(g, x, y, w, h, h / 2); g.fill(); g.strokeStyle = 'rgba(220,250,255,.9)'; g.lineWidth = 2; g.stroke();
+      g.strokeStyle = hue(t, 0, 78); g.globalAlpha = .7; g.beginPath(); g.moveTo(x + h / 2, y + 3); g.lineTo(x + w * .45, y + 3); g.stroke(); break;
+    case 'water': { const gr = g.createLinearGradient(0, y - 4, 0, y + h); gr.addColorStop(0, b.c[0]); gr.addColorStop(1, b.c[1]); g.fillStyle = gr;
+      g.beginPath(); g.moveTo(x, y + h); for (let i = 0; i <= 12; i++) { const px = x + i * w / 12; g.lineTo(px, y + Math.sin(i * 1.2 + t / 6) * 2.5); } g.lineTo(x + w, y + h); g.closePath(); g.fill(); break; }
+    case 'circuit': g.fillStyle = '#0d1f1a'; rr(g, x, y, w, h, 4); g.fill(); g.strokeStyle = b.c; g.lineWidth = 1.2; g.strokeRect(x + .5, y + .5, w - 1, h - 1); g.beginPath();
+      for (let i = 0; i < 4; i++) { const lx = x + 10 + i * (w - 20) / 3; g.moveTo(lx, y + 3); g.lineTo(lx, cy); g.lineTo(lx + 10, cy); } g.stroke();
+      g.fillStyle = '#d6ffe9'; circle(g, x + 4 + ((t * 2) % Math.max(1, w - 8)), cy, 2.2 * U); break;
+    case 'neon': if (b.fill) { g.fillStyle = b.fill; rr(g, x, y, w, h, h / 2); g.fill(); }
+      g.shadowColor = b.c1; g.shadowBlur = 18 * U; g.strokeStyle = b.c1; g.lineWidth = 3; rr(g, x + 2, y + 2, w - 4, h - 4, h / 2); g.stroke();
+      g.shadowColor = b.c2; g.shadowBlur = 8; g.strokeStyle = b.c2; g.lineWidth = 1.2; rr(g, x + 6, y + 6, w - 12, h - 12, h / 2); g.stroke();
+      if (b.grid) { g.globalAlpha = .5; g.beginPath(); for (let i = 1; i < 8; i++) { const px = x + i * w / 8; g.moveTo(px, y + 3); g.lineTo(px, y + h - 3); } g.stroke(); } break;
+    case 'cracks': g.fillStyle = b.c; rr(g, x, y, w, h, h / 2); g.fill(); g.shadowColor = b.crack; g.shadowBlur = 10;
+      g.strokeStyle = b.crack; g.globalAlpha = .75 + .25 * Math.sin(t / 12); g.lineWidth = 2.2; g.beginPath();
+      CRACK.forEach((o, i) => { const px = x + 8 + i * (w - 16) / (CRACK.length - 1), py = cy + o * h / 9; i ? g.lineTo(px, py) : g.moveTo(px, py); }); g.stroke(); break;
+    case 'pixel': { const n = Math.max(6, Math.round(w / 12)), s = w / n; for (let i = 0; i < n; i++) { g.fillStyle = b.cols[(i + ((t / 8) | 0)) % b.cols.length]; g.fillRect(x + i * s, y, s - 1, h); } break; }
+    case 'grad': { const gr = g.createLinearGradient(x, 0, x + w, 0); const off = b.anim ? Math.sin(t / 20) * .25 : 0;
+      b.cols.forEach((col, i) => gr.addColorStop(clamp(i / (b.cols.length - 1) + (i === 1 ? off : 0), 0, 1), col)); g.fillStyle = gr; rr(g, x, y, w, h, h / 2); g.fill(); break; }
+    case 'rainbow': { const gr = g.createLinearGradient(x, 0, x + w, 0); for (let i = 0; i <= 6; i++) gr.addColorStop(i / 6, hue(t, i * 60)); g.fillStyle = gr; rr(g, x, y, w, h, h / 2); g.fill(); break; }
+    case 'gold': { const gr = g.createLinearGradient(0, y, 0, y + h); gr.addColorStop(0, '#fff1b0'); gr.addColorStop(.5, '#f2c14e'); gr.addColorStop(1, '#b8862b'); g.fillStyle = gr; rr(g, x, y, w, h, h / 2); g.fill(); break; }
+    case 'royal': { g.fillStyle = '#7a0f2a'; rr(g, x - 2, y + h * .45, w + 4, h * .7, h * .3); g.fill();
+      const gr = g.createLinearGradient(0, y, 0, y + h); gr.addColorStop(0, '#fff6c8'); gr.addColorStop(.45, '#f2c14e'); gr.addColorStop(1, '#a8761f'); g.fillStyle = gr; rr(g, x, y, w, h * .8, 4); g.fill();
+      g.shadowBlur = 0; g.strokeStyle = 'rgba(122,74,10,.6)'; g.lineWidth = 1; g.beginPath();
+      for (let i = 0; i < 6; i++) { const px = x + w * (i + .5) / 6; g.moveTo(px - 4 * U, y + h * .4); g.quadraticCurveTo(px, y + h * .1, px + 4 * U, y + h * .4); } g.stroke();
+      ['#ff4f7b', '#3fa7ff', '#4cc38a', '#3fa7ff', '#ff4f7b'].forEach((col, i) => { g.fillStyle = col; g.save(); g.translate(x + w * (i + 1) / 6, y + h * .4); g.rotate(PI / 4); g.fillRect(-2.6 * U, -2.6 * U, 5.2 * U, 5.2 * U); g.restore(); }); break; }
+    case 'galaxy': case 'stars': { const gr = g.createLinearGradient(x, 0, x + w, 0);
+      if (b.t === 'galaxy') { gr.addColorStop(0, '#1b0b3a'); gr.addColorStop(.5, '#5b2aa8'); gr.addColorStop(1, '#1b0b3a'); }
+      else { gr.addColorStop(0, '#081233'); gr.addColorStop(.5 + Math.sin(t / 40) * .2, '#3a56c8'); gr.addColorStop(1, '#081233'); }
+      g.fillStyle = gr; rr(g, x, y, w, h, h / 2); g.fill(); g.shadowBlur = 0;
+      for (let i = 0; i < 12; i++) { const a = .4 + .6 * Math.abs(Math.sin(t / 15 + i)); g.fillStyle = `rgba(255,255,255,${a})`; const sx = x + 6 + ((i * 29) % Math.max(1, w - 12)), sy = y + 3 + ((i * 7) % Math.max(1, h - 6));
+        if (b.t === 'stars' && i % 3 === 0) { g.save(); g.globalCompositeOperation = 'lighter'; g.strokeStyle = `rgba(255,240,200,${a})`; g.lineWidth = 1; g.beginPath(); g.moveTo(sx - 4 * U, sy); g.lineTo(sx + 4 * U, sy); g.moveTo(sx, sy - 4 * U); g.lineTo(sx, sy + 4 * U); g.stroke(); g.restore(); }
+        circle(g, sx, sy, 1.2 * U); } break; }
+    case 'aurora': { const gr = g.createLinearGradient(x, 0, x + w, 0); for (let i = 0; i <= 4; i++) gr.addColorStop(i / 4, (i + ((t / 30) | 0)) % 2 ? '#50ffaa' : '#9b7bff');
+      g.fillStyle = gr; rr(g, x, y, w, h, h / 2); g.fill(); g.shadowBlur = 0; g.fillStyle = 'rgba(255,255,255,.35)'; rr(g, x + 6, y + 2, w - 12, 3, 2); g.fill(); break; }
+    case 'heart': { const gr = g.createLinearGradient(x, 0, x + w, 0); gr.addColorStop(0, '#ff8fb8'); gr.addColorStop(.5, '#ff4f7b'); gr.addColorStop(1, '#ff8fb8');
+      g.fillStyle = gr; rr(g, x, y, w, h, h / 2); g.fill(); g.shadowBlur = 0; const beat = 1 + .25 * Math.max(0, Math.sin(t / 6)) ** 8; g.fillStyle = '#fff'; heartPath(g, cx, cy, h * .55 * beat); g.fill(); break; }
+    case 'disco': { g.fillStyle = '#20202a'; rr(g, x, y, w, h, 4); g.fill(); g.shadowBlur = 0; const n = Math.max(6, Math.round(w / 14)), s = w / n;
+      for (let i = 0; i < n; i++) for (let j = 0; j < 2; j++) { const v = Math.sin(t / 7 + i * 1.3 + j * 2); g.fillStyle = v > .3 ? hue(t, i * 40 + j * 90, 65) : 'rgba(255,255,255,.08)'; g.fillRect(x + i * s + 1, y + j * h / 2 + 1, s - 2, h / 2 - 2); } break; }
+    case 'scales': g.fillStyle = b.c1; rr(g, x, y, w, h, h / 2); g.fill(); g.shadowBlur = 0; g.save(); rr(g, x, y, w, h, h / 2); g.clip(); g.strokeStyle = b.c2; g.lineWidth = 1.3;
+      for (let j = 0; j < 3; j++) for (let i = -1; i < w / 10 + 1; i++) { g.beginPath(); g.arc(x + i * 10 + (j % 2) * 5, y + j * h / 3, 5 * U, 0, PI); g.stroke(); } g.restore(); break;
+    case 'void': { g.fillStyle = '#030008'; rr(g, x, y, w, h, h / 2); g.fill(); g.shadowBlur = 0;
+      const gr = g.createLinearGradient(x, 0, x + w, 0), sh = (Math.sin(t / 25) + 1) / 2; gr.addColorStop(0, '#7a3dff'); gr.addColorStop(clamp(sh, .05, .95), '#ffb36b'); gr.addColorStop(1, '#7a3dff');
+      g.shadowColor = '#c9a0ff'; g.shadowBlur = 16 * U; g.strokeStyle = gr; g.lineWidth = 2.4 * U; rr(g, x, y, w, h, h / 2); g.stroke();
+      g.shadowBlur = 0; g.fillStyle = radial(g, 1, ['rgba(201,160,255,.35)', 'rgba(0,0,0,0)']); g.save(); g.translate(cx, cy); g.scale(w * .3, h * .5); circle(g, 0, 0, 1); g.restore(); break; }
+    case 'phoenix': { const gr = g.createLinearGradient(x, 0, x + w, 0), m = .5 + Math.sin(t / 15) * .2; gr.addColorStop(0, '#c2280a'); gr.addColorStop(m, '#ffd166'); gr.addColorStop(1, '#c2280a');
+      g.fillStyle = gr; rr(g, x, y, w, h, h / 2); g.fill(); g.shadowBlur = 0; g.save(); rr(g, x, y, w, h, h / 2); g.clip(); g.globalCompositeOperation = 'lighter'; g.strokeStyle = 'rgba(255,240,180,.55)'; g.lineWidth = 1.5;
+      const off = (t * .8) % 14; for (let i = -1; i < w / 14 + 1; i++) { const px = x + i * 14 + off; g.beginPath(); g.moveTo(px - 5, y + h * .2); g.lineTo(px, y + h * .6); g.lineTo(px + 5, y + h * .2); g.stroke(); } g.restore(); break; }
+    case 'glitch': { g.shadowBlur = 0; g.fillStyle = '#060a18'; rr(g, x, y, w, h, 3); g.fill();
+      const j = Math.sin(t / 3) > .75 ? rn(5 * U) : 0; g.globalCompositeOperation = 'lighter';
+      g.strokeStyle = 'rgba(255,61,245,.9)'; g.lineWidth = 2; rr(g, x + j - 1.5, y, w, h, 3); g.stroke();
+      g.strokeStyle = 'rgba(61,245,255,.9)'; rr(g, x - j + 1.5, y, w, h, 3); g.stroke();
+      g.fillStyle = 'rgba(255,255,255,.9)'; g.fillRect(x + 4, cy - .8, w - 8, 1.6);
+      for (let i = 0; i < 6; i++) { const bx = x + ((i * 47 + ((t / 4) | 0) * 13) % Math.max(1, w - 8)); g.fillStyle = i % 2 ? 'rgba(61,245,255,.7)' : 'rgba(255,61,245,.7)'; g.fillRect(bx, y + 2 + (i % 3) * (h - 4) / 3, 6 * U, 2 * U); }
+      g.globalCompositeOperation = 'source-over'; break; }
+  }
+  g.restore();
+  if (Pd.shine) { const sx = x + ((t * 2) % (w + 40)) - 20; g.save(); rr(g, x, y, w, h, h / 2); g.clip(); g.fillStyle = 'rgba(255,255,255,.55)'; g.fillRect(sx, y, 7 * U, h); g.restore(); }
+}
+
+// ----- Paddle effect library (drawn around the paddle) -----
+const colOf = (c, t, k = 0) => c === 'rainbow' ? hue(t, k, 65) : c;
+function padEffects(Pd, L) {
+  const ex = [...(Pd.ex || [])], fx = [...(Pd.amb || [])];
+  for (let i = 0; i < L - 1; i++) { const u = Pd.up && Pd.up[i]; if (u) { if (u.ex) ex.push(...u.ex); if (u.fx) fx.push(...u.fx); } }
+  return { ex, fx };
+}
+const BACK_FX = ['beam', 'halo', 'accretion', 'wings', 'flames', 'spikes', 'rainbowArc', 'trail', 'ring', 'comet', 'shield', 'spots', 'jets', 'clones'];
+function drawPadFx(g, list, P, phase) {
+  const { cx, cy, w, h, t, s } = P, top = cy - h / 2;
+  for (const a of list) {
+    const isBack = BACK_FX.includes(a.t);
+    if ((phase === 'back') !== isBack && !['accretion', 'orbit'].includes(a.t)) continue;
+    const col = colOf(a.col, t);
+    g.save();
+    switch (a.t) {
+      case 'beam': { const Hb = P.beamH || 220 * s; g.globalCompositeOperation = 'lighter'; g.globalAlpha = .3 + .1 * Math.sin(t / 14);
+        const gr = g.createLinearGradient(0, top, 0, top - Hb); gr.addColorStop(0, col); gr.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = gr;
+        g.beginPath(); g.moveTo(cx - w * .45, top); g.lineTo(cx + w * .45, top); g.lineTo(cx + w * .2, top - Hb); g.lineTo(cx - w * .2, top - Hb); g.fill(); break; }
+      case 'halo': g.globalCompositeOperation = 'lighter'; g.strokeStyle = col; g.shadowColor = col; g.shadowBlur = 10 * s; g.globalAlpha = .75; g.lineWidth = 2 * s;
+        g.setLineDash([5 * s, 7 * s]); g.lineDashOffset = -t * .8; g.beginPath(); g.ellipse(cx, cy, w * .62, Math.max(h * 1.6, 14 * s), 0, 0, TAU); g.stroke(); break;
+      case 'accretion': { g.globalCompositeOperation = 'lighter'; const n = 56, rx = w * .72, ry = Math.max(h * 1.9, 16 * s);
+        for (let i = 0; i < n; i++) { const an = i / n * TAU + t * .05, sn = Math.sin(an); if ((phase === 'front') !== (sn > 0)) continue;
+          g.fillStyle = a.cols[i % a.cols.length]; g.globalAlpha = .35 + .5 * Math.abs(Math.cos(an)); circle(g, cx + Math.cos(an) * rx, cy + sn * ry, (sn > 0 ? 2.4 : 1.4) * s); }
+        if (phase === 'back') { g.globalAlpha = .5; g.strokeStyle = a.cols[0]; g.lineWidth = 1.2 * s; g.beginPath(); g.ellipse(cx, cy, rx * .82, ry * .8, 0, 0, TAU); g.stroke(); } break; }
+      case 'orbit': { const n = a.n || 3;
+        for (let i = 0; i < n; i++) { const an = t / 14 + i * TAU / n, sn = Math.sin(an); if ((phase === 'front') !== (sn > 0)) continue;
+          const ox = cx + Math.cos(an) * w * .62, oy = cy + sn * Math.max(h * 1.5, 14 * s), c2 = colOf(a.col, t, i * 60);
+          g.globalCompositeOperation = 'lighter'; g.fillStyle = c2; g.shadowColor = c2; g.shadowBlur = 10 * s;
+          if (a.sq) g.fillRect(ox - 2.6 * s, oy - 2.6 * s, 5.2 * s, 5.2 * s);
+          else if (a.heart) { heartPath(g, ox, oy, 6 * s); g.fill(); }
+          else if (a.star) { starPath(g, ox, oy, 5 * s, t / 10); g.fill(); }
+          else if (a.coin) { g.globalCompositeOperation = 'source-over'; g.save(); g.translate(ox, oy); g.scale(Math.max(.25, Math.abs(Math.cos(t / 9 + i))), 1); g.fillStyle = '#e09b17'; circle(g, 0, 0, 4.5 * s); g.fillStyle = '#ffd966'; circle(g, 0, 0, 3.3 * s); g.restore(); }
+          else circle(g, ox, oy, 2.8 * s); } break; }
+      case 'wings': { g.globalCompositeOperation = 'lighter'; const flap = Math.sin(t / 7) * .22;
+        for (const side of [-1, 1]) { const bx = cx + side * w * .47, by = cy - h * .1;
+          for (let k = 0; k < 5; k++) { const L = h * (4.2 - k * .5) * (a.bat ? 1.1 : 1), an = -PI / 2 + side * (.55 + k * .26 + flap);
+            const tx = bx + Math.cos(an) * L, ty = by + Math.sin(an) * L, nx = -Math.sin(an) * h * .38, ny = Math.cos(an) * h * .38;
+            const gr = g.createLinearGradient(bx, by, tx, ty); gr.addColorStop(0, a.cols[0]); gr.addColorStop(1, a.cols[1]);
+            g.globalAlpha = .75 - k * .08; g.fillStyle = gr; g.shadowColor = a.cols[0]; g.shadowBlur = 10 * s; g.beginPath(); g.moveTo(bx, by);
+            g.quadraticCurveTo((bx + tx) / 2 + nx, (by + ty) / 2 + ny, tx, ty); g.quadraticCurveTo((bx + tx) / 2 - nx * (a.bat ? .2 : .6), (by + ty) / 2 - ny * (a.bat ? .2 : .6), bx, by); g.fill(); } } break; }
+      case 'flames': { g.globalCompositeOperation = 'lighter'; const n = Math.max(5, Math.round(w / 11));
+        for (let i = 0; i < n; i++) { const fx = cx - w / 2 + (i + .5) * w / n, fh = h * (1.1 + .9 * Math.abs(Math.sin(t / 5 + i * 1.7))), sw = w / n * .6;
+          const gr = g.createLinearGradient(0, top, 0, top - fh); gr.addColorStop(0, a.cols[0]); gr.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = gr; g.globalAlpha = .85;
+          g.beginPath(); g.moveTo(fx - sw, top + 1); g.quadraticCurveTo(fx - sw * .4, top - fh * .6, fx + Math.sin(t / 3 + i) * 3 * s, top - fh); g.quadraticCurveTo(fx + sw * .4, top - fh * .6, fx + sw, top + 1); g.fill(); } break; }
+      case 'spikes': { g.fillStyle = col; g.shadowColor = col; g.shadowBlur = 12 * s; const n = 7;
+        for (let i = 0; i < n; i++) { const fx = cx - w * .42 + i * w * .84 / (n - 1), sh = h * (.7 + .8 * ((i * 37) % 10) / 10) * (1 + .1 * Math.sin(t / 10 + i)), sw = 3.5 * s;
+          g.globalAlpha = .8; g.beginPath(); g.moveTo(fx - sw, top + 1); g.lineTo(fx, top - sh); g.lineTo(fx + sw, top + 1); g.fill(); } break; }
+      case 'rainbowArc': { g.globalAlpha = .55; g.lineWidth = 2.2 * s; for (let i = 0; i < 6; i++) { g.strokeStyle = RAINBOW[i]; g.beginPath(); g.arc(cx, cy + h * .4, w * .62 - i * 2.4 * s, PI, TAU); g.stroke(); } break; }
+      case 'trail': { const hi = P.hist || []; g.globalCompositeOperation = 'lighter';
+        for (let i = 0; i < hi.length; i++) { const k = (i + 1) / hi.length; g.globalAlpha = k * .22; g.fillStyle = colOf(a.col, t, i * 30); rr(g, hi[i] - w / 2, top, w, h, h / 2); g.fill(); } break; }
+      case 'clones': { const off = w * .9 + Math.sin(t / 20) * 6 * s; g.globalAlpha = .28 + .1 * Math.sin(t / 5); g.globalCompositeOperation = 'lighter';
+        for (const side of [-1, 1]) { g.strokeStyle = side < 0 ? '#ff3df5' : '#3df5ff'; g.lineWidth = 1.5 * s; rr(g, cx + side * off - w * .35, top, w * .7, h, 3); g.stroke(); } break; }
+      case 'ring': for (let k = 0; k < 2; k++) { const ph = ((t + k * 30) % 60) / 60; g.globalAlpha = (1 - ph) * .7; g.strokeStyle = colOf(a.col, t, k * 90); g.lineWidth = 2 * s;
+        g.beginPath(); g.ellipse(cx, cy, w * .5 * (1 + ph * 1.1), h * (1 + ph * 2.6), 0, 0, TAU); g.stroke(); } break;
+      case 'comet': { const dir = P.vx >= 0 ? -1 : 1, L = w * .55; g.globalCompositeOperation = 'lighter';
+        for (const side of [-1, 1]) { const ex = cx + side * w / 2, gr = g.createLinearGradient(ex, 0, ex + dir * L, 0); gr.addColorStop(0, col); gr.addColorStop(1, 'rgba(0,0,0,0)');
+          g.globalAlpha = .6; g.fillStyle = gr; g.beginPath(); g.moveTo(ex, cy - h * .45); g.lineTo(ex + dir * L, cy); g.lineTo(ex, cy + h * .45); g.fill(); } break; }
+      case 'shield': { g.globalAlpha = .14 + .05 * Math.sin(t / 15); g.fillStyle = col; g.beginPath(); g.ellipse(cx, top, w * .58, w * .32, 0, PI, TAU); g.fill();
+        g.globalAlpha = .55; g.strokeStyle = col; g.lineWidth = 1.5 * s; g.beginPath(); g.ellipse(cx, top, w * .58, w * .32, 0, PI, TAU); g.stroke();
+        const sa = PI + ((t / 60) % 1) * PI; g.globalAlpha = .9; g.fillStyle = '#ffffff'; circle(g, cx + Math.cos(sa) * w * .58, top + Math.sin(sa) * w * .32, 2 * s); break; }
+      case 'spots': { g.globalCompositeOperation = 'lighter'; const Hb = P.beamH || 220 * s;
+        for (let i = 0; i < 3; i++) { const an = -PI / 2 + Math.sin(t / 40 + i * 2.1) * .6, ex = cx + Math.cos(an) * Hb, ey = top + Math.sin(an) * Hb, nx = -Math.sin(an) * Hb * .12, ny = Math.cos(an) * Hb * .12;
+          const gr = g.createLinearGradient(cx, top, ex, ey); gr.addColorStop(0, hue(t, i * 120, 65)); gr.addColorStop(1, 'rgba(0,0,0,0)'); g.globalAlpha = .28; g.fillStyle = gr;
+          g.beginPath(); g.moveTo(cx, top); g.lineTo(ex + nx, ey + ny); g.lineTo(ex - nx, ey - ny); g.fill(); } break; }
+      case 'jets': { g.globalCompositeOperation = 'lighter'; const Hb = (P.beamH || 220 * s) * .8;
+        for (const d of [-1, 1]) { const gr = g.createLinearGradient(0, cy, 0, cy + d * Hb); gr.addColorStop(0, col); gr.addColorStop(1, 'rgba(0,0,0,0)'); g.globalAlpha = .45 + .2 * Math.sin(t / 6);
+          g.fillStyle = gr; const ww = 4 * s + Math.sin(t / 4) * 1.5 * s; g.fillRect(cx - ww / 2, Math.min(cy, cy + d * Hb), ww, Hb); } break; }
+      case 'arc': if (t % 22 < 15) { g.globalCompositeOperation = 'lighter'; g.strokeStyle = col; g.shadowColor = col; g.shadowBlur = 10 * s; g.lineWidth = 1.6 * s;
+        zig(g, cx - w * .48, top, cx + w * .48, top, 8, 9 * s); g.globalAlpha = .5; g.lineWidth = 1; zig(g, cx - w * .4, top - 3 * s, cx + w * .3, top - 6 * s, 6, 7 * s); } break;
+      case 'flares': { g.globalCompositeOperation = 'lighter'; g.strokeStyle = col; g.lineWidth = 1.4 * s; g.shadowColor = col; g.shadowBlur = 8 * s;
+        [-.5, .5].forEach((k, i) => { const L = (5 + 4 * Math.sin(t / 7 + i * 2)) * s, fx = cx + k * w, fy = cy; g.globalAlpha = .9; g.beginPath(); g.moveTo(fx - L * 1.6, fy); g.lineTo(fx + L * 1.6, fy); g.moveTo(fx, fy - L); g.lineTo(fx, fy + L); g.stroke(); }); break; }
+      case 'jewels': { g.globalCompositeOperation = 'lighter'; [1, 2, 3, 4, 5].forEach(i => { const v = Math.max(0, Math.sin(t / 9 + i * 1.3)); if (v < .6) return; const fx = cx - w / 2 + w * i / 6, fy = top + h * .4, L = 6 * s * v;
+        g.strokeStyle = '#ffffff'; g.lineWidth = 1.2 * s; g.globalAlpha = v; g.beginPath(); g.moveTo(fx - L, fy); g.lineTo(fx + L, fy); g.moveTo(fx, fy - L); g.lineTo(fx, fy + L); g.stroke(); }); break; }
+      case 'crown': { const cw = Math.max(h * 1.6, 22 * s), ch = cw * .55, bx = cx - cw / 2, by = top - 3 * s; const gr = g.createLinearGradient(0, by - ch, 0, by); gr.addColorStop(0, '#ffffff'); gr.addColorStop(1, col);
+        g.fillStyle = gr; g.shadowColor = col; g.shadowBlur = 12 * s; g.beginPath(); g.moveTo(bx, by); g.lineTo(bx, by - ch * .55); g.lineTo(bx + cw * .25, by - ch * .3); g.lineTo(cx, by - ch); g.lineTo(bx + cw * .75, by - ch * .3); g.lineTo(bx + cw, by - ch * .55); g.lineTo(bx + cw, by); g.fill();
+        g.shadowBlur = 0; g.fillStyle = '#ff4f7b'; circle(g, cx, by - ch * .3, 1.8 * s); g.fillStyle = '#3fa7ff'; circle(g, bx + cw * .22, by - ch * .2, 1.4 * s); circle(g, bx + cw * .78, by - ch * .2, 1.4 * s); break; }
+      case 'leaves': { g.fillStyle = col; const n = Math.max(4, Math.round(w / 16)); for (let i = 0; i < n; i++) { const lx = cx - w / 2 + (i + .5) * w / n; g.save(); g.translate(lx, top);
+        g.rotate((i % 2 ? .7 : -.7) + Math.sin(t / 12 + i) * .25); g.beginPath(); g.ellipse(0, -4 * s, 2.6 * s, 5 * s, 0, 0, TAU); g.fill(); g.restore(); } break; }
+      case 'runes': { g.globalCompositeOperation = 'lighter'; g.strokeStyle = col; g.shadowColor = col; g.shadowBlur = 8 * s; g.lineWidth = 1.3 * s; const n = Math.max(3, Math.floor(w / 20));
+        for (let i = 0; i < n; i++) { const rx = cx - w / 2 + (i + .5) * w / n, k = 3 * s; g.globalAlpha = .45 + .55 * Math.max(0, Math.sin(t / 10 - i * .8)); g.beginPath(); g.moveTo(rx, cy - k * 1.3); g.lineTo(rx, cy + k * 1.3);
+          if (i % 3 === 0) { g.moveTo(rx, cy - k); g.lineTo(rx + k, cy - k * .2); } else if (i % 3 === 1) { g.moveTo(rx - k, cy - k); g.lineTo(rx + k, cy + k); } else { g.moveTo(rx, cy); g.lineTo(rx + k, cy - k); g.moveTo(rx, cy); g.lineTo(rx - k, cy - k); } g.stroke(); } break; }
+      case 'scan': { const sx = cx - w / 2 + ((t * 2.5) % w); g.globalCompositeOperation = 'lighter'; g.fillStyle = col; g.shadowColor = col; g.shadowBlur = 10 * s; g.globalAlpha = .85; g.fillRect(sx - 1, top - 2 * s, 2.2 * s, h + 4 * s); break; }
+      case 'shards': if (Math.sin(t / 2.7) > .55) { g.globalCompositeOperation = 'lighter'; for (let i = 0; i < 3; i++) { g.fillStyle = i % 2 ? 'rgba(61,245,255,.6)' : 'rgba(255,61,245,.6)';
+        g.fillRect(cx - w / 2 + rn(w * .2) + R() * w * .6, top + R() * h - h * .8, w * (.15 + R() * .25), 2.5 * s); } } break;
+      case 'constellation': { const pts = [[-.42, -1.6], [-.22, -2.4], [0, -1.9], [.2, -2.7], [.4, -1.7]].map(([a2, b2]) => [cx + a2 * w, top + b2 * h * .9]);
+        g.globalCompositeOperation = 'lighter'; g.strokeStyle = col; g.globalAlpha = .35; g.lineWidth = 1 * s; g.beginPath(); pts.forEach((p2, i) => i ? g.lineTo(p2[0], p2[1]) : g.moveTo(p2[0], p2[1])); g.stroke();
+        pts.forEach((p2, i) => { g.globalAlpha = .5 + .5 * Math.abs(Math.sin(t / 12 + i)); g.fillStyle = col; circle(g, p2[0], p2[1], 1.8 * s); }); break; }
+    }
+    g.restore();
+  }
+}
+// Legendary signature bursts on each bounce
+let sigBolts = [];
+function padSignature(sig, x, y) {
+  switch (sig) {
+    case 'bolt': sigBolts.push({ x, y, life: 1 }); break;
+    case 'starburst': for (let i = 0; i < 12; i++) { const a = i * TAU / 12; P({ x, y, vx: Math.cos(a) * 4 * U, vy: Math.sin(a) * 4 * U - 1, decay: .035, size: 4 * U, col: '#ffffff', glow: true, grav: 0, shape: 'star', rot: a, vr: .1 }); } break;
+    case 'coins': for (let i = 0; i < 10; i++) P({ x, y, vx: rn(5) * U, vy: (-4 - R() * 4) * U, decay: .02, size: 3.5 * U, col: pick(['#ffd966', '#f5b72e', '#fff1b0']), grav: .18, shape: 'ell', rot: R() * 6, vr: .3 }); break;
+    case 'fire': for (let i = 0; i < 18; i++) P({ x: x + rn(30 * U), y, vx: rn(2) * U, vy: (-3 - R() * 5) * U, decay: .03, size: (4 + R() * 4) * U, col: pick(FIRE), glow: true, grav: -.02, shrink: true }); break;
+    case 'phoenix': for (let i = 0; i < 30; i++) { const a = -PI / 2 + rn(1.6); P({ x, y, vx: Math.cos(a) * (3 + R() * 5) * U, vy: Math.sin(a) * (3 + R() * 6) * U, decay: .025, size: (3 + R() * 4) * U, col: pick([...FIRE, '#ffffff']), glow: true, grav: .02, shrink: true }); } break;
+    case 'implode': for (let i = 0; i < 20; i++) { const a = R() * TAU, d = (40 + R() * 30) * U; P({ x: x + Math.cos(a) * d, y: y + Math.sin(a) * d, vx: -Math.cos(a) * d / 14, vy: -Math.sin(a) * d / 14, decay: .07, size: 2 * U, col: pick(PURP), glow: true, grav: 0 }); } break;
+    case 'glitch': for (let i = 0; i < 14; i++) P({ x: x + rn(60 * U), y: y - R() * 40 * U, decay: .06, size: (4 + R() * 6) * U, col: pick(['#3df5ff', '#ff3df5', '#ffffff']), glow: true, grav: 0, shape: 'sq' }); G.flash = .12; break;
+    case 'hearts': for (let i = 0; i < 6; i++) P({ x: x + rn(30 * U), y, vx: rn(2) * U, vy: (-2 - R() * 2) * U, decay: .02, size: (7 + R() * 4) * U, col: pick(['#ff4f7b', '#ff8fb8']), glow: true, grav: -.01, shape: 'heart' }); break;
+    case 'petals': for (let i = 0; i < 14; i++) P({ x, y, vx: rn(6) * U, vy: (-2 - R() * 3) * U, decay: .015, size: (3 + R() * 2) * U, col: pick(PINK), grav: .03, shape: 'ell', rot: R() * 6, vr: .15 }); break;
+    case 'splat': for (let i = 0; i < 12; i++) P({ x, y, vx: rn(6) * U, vy: (-2 - R() * 4) * U, decay: .025, size: (3 + R() * 3) * U, col: pick(GREENC), grav: .15 }); break;
+    case 'splash': for (let i = 0; i < 18; i++) { const a = -PI / 2 + rn(2.2); P({ x, y, vx: Math.cos(a) * (2 + R() * 4) * U, vy: Math.sin(a) * (3 + R() * 4) * U, decay: .025, size: (2 + R() * 2) * U, col: pick(['#bfe9ff', '#5fc8ff', '#ffffff']), grav: .2 }); } break;
+  }
+}
+function drawSigBolts(g) {
+  if (!sigBolts.length) return;
+  g.save(); g.globalCompositeOperation = 'lighter'; g.strokeStyle = '#e6f8ff'; g.shadowColor = '#5ad1ff'; g.shadowBlur = 18;
+  for (const b of sigBolts) { g.globalAlpha = b.life; g.lineWidth = 3 * U * b.life; zig(g, b.x + rn(60), 0, b.x, b.y, 10, 30 * U); b.life -= .12; }
+  g.restore(); sigBolts = sigBolts.filter(b => b.life > 0);
+}
+
+
+// ================= Richer world layers (legendary upgrades) =================
+const gauss = () => (R() + R() + R() - 1.5) / 1.5;
+const auroraY = (x, t, h) => h * (.26 + .05 * Math.sin(x / 90 + t / 70) + .025 * Math.sin(x / 31 + t / 45));
+Object.assign(FEAT, {
+  milkyway: { init: (w, h) => N(Math.round(260 * Math.min(1.5, w / 390)), () => { const u = R(), off = gauss() * .08; return { x: (-.1 + 1.2 * u) * w, y: (.78 - .72 * u + off) * h, r: .4 + R() * 1.1, o: R() * 6 }; }),
+    draw: (g, s, w, h, t) => { g.save(); g.globalCompositeOperation = 'lighter';
+      for (let i = 0; i < 6; i++) { const u = (i + .5) / 6, x = (-.1 + 1.2 * u) * w, y = (.78 - .72 * u) * h, r = Math.max(w, h) * .2;
+        const gr = g.createRadialGradient(x, y, 0, x, y, r); gr.addColorStop(0, i % 2 ? 'rgba(150,120,255,.14)' : 'rgba(120,180,255,.12)'); gr.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = gr; g.fillRect(x - r, y - r, r * 2, r * 2); }
+      for (const a of s) { g.globalAlpha = .35 + .4 * Math.abs(Math.sin(t / 50 + a.o)); g.fillStyle = '#ffffff'; circle(g, a.x, a.y, a.r); } g.restore(); } },
+  flares: { init: (w, h, p) => N(p.n, () => ({ x: R() * w, y: R() * h * .6, o: R() * 6, k: .6 + R() * .8 })),
+    draw: (g, s, w, h, t, p) => { g.save(); g.globalCompositeOperation = 'lighter'; g.strokeStyle = p.col; g.lineWidth = 1.2;
+      for (const f of s) { const L = (4 + 7 * Math.max(0, Math.sin(t / 30 + f.o))) * f.k * Math.min(1.6, w / 390); g.globalAlpha = .9; g.beginPath(); g.moveTo(f.x - L * 1.8, f.y); g.lineTo(f.x + L * 1.8, f.y); g.moveTo(f.x, f.y - L * 1.8); g.lineTo(f.x, f.y + L * 1.8); g.stroke(); g.fillStyle = '#fff'; circle(g, f.x, f.y, 1.4); }
+      g.restore(); } },
+  fallingstars: { init: () => ({ list: [], sparks: [], next: 50 }),
+    bounce: (s, w, h) => s.list.push({ x: w * (.3 + R() * .8), y: -10, v: (3 + R() * 2) * h / 800, c: pick(['#ffffff', '#ffe9b0', '#bfe0ff']) }),
+    draw: (g, s, w, h) => { s.next--; if (s.next <= 0) { s.next = 70 + R() * 110; FEAT.fallingstars.bounce(s, w, h); }
+      g.save(); g.globalCompositeOperation = 'lighter';
+      for (const st of s.list) { st.x -= st.v * .7; st.y += st.v; const tx = st.x + st.v * .7 * 22, ty = st.y - st.v * 22;
+        const gr = g.createLinearGradient(st.x, st.y, tx, ty); gr.addColorStop(0, st.c); gr.addColorStop(1, 'rgba(0,0,0,0)'); g.strokeStyle = gr; g.lineWidth = 3; g.lineCap = 'round';
+        g.beginPath(); g.moveTo(st.x, st.y); g.lineTo(tx, ty); g.stroke(); g.fillStyle = st.c; g.shadowColor = st.c; g.shadowBlur = 14; starPath(g, st.x, st.y, 5, st.y / 20); g.fill(); g.shadowBlur = 0;
+        if (st.y > h * .82) { st.done = true; for (let i = 0; i < 16; i++) { const a = R() * TAU, sp = 1 + R() * 2.5; s.sparks.push({ x: st.x, y: st.y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp - 1, l: 1, c: st.c }); } } }
+      s.list = s.list.filter(x => !x.done);
+      for (const p of s.sparks) { p.x += p.vx; p.y += p.vy; p.vy += .05; p.l -= .025; g.globalAlpha = Math.max(0, p.l); g.fillStyle = p.c; circle(g, p.x, p.y, 1.6); }
+      s.sparks = s.sparks.filter(p => p.l > 0); g.restore(); } },
+  rainbowArc: { draw: (g, s, w, h) => { g.save(); g.globalAlpha = .3; g.lineWidth = Math.max(3, w * .022); RAINBOW.forEach((col, i) => { g.strokeStyle = col; g.beginPath(); g.arc(w * .5, h * .64, w * .62 - i * g.lineWidth, PI, TAU); g.stroke(); }); g.restore(); } },
+  islands: { init: (w, h) => N(3, (_, i) => ({ x: w * (.18 + .32 * i) + rn(w * .06), y: h * (.2 + R() * .28), s: .7 + R() * .45, o: R() * 6 })),
+    draw: (g, s, w, h, t) => { const k0 = Math.min(w, 700) / 390;
+      for (const is of s) { const k = k0 * is.s, x = is.x, y = is.y + Math.sin(t / 50 + is.o) * 6;
+        g.fillStyle = '#b9a0e8'; g.beginPath(); g.moveTo(x - 40 * k, y); g.quadraticCurveTo(x - 20 * k, y + 30 * k, x, y + 46 * k); g.quadraticCurveTo(x + 22 * k, y + 28 * k, x + 40 * k, y); g.fill();
+        g.fillStyle = '#9c86d4'; g.beginPath(); g.moveTo(x - 10 * k, y + 8 * k); g.lineTo(x, y + 46 * k); g.lineTo(x + 8 * k, y + 10 * k); g.fill();
+        const gr = g.createLinearGradient(x + 28 * k, y, x + 28 * k, y + 70 * k); gr.addColorStop(0, 'rgba(255,255,255,.8)'); gr.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = gr; g.fillRect(x + 26 * k, y + 2, 3 * k, 70 * k);
+        g.fillStyle = '#a8e6b0'; g.beginPath(); g.ellipse(x, y, 42 * k, 9 * k, 0, 0, TAU); g.fill();
+        g.fillStyle = '#8a6a9a'; g.fillRect(x - 12 * k, y - 16 * k, 2.5 * k, 14 * k); g.fillStyle = '#ffb6d9'; circle(g, x - 11 * k, y - 20 * k, 9 * k); circle(g, x - 4 * k, y - 16 * k, 6 * k);
+        g.fillStyle = '#fff6c8'; circle(g, x + 12 * k, y - 4 * k, 2.2 * k); } } },
+  balloons: { init: (w, h, p) => N(p.n, () => ({ x: R() * w, y: R() * h + h * .2, s: .25 + R() * .3, c: pick(['#ffb6d9', '#b6e3ff', '#fff1a8', '#c9b6ff', '#b8f0c8']), o: R() * 6 })),
+    draw: (g, s, w, h, t) => { const k = Math.min(w, 700) / 390;
+      for (const b of s) { b.y -= b.s; const x = b.x + Math.sin(t / 60 + b.o) * 8; if (b.y < -40) { b.y = h + 40; b.x = R() * w; }
+        g.strokeStyle = 'rgba(255,255,255,.6)'; g.lineWidth = 1; g.beginPath(); g.moveTo(x, b.y + 11 * k); g.quadraticCurveTo(x + Math.sin(t / 20 + b.o) * 5, b.y + 22 * k, x, b.y + 32 * k); g.stroke();
+        g.fillStyle = b.c; g.beginPath(); g.ellipse(x, b.y, 8.5 * k, 11 * k, 0, 0, TAU); g.fill(); g.fillStyle = 'rgba(255,255,255,.55)'; g.beginPath(); g.ellipse(x - 3 * k, b.y - 4 * k, 2 * k, 3.5 * k, -.4, 0, TAU); g.fill(); } } },
+  softbokeh: { init: (w, h, p) => N(p.n, () => ({ x: R() * w, y: R() * h, r: (10 + R() * 26) * Math.min(1.6, w / 390), s: .1 + R() * .25, c: pick(p.cols), o: R() * 6 })),
+    draw: (g, s, w, h, t) => { for (const b of s) { b.y -= b.s; if (b.y < -40) { b.y = h + 40; b.x = R() * w; } g.globalAlpha = .16 + .08 * Math.sin(t / 30 + b.o); g.fillStyle = b.c; circle(g, b.x, b.y, b.r); } g.globalAlpha = 1; } },
+  bounceburst: { init: () => ({ list: [] }),
+    bounce: (s, w, h, p) => { const x = w * (.15 + R() * .7), y = h * (.15 + R() * .35); for (let i = 0; i < 14; i++) { const a = i * TAU / 14; s.list.push({ x, y, vx: Math.cos(a) * 2, vy: Math.sin(a) * 2, l: 1, c: pick(p.cols), r: R() * 6 }); } },
+    draw: (g, s, w, h, t, p) => { g.save(); for (const q of s.list) { q.x += q.vx; q.y += q.vy; q.vx *= .97; q.vy *= .97; q.l -= .018; g.globalAlpha = Math.max(0, q.l); g.fillStyle = q.c;
+      if (p.shape === 'heart') { heartPath(g, q.x, q.y, 9); g.fill(); } else { starPath(g, q.x, q.y, 6, q.r); g.fill(); } } g.restore(); s.list = s.list.filter(q => q.l > 0); } },
+  godrays: { draw: (g, s, w, h, t, p) => { const ox = w * .5, oy = -h * .08, Lr = h * 1.15; g.save(); g.globalCompositeOperation = 'lighter';
+    const gr = g.createRadialGradient(ox, oy, 0, ox, oy, Lr); gr.addColorStop(0, p.col); gr.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = gr;
+    for (let i = 0; i < 9; i++) { const a = PI * (.18 + i * .08) + Math.sin(t / 200 + i) * .04, wd = .03 + .015 * Math.sin(t / 60 + i); g.globalAlpha = .6 + .4 * Math.sin(t / 40 + i * 1.3);
+      g.beginPath(); g.moveTo(ox, oy); g.lineTo(ox + Math.cos(a - wd) * Lr, oy + Math.sin(a - wd) * Lr); g.lineTo(ox + Math.cos(a + wd) * Lr, oy + Math.sin(a + wd) * Lr); g.fill(); }
+    g.restore(); } },
+  temple: { draw: (g, s, w, h, t, p) => { const base = h * .86, topC = h * .6, cw = w * .045, x0 = w * .14, x1 = w * .86, n = 6;
+    g.save(); g.fillStyle = p.col; g.strokeStyle = p.rim; g.lineWidth = 1.2;
+    const dr = w * .16, dy = topC - h * .055; g.beginPath(); g.arc(w / 2, dy, dr, PI, TAU); g.fill(); g.globalAlpha = .55; g.stroke(); g.globalAlpha = 1;
+    g.fillRect(w / 2 - 1.5, dy - dr - h * .06, 3, h * .06); g.save(); g.shadowColor = p.rim; g.shadowBlur = 16; g.fillStyle = p.rim; circle(g, w / 2, dy - dr - h * .065, 3); g.restore();
+    g.beginPath(); g.moveTo(x0 - cw, topC - h * .03); g.lineTo(w / 2, topC - h * .1); g.lineTo(x1 + cw, topC - h * .03); g.fill(); g.globalAlpha = .6; g.stroke(); g.globalAlpha = 1;
+    g.fillRect(x0 - cw, topC - h * .03, x1 - x0 + cw * 2, h * .03);
+    const door = g.createRadialGradient(w / 2, base - h * .07, 0, w / 2, base - h * .07, w * .16); door.addColorStop(0, `rgba(255,220,130,${.75 + .2 * Math.sin(t / 25)})`); door.addColorStop(1, 'rgba(255,200,90,0)');
+    g.fillStyle = door; g.fillRect(w * .3, topC, w * .4, base - topC); g.fillStyle = p.col;
+    for (let i = 0; i < n; i++) { const cx2 = x0 + i * (x1 - x0) / (n - 1); g.fillRect(cx2 - cw / 2, topC, cw, base - topC); g.fillRect(cx2 - cw * .8, topC, cw * 1.6, h * .012); g.fillRect(cx2 - cw * .8, base - h * .012, cw * 1.6, h * .012);
+      g.save(); g.globalCompositeOperation = 'lighter'; g.globalAlpha = .4 + .25 * Math.sin(t / 30 + i); g.fillStyle = p.rim; g.fillRect(cx2 - cw / 2, topC, 1.5, base - topC); g.restore(); }
+    for (let k = 0; k < 3; k++) g.fillRect(x0 - cw * (1.5 + k), base + k * h * .018, x1 - x0 + cw * (3 + 2 * k), h * .018);
+    g.restore(); } },
+  coinrain: { init: (w, h, p) => N(p.n, () => ({ x: R() * w, y: R() * h, s: .8 + R() * 1.2, o: R() * 6 })),
+    bounce: (s, w) => { const x0 = R() * w; s.slice(0, 6).forEach((c, i) => { c.x = x0 + rn(80); c.y = -10 - i * 14; }); },
+    draw: (g, s, w, h, t) => { const k = Math.min(w, 700) / 390; for (const c of s) { c.y += c.s; if (c.y > h + 10) { c.y = -10; c.x = R() * w; }
+      g.save(); g.translate(c.x, c.y); g.scale(Math.max(.15, Math.abs(Math.cos(t / 12 + c.o))), 1); g.shadowColor = '#ffd57a'; g.shadowBlur = 8; g.fillStyle = '#e09b17'; circle(g, 0, 0, 5.5 * k); g.shadowBlur = 0; g.fillStyle = '#ffd966'; circle(g, 0, 0, 4 * k); g.restore(); } } },
+  geysers: { init: () => ({ list: [], next: 80 }),
+    bounce: (s, w, h, p, x) => FEAT.geysers.erupt(s, w, h, p, x == null ? R() * w : x),
+    erupt: (s, w, h, p, x) => { const sc = h / 800; for (let i = 0; i < 36; i++) s.list.push({ x: x + rn(10), y: h * p.y, vx: rn(2.6) * sc, vy: -(6 + R() * 7) * sc, l: 1, r: 1.5 + R() * 3, c: pick(['#ffe08a', '#ffb347', '#ff6a1a', '#ff3d1a']) }); },
+    draw: (g, s, w, h, t, p) => { s.next--; if (s.next <= 0) { s.next = 140 + R() * 200; FEAT.geysers.erupt(s, w, h, p, w * (.1 + R() * .8)); }
+      const sc = h / 800; g.save(); g.globalCompositeOperation = 'lighter';
+      for (const q of s.list) { q.x += q.vx; q.y += q.vy; q.vy += .16 * sc; q.l -= .012; if (q.y > h * p.y + 4) q.l = 0; g.globalAlpha = Math.max(0, q.l); g.fillStyle = q.c; circle(g, q.x, q.y, q.r); }
+      s.list = s.list.filter(q => q.l > 0); g.restore(); } },
+  auroracurtain: { init: () => ({ boost: 0 }),
+    bounce: s => { s.boost = 1; },
+    draw: (g, s, w, h, t, p) => { s.boost *= .97; g.save(); g.globalCompositeOperation = 'lighter'; const step = 5;
+      for (let x = 0; x <= w; x += step) { const y0 = auroraY(x, t, h), L = h * (.16 + .07 * Math.sin(x / 47 + t / 33)), m = (Math.sin(x / 120 + t / 90) + 1) / 2, col = p.cols[Math.min(p.cols.length - 1, Math.floor(m * p.cols.length))];
+        const gr = g.createLinearGradient(0, y0 + 4, 0, y0 - L); gr.addColorStop(0, col); gr.addColorStop(1, 'rgba(0,0,0,0)');
+        g.globalAlpha = (.3 + .1 * Math.sin(x / 23 + t / 15)) * (1 + s.boost * 1.4); g.fillStyle = gr; g.fillRect(x, y0 - L, step, L + 4);
+        g.globalAlpha *= .5; g.fillStyle = col; g.fillRect(x, y0, step, 3); }
+      g.restore(); } },
+  aurorareflect: { draw: (g, s, w, h, t, p) => { const ly = h * p.y; g.save(); g.globalCompositeOperation = 'lighter'; const step = 6;
+    for (let x = 0; x <= w; x += step) { const y0 = auroraY(x, t, h), m = (Math.sin(x / 120 + t / 90) + 1) / 2, col = p.cols[Math.min(p.cols.length - 1, Math.floor(m * p.cols.length))], L = (ly - y0) * .45;
+      const gr = g.createLinearGradient(0, ly, 0, ly + L); gr.addColorStop(0, col); gr.addColorStop(1, 'rgba(0,0,0,0)'); g.globalAlpha = .1 + .05 * Math.sin(x / 20 + t / 12); g.fillStyle = gr;
+      g.fillRect(x + Math.sin(t / 10 + x) * 1.5, ly, step - 1, L); }
+    g.restore(); } },
+  pines: { draw: (g, s, w, h, t, p) => { g.fillStyle = p.col; const base = h * p.base;
+    for (let i = 0; i < p.n; i++) { const x = (i + .5) * w / p.n + Math.sin(i * 7) * 10, th = h * (.05 + ((i * 37) % 10) / 10 * .05), tw = th * .45;
+      for (let k = 0; k < 3; k++) { const yb = base - th * k * .28; g.beginPath(); g.moveTo(x - tw * (1 - k * .22), yb); g.lineTo(x, yb - th * .5); g.lineTo(x + tw * (1 - k * .22), yb); g.fill(); } g.fillRect(x - 1, base - 2, 2, 4); } } },
+});
+// a few existing layers react to bounces too
+FEAT.lightning.bounce = s => { if (R() < .35) s.next = 0; };
+FEAT.fireworks.bounce = (s, w, h) => s.list.push({ x: w * (.15 + R() * .7), y: h * .8, ty: h * (.12 + R() * .3), c: R() * 360 });
+FEAT.meteors.bounce = (s, w, h) => s.list.push({ x: R() * w * 1.2, y: R() * h * .4, l: 1 });
+FEAT.embers.bounce = undefined;
+
+const WORLD_UPGRADES = {
+  starfall: [['sky', ['#05071e', '#1a1c50', '#3b2c6c']], ['milkyway', {}], ['stars', { n: 110 }], ['flares', { n: 10, col: '#fff4d6' }], ['fallingstars', {}], ['hills', { col: '#0e0b26', base: .84, amp: .025 }], ['pines', { col: '#07061a', base: .89, n: 9 }]],
+  dreamland: [['sky', ['#8f7ff0', '#f3b2d6', '#ffd7b0']], ['rainbowArc', {}], ['softbokeh', { n: 22, cols: ['#ffffff', '#ffe1f2', '#e1ecff'] }], ['islands', {}], ['balloons', { n: 7 }],
+    ['clouds', { n: 5, y: .85, col: 'rgba(255,255,255,.6)' }], ['bounceburst', { shape: 'heart', cols: ['#ff8fb8', '#ffffff', '#ffd6e8', '#c9b6ff'] }], ['dust', { n: 25, col: '#ffffff' }]],
+  palace: [['sky', ['#140904', '#4a2508', '#a8661a']], ['godrays', { col: 'rgba(255,214,120,.22)' }], ['glow', { x: .5, y: .62, r: .5, col: 'rgba(255,190,80,.3)', pulse: true }],
+    ['temple', { col: '#1c0d04', rim: '#ffd57a' }], ['coinrain', { n: 14 }], ['embers', { n: 40, cols: ['#ffe9a0', '#ffd57a', '#ffffff'] }]],
+  inferno: [['sky', ['#080103', '#330604', '#6e1504']], ['glow', { x: .5, y: .85, r: .6, col: 'rgba(255,90,20,.45)', pulse: true }], ['meteors', { rate: .004 }], ['mountains', { col: '#1a0405', base: .66, amp: .14 }],
+    ['mountains', { col: '#0d0203', base: .76, amp: .1 }], ['lava', { y: .82 }], ['geysers', { y: .82 }], ['embers', { n: 60, cols: ['#ffcc33', '#ff8a28', '#ff5e1a'] }]],
+  northlake: [['sky', ['#010610', '#061a2c', '#0a2838']], ['stars', { n: 100, yMax: .55 }], ['meteors', { rate: .004 }], ['auroracurtain', { cols: ['#50ffaa', '#5ad1ff', '#b47bff'] }],
+    ['mountains', { col: '#030a12', base: .66, amp: .12 }], ['pines', { col: '#020609', base: .735, n: 14 }], ['lake', { y: .735, col: '#03101a', shim: ['#50ffaa', '#9b7bff', '#5ad1ff'] }],
+    ['aurorareflect', { y: .735, cols: ['#50ffaa', '#5ad1ff', '#b47bff'] }]],
+  aurora: [['sky', ['#030914', '#0a1d33', '#0f2b3d']], ['stars', { n: 80, yMax: .6 }], ['auroracurtain', { cols: ['#50ffaa', '#7fffd4', '#9b7bff'] }], ['mountains', { col: '#071019', base: .8, amp: .1 }]],
+};
+WORLDS.forEach(wd => { if (WORLD_UPGRADES[wd.id]) wd.f = WORLD_UPGRADES[wd.id]; });
+
+// ================= World upgrades (Level 2 and Level 3) =================
+// Each upgrade adds new layers; [layer, settings, position]. Higher levels also make every particle layer denser.
+const WORLD_UPS = {
+  arctic: [['Snowstorm', [['snow', { n: 60 }]]], ['Frozen aurora', [['auroracurtain', { cols: ['#bfefff', '#9fd0ff', '#ffffff'] }, 1]]]],
+  forest: [['Firefly swarm', [['fireflies', { n: 30, col: '#e6ff96' }]]], ['Moonlit sky', [['moon', { x: .76, y: .14, r: .07, col: '#f4f1e0' }, 1], ['flares', { n: 6, col: '#e6ff96' }, 2]]]],
+  sakura: [['Petal storm', [['petals', { n: 40, cols: ['rgba(255,190,215,.9)', 'rgba(255,230,240,.9)'] }]]], ['Floating lanterns', [['lanterns', { n: 10 }, 2]]]],
+  candy: [['Balloon party', [['balloons', { n: 7 }]]], ['Candy rainbow', [['rainbowArc', {}, 1], ['bounceburst', { shape: 'star', cols: ['#ff7eb6', '#7ed6ff', '#ffd23f'] }]]]],
+  desert: [['Shooting stars', [['meteors', { rate: .012 }, 2]]], ['Milky Way', [['milkyway', {}, 1]]]],
+  rainycity: [['Lightning', [['lightning', { every: 200 }, 1]]], ['Neon glow', [['bokeh', { n: 16, cols: ['#ff3df5', '#3df5ff', '#ffd27a'] }, 1]]]],
+  autumn: [['Leaf storm', [['leaves', { n: 40, cols: ['#e8590c', '#f59f00', '#c92a2a', '#ffd43b'] }]]], ['Golden rays', [['godrays', { col: 'rgba(255,220,150,.2)' }, 1]]]],
+  lanterns: [['More lanterns', [['lanterns', { n: 14 }]]], ['Fireworks', [['fireworks', {}, 1]]]],
+  dawn: [['Morning sparkle', [['dust', { n: 30, col: '#ffe7b0' }]]], ['Sun rays', [['godrays', { col: 'rgba(255,220,180,.2)' }, 1]]]],
+  reef: [['Jellyfish', [['jelly', { n: 4 }, 2]]], ['Glowing water', [['bokeh', { n: 14, cols: ['#7fe3ff', '#bfffe6'] }, 1]]]],
+  volcano: [['Lava fountains', [['geysers', { y: .86 }]]], ['Fire rain', [['meteors', { rate: .02 }, 1], ['bounceburst', { shape: 'star', cols: FIRE }]]]],
+  storm: [['Heavy rain', [['rain', { n: 90 }]]], ['Thunder flashes', [['lightning', { every: 120 }]]]],
+  space: [['Nebula clouds', [['nebula', { cols: ['rgba(255,80,180,.22)', 'rgba(80,140,255,.22)'] }, 1]]], ['Falling stars', [['fallingstars', {}]]]],
+  neoncity: [['Neon stars', [['stars', { n: 60, yMax: .55 }, 1], ['flares', { n: 6, col: '#ff9cf5' }, 2]]], ['Fireworks', [['fireworks', {}, 1]]]],
+  aurora: [['Shooting stars', [['meteors', { rate: .01 }, 1]]], ['Mirror lake', [['lake', { y: .84, col: '#04121c', shim: ['#50ffaa', '#9b7bff'] }], ['aurorareflect', { y: .84, cols: ['#50ffaa', '#7fffd4', '#9b7bff'] }]]]],
+  ocean: [['Jellyfish bloom', [['jelly', { n: 4 }]]], ['Glowing plankton', [['bokeh', { n: 16, cols: ['#7fe3ff', '#bfa0ff'] }, 1], ['dust', { n: 30, col: '#bff6ff' }]]]],
+  cyber: [['Data pulse', [['glow', { x: .5, y: .5, r: .6, col: 'rgba(61,255,140,.15)', pulse: true }, 1]]], ['Grid floor', [['grid', { col: '#3dff8c' }]]]],
+  nebula: [['Shooting stars', [['meteors', { rate: .01 }]]], ['Falling stars', [['flares', { n: 8, col: '#ffe9ff' }], ['fallingstars', {}]]]],
+  meteorshower: [['Star flares', [['flares', { n: 8, col: '#ffffff' }]]], ['Milky Way', [['milkyway', {}, 1]]]],
+  fireworks: [['Double fireworks', [['fireworks', {}]]], ['Golden flares', [['flares', { n: 8, col: '#ffe9b0' }, 2]]]],
+  crystalcave: [['Crystal glow', [['bokeh', { n: 16, cols: ['#c9a0ff', '#7fe3ff', '#ff9cf5'] }, 1]]], ['Cave spirits', [['fireflies', { n: 20, col: '#d8b4ff' }]]]],
+  thunderpeak: [['Purple aurora', [['auroracurtain', { cols: ['#b47bff', '#7a3dff', '#ff9cf5'] }, 1]]], ['Falling stars', [['fallingstars', {}, 2]]]],
+  cherrymoon: [['Lanterns', [['lanterns', { n: 10 }, 1]]], ['Love bursts', [['bounceburst', { shape: 'heart', cols: ['#ff8fb8', '#ffd6e8', '#ffffff'] }]]]],
+  hyperspace: [['Nebula', [['nebula', { cols: ['rgba(120,170,255,.2)', 'rgba(200,120,255,.18)'] }, 1]]], ['Star flares', [['flares', { n: 8, col: '#dbe8ff' }], ['meteors', { rate: .015 }]]]],
+  vortex: [['Star flares', [['flares', { n: 8, col: '#e6d6ff' }]]], ['Nebula', [['nebula', { cols: ['rgba(155,107,255,.2)', 'rgba(255,106,240,.18)'] }, 1]]]],
+  starfall: [['Aurora sky', [['auroracurtain', { cols: ['#7fe3ff', '#b47bff', '#50ffaa'] }, 1]]], ['Firefly meadow', [['fireflies', { n: 24, col: '#fff1b0' }]]]],
+  dreamland: [['Twinkle sparkles', [['flares', { n: 10, col: '#ffffff' }]]], ['Star bursts', [['bounceburst', { shape: 'star', cols: ['#ffffff', '#fff1a8', '#c9b6ff'] }]]]],
+  palace: [['Treasure sparkle', [['flares', { n: 10, col: '#fff1b0' }]]], ['Golden lanterns', [['lanterns', { n: 10 }, 2]]]],
+  inferno: [['Fire rain', [['meteors', { rate: .02 }, 1]]], ['Fire spirits', [['fireflies', { n: 20, col: '#ffb347' }], ['geysers', { y: .82 }]]]],
+  northlake: [['Falling stars', [['fallingstars', {}, 2]]], ['Spirit lights', [['fireflies', { n: 18, col: '#7fffd4' }]]]],
+};
+WORLDS.forEach(wd => { const u = WORLD_UPS[wd.id]; if (u) wd.up = u.map(([name, layers]) => ({ name, layers })); });
+// accent colour each world uses when the game gets intense
+const WORLD_MOOD = { pond: '#7fe3c4', sky: '#ffffff', meadow: '#fff3a0', beach: '#7fe3ff', night: '#9fb8ff', sunset: '#ff9a6a', arctic: '#bfefff', forest: '#e6ff96', sakura: '#ff8fb8',
+  candy: '#ff7eb6', desert: '#ffb07a', rainycity: '#ffd27a', autumn: '#ff8a3c', lanterns: '#ffb347', dawn: '#ffb6a0', reef: '#ff7a8a', volcano: '#ff5e1a', storm: '#7fb4ff', space: '#b98cff',
+  neoncity: '#ff3df5', aurora: '#50ffaa', ocean: '#4fd1ff', cyber: '#3dff8c', nebula: '#ff6af0', meteorshower: '#bfe0ff', fireworks: '#ffd166', crystalcave: '#c9a0ff', thunderpeak: '#b47bff',
+  cherrymoon: '#ff8fb8', hyperspace: '#9fc0ff', vortex: '#9b6bff', starfall: '#ffe9b0', dreamland: '#ff8fb8', palace: '#ffd57a', inferno: '#ff4400', northlake: '#50ffaa' };
 const CAT = { ball: BALLS, pad: PADS, world: WORLDS };
 
 // ================= Economy settings =================
-const SKIN_UP_COST = [0, 200, 500];
-const SKIN_UP_TEXT = ['', 'Level 2: glow trail and bigger hit effects', 'Level 3: full aura and maximum effects'];
 const UPG = [
   { id: 'size', name: 'Bigger paddle', desc: 'Your paddle starts 4% wider per level.', max: 5 },
   { id: 'grow', name: 'Longer wide paddle', desc: 'Wide paddle lasts 20% longer per level.', max: 5 },
@@ -867,14 +1215,14 @@ function rollChest() {
 
 // ================= Save data (works offline) =================
 const DEF = { v: 4, coins: 300, gems: 0, chests: 0, owned: { ball: ['classic'], pad: ['classic'], world: ['pond'] }, use: { ball: 'classic', pad: 'classic', world: 'pond' },
-  lv: { ball: {}, pad: {} }, up: { size: 0, grow: 0, slow: 0, magnet: 0, lucky: 0, shieldStart: 0 }, sound: true, sens: 1, dir: 1, zero: 0, seenHow: false, gemAdDay: '',
+  lv: { ball: {}, pad: {}, world: {} }, up: { size: 0, grow: 0, slow: 0, magnet: 0, lucky: 0, shieldStart: 0 }, sound: true, sens: 1, dir: 1, zero: 0, seenHow: false, gemAdDay: '',
   rec: { best: 0, games: 0, bounces: 0, stars: 0, coins: 0, bestTime: 0, chests: 0, gemsFound: 0, hist: [] } };
 const clone = o => JSON.parse(JSON.stringify(o));
 function normalize(s) {
   const o = Object.assign(clone(DEF), s || {});
   o.owned = Object.assign(clone(DEF.owned), s && s.owned || {});
   o.use = Object.assign(clone(DEF.use), s && s.use || {});
-  o.lv = Object.assign({ ball: {}, pad: {} }, s && s.lv || {});
+  o.lv = Object.assign({ ball: {}, pad: {}, world: {} }, s && s.lv || {});
   o.up = Object.assign(clone(DEF.up), s && s.up || {});
   o.rec = Object.assign(clone(DEF.rec), s && s.rec || {});
   for (const cat of ['ball', 'pad', 'world']) {
@@ -910,13 +1258,15 @@ function toast(msg) { const el = $('toast'); el.textContent = msg; el.hidden = f
 // ================= Canvas =================
 const c = $('c'), ctx = c.getContext('2d');
 let W = 0, H = 0;
-const pad = { x: 0, y: 0, w: 0, base: 120, h: 16, dir: 1, spd: 1.3, vx: 0, wob: 0 };
+const pad = { x: 0, y: 0, w: 0, base: 120, h: 16, dir: 1, spd: 1.3, vx: 0, wob: 0, hist: [] };
+let frameN = 0;
 const ball = { x: 0, y: 0, py: 0, vx: 0, vy: 0, r: 14, rot: 0, sq: 0, sqv: 0, sqA: 0, trail: [] };
 const G = { state: 'menu', score: 0, bounces: 0, stars: 0, coins: 0, time: 0, final: false, earned: 0, spawnIn: 300, coinIn: 120, windIn: 600, wind: 0, windT: 0,
   fx: { grow: 0, slow: 0, shrink: 0, turbo: 0, flip: 0 }, shield: false, shake: 0, flash: 0, revives: 0, adRev: false, gemRev: 0, chest: false, chestSpawned: false, chestIn: -1 };
+let wt = 0, beat = 0, moodFlash = 0;
 let world = null, worldId = '', t = 0, windLines = [], ripples = [], texts = [], items = [];
 const padBase = () => clamp(W * .28, 92 * U, 175 * U) * (1 + .04 * save.up.size);
-function setWorld(id) { worldId = id; world = initWorld(itemOf('world', id), W, H); }
+function setWorld(id) { worldId = id; world = initWorld(itemOf('world', id), W, H, lvl('world', id)); }
 
 function resize() {
   const d = Math.min(window.devicePixelRatio || 1, 3);
@@ -931,12 +1281,38 @@ function resize() {
 const levelName = s => s < 10 ? 'Calm' : s < 25 ? 'Breezy' : s < 45 ? 'Brisk' : s < 70 ? 'Stormy' : s < 100 ? 'Wild' : 'Legend';
 const grav = () => H * .00034 * (1 + Math.min(.5, G.score * .006));
 const bounceV = () => Math.sqrt(2 * grav() * H * .58);
-function addScore(n) { G.score += n; $('score').textContent = G.score; $('level').textContent = levelName(G.score); }
+const MILESTONES = [25, 50, 75, 100, 150, 200, 300, 400, 500];
+function addScore(n) {
+  const before = G.score; G.score += n; $('score').textContent = G.score; $('level').textContent = levelName(G.score);
+  if (G.state !== 'play') return;
+  const m = MILESTONES.find(v => before < v && G.score >= v); if (m) celebrate(`${levelName(G.score)} · ${m}`, moodCol());
+  if (!G.recordShown && save.rec.best > 0 && G.score > save.rec.best) { G.recordShown = true; celebrate('New record!', '#ffd57a'); }
+}
+const moodCol = () => WORLD_MOOD[worldId] || '#ffffff';
+const moodI = () => ['play', 'paused', 'count', 'revive', 'over'].includes(G.state) ? clamp((G.score - 10) / 90, 0, 1) : 0;
+function celebrate(txt, col) {
+  const cy = H * .3 + texts.filter(x => x.big).length * 46 * U;
+  texts.push({ x: W / 2, y: cy, txt, col, life: 1.6, big: true }); moodFlash = .35;
+  for (let i = 0; i < 40; i++) { const a = i * TAU / 40; P({ x: W / 2, y: cy, vx: Math.cos(a) * 5 * U, vy: Math.sin(a) * 5 * U, decay: .02, size: 3 * U, col: i % 2 ? col : '#ffffff', glow: true, grav: .02, shape: i % 3 ? 'c' : 'star', rot: a }); }
+  [523, 659, 784, 1047].forEach((f, i) => tone(f, .07, .6, 'triangle', null, i * .08));
+}
+// Background mood: the world glows and speeds up as the score climbs
+function drawMood(g) {
+  const I = moodI(), col = moodCol();
+  if (moodFlash > 0) { g.save(); g.globalCompositeOperation = 'lighter'; g.globalAlpha = moodFlash; g.fillStyle = col; g.fillRect(0, 0, W, H); g.restore(); moodFlash -= .02; }
+  if (I <= 0) return;
+  g.save(); g.globalCompositeOperation = 'lighter';
+  const gr = g.createRadialGradient(W / 2, H / 2, Math.min(W, H) * .32, W / 2, H / 2, Math.max(W, H) * .78); gr.addColorStop(0, 'rgba(0,0,0,0)'); gr.addColorStop(1, col);
+  g.globalAlpha = I * .26 * (.8 + .2 * Math.sin(t / 8)) + beat * (.08 + I * .22); g.fillStyle = gr; g.fillRect(0, 0, W, H);
+  if (I > .55) { const k = (I - .55) / .45, y = (t * 3) % (H * 1.6) - H * .3, lg = g.createLinearGradient(0, y - 60, 0, y + 60); lg.addColorStop(0, 'rgba(0,0,0,0)'); lg.addColorStop(.5, col); lg.addColorStop(1, 'rgba(0,0,0,0)');
+    g.globalAlpha = .07 * k; g.fillStyle = lg; g.fillRect(0, y - 60, W, 120); }
+  g.restore();
+}
 function placeBall() { ball.x = pad.x; ball.y = H * .32; ball.py = ball.y; ball.vx = 0; ball.vy = 0; ball.sq = 0; ball.sqv = 0; ball.trail = []; }
 
 function resetGame() {
   Object.assign(G, { score: 0, bounces: 0, stars: 0, coins: 0, time: 0, final: false, earned: 0, spawnIn: 320, coinIn: 90, windIn: 600, wind: 0, windT: 0,
-    shield: save.up.shieldStart > 0, shake: 0, revives: 0, adRev: false, gemRev: 0, chest: false, chestSpawned: false, chestIn: -1 });
+    shield: save.up.shieldStart > 0, shake: 0, revives: 0, adRev: false, gemRev: 0, chest: false, chestSpawned: false, chestIn: -1, recordShown: false });
   G.fx = { grow: 0, slow: 0, shrink: 0, turbo: 0, flip: 0 };
   items = []; parts = []; ripples = []; texts = []; windLines = [];
   pad.base = padBase(); pad.x = W / 2; pad.dir = R() < .5 ? -1 : 1; pad.w = pad.base;
@@ -951,6 +1327,8 @@ function padHitFx(x, y) {
   ripples.push({ x, y, r: 6 * U, a: .55, col: rc }); if (L === 3) ripples.push({ x, y, r: 2, a: .8, col: rc });
   if (Pd.flash) G.flash = .25;
   if (Pd.wob) pad.wob = 1;
+  if (Pd.sig) padSignature(Pd.sig, x, y);
+  if (world) world.layers.forEach(([k2, p2], i) => { if (FEAT[k2].bounce) FEAT[k2].bounce(world.st[i], W, H, p2, x); });
   const B = cur('ball'); if (B.hit) burst(x, y, B.hit.n, Object.assign({ up: true, grav: .06, decay: .035 }, B.hit));
 }
 
@@ -1114,7 +1492,9 @@ function steerValue() {
 
 // ================= Update =================
 function update(k) {
-  t += k; accT += k; pad.wob *= Math.pow(.93, k);
+  t += k; accT += k; pad.wob *= Math.pow(.93, k); beat *= Math.pow(.92, k);
+  { const I = moodI(); wt += k * (G.state === 'play' ? 1 + I * 1.1 : G.state === 'menu' ? 1 : 0);
+    if (G.state === 'play' && R() < I * .7) P({ x: R() * W, y: H + 5, vx: rn(.6), vy: -(1 + R() * 2) * U * (1 + I), decay: .01, size: (1.2 + R() * 2) * U, col: moodCol(), glow: true, grav: -.005 }); }
   const live = G.state === 'play', demo = G.state === 'menu';
   if (!(live || demo)) return;
   const s = k * (live && G.fx.slow > 0 ? .55 : 1);
@@ -1154,7 +1534,7 @@ function update(k) {
     ball.vx = clamp(ball.vx + pad.vx * .35, -vmax, vmax);
     ball.sqA = 0; ball.sq = Math.min(.42, impact / 14 * .45 + .12); ball.sqv = 0;
     padHitFx(ball.x, top);
-    if (live) { G.bounces++; addScore(1); padSound(cur('pad').snd, G.score); G.shake = 3 * U; }
+    if (live) { beat = 1; G.bounces++; addScore(1); padSound(cur('pad').snd, G.score); G.shake = 3 * U; }
     else if (G.state === 'menu' && !$('buy').hidden) padSound(cur('pad').snd, (t / 40) | 0);
   }
   if (live && G.shield && ball.vy > 0 && ball.y + ball.r >= H - 26 * U) {
@@ -1168,8 +1548,8 @@ function update(k) {
   runFx(B.fx, ball, bL === 3 ? 2 : 1);
   if (bL >= 2) P({ x: ball.x + rn(4), y: ball.y + rn(4), decay: .06, size: ball.r * .45, col: accOf(B), glow: true, grav: 0, shrink: true });
   const Pd = cur('pad'), pL = lvl('pad', Pd.id);
-  runFx(Pd.amb, { x: pad.x + rn(pad.w * .9), y: pad.y - pad.h / 2, r: pad.h * .7, vx: 0, vy: 0 }, pL === 3 ? 2 : 1);
-  if (pL >= 2 && R() < .25) P({ x: pad.x + rn(pad.w), y: pad.y - pad.h / 2, vy: (-.4 - R() * .6) * U, decay: .025, size: (1.6 + R()) * U, col: accOf(Pd), glow: true, grav: 0 });
+  runFx(padEffects(Pd, pL).fx, { x: pad.x + rn(pad.w * .9), y: pad.y - pad.h / 2, r: pad.h * .7, vx: 0, vy: 0 }, 1);
+  if ((frameN = (frameN || 0) + 1) % 3 === 0) { pad.hist.push(pad.x); if (pad.hist.length > 7) pad.hist.shift(); }
 
   if (demo) { if (ball.y - ball.r > H) placeBall(); return; }
 
@@ -1202,7 +1582,8 @@ function update(k) {
 function draw() {
   ctx.save();
   if (G.shake > 0) { ctx.translate(rn(G.shake), rn(G.shake)); G.shake *= .85; if (G.shake < .3) G.shake = 0; }
-  drawWorld(ctx, world, W, H, t);
+  drawWorld(ctx, world, W, H, wt);
+  drawMood(ctx);
 
   if (windLines.length) { ctx.strokeStyle = 'rgba(255,255,255,.35)'; ctx.lineWidth = 1.5; ctx.beginPath();
     for (const l of windLines) { l.x += l.sp; ctx.moveTo(l.x, l.y); ctx.lineTo(l.x - Math.sign(l.sp) * l.l, l.y); } ctx.stroke(); windLines = windLines.filter(l => l.x > -120 && l.x < W + 120); }
@@ -1236,11 +1617,15 @@ function draw() {
   const Pd = cur('pad'), pL = lvl('pad', Pd.id);
   if (pL === 3) { ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = .4 + .15 * Math.sin(t / 10); ctx.translate(pad.x, pad.y + 4 * U); ctx.scale(pad.w * .75, 26 * U);
     ctx.fillStyle = radial(ctx, 1, [accOf(Pd), 'rgba(0,0,0,0)']); circle(ctx, 0, 0, 1); ctx.restore(); }
+  const PE = padEffects(Pd, pL), PP = { cx: pad.x, cy: pad.y, w: pad.w, h: pad.h, t, s: U, hist: pad.hist, vx: pad.vx, beamH: H * .32 };
+  drawPadFx(ctx, PE.ex, PP, 'back');
   drawPad(ctx, Pd, pad.x, pad.y, pad.w, pad.h, t, pad.wob);
+  drawPadFx(ctx, PE.ex, PP, 'front');
+  drawSigBolts(ctx);
 
   texts = texts.filter(x => x.life > 0);
-  ctx.font = `700 ${18 * U}px Fredoka, system-ui, sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
-  for (const x of texts) { if (!frozen) { x.y -= .6 * U; x.life -= .014; } ctx.globalAlpha = Math.max(0, Math.min(1, x.life)); ctx.fillStyle = x.col;
+  ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+  for (const x of texts) { ctx.font = `700 ${(x.big ? 32 : 18) * U}px Fredoka, system-ui, sans-serif`; if (!frozen) { x.y -= .6 * U; x.life -= .014; } ctx.globalAlpha = Math.max(0, Math.min(1, x.life)); ctx.fillStyle = x.col;
     ctx.fillText(x.txt, clamp(x.x, ctx.measureText(x.txt).width / 2 + 10, W - ctx.measureText(x.txt).width / 2 - 10), x.y); }
   ctx.globalAlpha = 1;
   if (G.flash > 0) { ctx.fillStyle = `rgba(180,230,255,${G.flash})`; ctx.fillRect(0, 0, W, H); G.flash -= .04; }
@@ -1436,10 +1821,10 @@ function skinCard(item) {
   const cv = document.createElement('canvas'), d = Math.min(window.devicePixelRatio || 1, 2);
   cv.width = 76 * d; cv.height = 54 * d; const g = cv.getContext('2d'); g.scale(d, d);
   const oldU = U; U = .9;
-  if (tab === 'world') { const S = initWorld(item, 76, 54); drawWorld(g, S, 76, 54, 90); }
+  if (tab === 'world') { const S = initWorld(item, 76, 54, has ? lvl('world', item.id) : 1); drawWorld(g, S, 76, 54, 90); }
   else { g.fillStyle = 'rgba(255,255,255,.04)'; g.fillRect(0, 0, 76, 54);
     if (tab === 'ball') { g.save(); g.translate(38, 27); drawBallBase(g, item, 15, .3, 30); g.restore(); }
-    else drawPad(g, item, 38, 28, 60, 13, 30, 0); }
+    else { const PE = padEffects(item, 1), PP = { cx: 38, cy: 34, w: 50, h: 11, t: 40, s: .7, hist: [], vx: 1, beamH: 30 }; drawPadFx(g, PE.ex, PP, 'back'); drawPad(g, item, 38, 34, 50, 11, 40, 0); drawPadFx(g, PE.ex, PP, 'front'); } }
   U = oldU;
   const nm = document.createElement('span'); nm.className = 'nm'; nm.textContent = item.name;
   const tag = document.createElement('span');
@@ -1449,21 +1834,36 @@ function skinCard(item) {
   else if (item.tier === 'normal') { tag.className = 'tag c'; tag.innerHTML = `${coinHtml(item.coins)} or ▶`; }
   else { tag.className = 'tag c'; tag.innerHTML = coinHtml(item.coins); }
   b.append(cv, nm, tag);
-  if (tab !== 'world') { const lv = document.createElement('span'); lv.className = 'lv'; const L = lvl(tab, item.id); lv.textContent = has ? '★'.repeat(L) + '☆'.repeat(3 - L) : ''; b.append(lv); }
+  { const lv = document.createElement('span'); lv.className = 'lv'; const L = lvl(tab, item.id); lv.textContent = has && item.tier !== 'normal' ? '★'.repeat(L) + '☆'.repeat(3 - L) : ''; b.append(lv); }
   b.onclick = () => has ? equip(tab, item.id) : unlockSheet(tab, item);
   return b;
 }
+function upCost(it, L) {
+  if (it.tier === 'legend') return { gems: Math.max(10, Math.round(it.gems * (L === 1 ? .25 : .4) / 5) * 5) };
+  return { coins: (L === 1 ? 300 : 750) };
+}
+function upName(cat, it, L) {
+  if ((cat === 'pad' || cat === 'world') && it.up && it.up[L - 1]) return it.up[L - 1].name;
+  return L === 1 ? 'Glow trail and bigger hit effects' : 'Full aura and maximum effects';
+}
 function renderUpBox() {
   const box = $('upBox');
-  if (tab !== 'ball' && tab !== 'pad') { box.hidden = true; return; }
+  if (!['ball', 'pad', 'world'].includes(tab)) { box.hidden = true; return; }
   box.hidden = false;
   const id = save.use[tab], it = itemOf(tab, id), L = lvl(tab, id);
+  if (it.tier === 'normal') { $('upName').textContent = `${it.name} · Normal skin`; $('upText').textContent = 'Normal skins have no upgrades. Special and Legendary skins can level up to 3.'; $('upBtn').hidden = true; return; }
   $('upName').textContent = `${it.name} · Level ${L} of 3`;
   if (L >= 3) { $('upText').textContent = 'Fully upgraded. Maximum effects.'; $('upBtn').hidden = true; return; }
-  const cost = SKIN_UP_COST[L] * (it.tier === 'legend' ? 2 : it.tier === 'special' ? 1.5 : 1);
-  $('upText').textContent = SKIN_UP_TEXT[L];
-  $('upBtn').hidden = false; $('upBtn').innerHTML = `Upgrade ${coinHtml(cost)}`; $('upBtn').disabled = save.coins < cost;
-  $('upBtn').onclick = () => { if (save.coins < cost) return; addCoins(-cost); save.lv[tab][id] = L + 1; persist(); sfx.buy(); toast(`${it.name} is now level ${L + 1}`); renderShop(); };
+  const cost = upCost(it, L);
+  $('upText').textContent = `Level ${L + 1}: ${upName(tab, it, L)}`;
+  $('upBtn').hidden = false;
+  if (cost.gems) { $('upBtn').className = 'btn gem sm'; $('upBtn').innerHTML = `Upgrade ${gemHtml(cost.gems)}`; $('upBtn').disabled = false; }
+  else { $('upBtn').className = 'btn gold sm'; $('upBtn').innerHTML = `Upgrade ${coinHtml(cost.coins)}`; $('upBtn').disabled = save.coins < cost.coins; }
+  $('upBtn').onclick = () => {
+    if (cost.gems) { if (save.gems < cost.gems) { toast(`You need ${cost.gems} diamonds for this upgrade.`); tab = 'gems'; renderShop(); return; } addGems(-cost.gems); }
+    else { if (save.coins < cost.coins) return; addCoins(-cost.coins); }
+    save.lv[tab][id] = L + 1; persist(); if (tab === 'world') setWorld(id); sfx.buy(); toast(`${it.name} is now level ${L + 1}`); renderShop();
+  };
 }
 function renderBoosts() {
   const box = $('list'); box.innerHTML = '';
