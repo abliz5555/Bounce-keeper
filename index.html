@@ -1241,7 +1241,8 @@ function persist() { try { localStorage.setItem('bk4', JSON.stringify(save)); } 
 persist();
 const owns = (cat, id) => save.owned[cat].includes(id);
 function own(cat, id) { if (!owns(cat, id)) save.owned[cat].push(id); persist(); }
-const lvl = (cat, id) => (save.lv[cat] && save.lv[cat][id]) || 1;
+const ownLvl = (cat, id) => (save.lv[cat] && save.lv[cat][id]) || 1;
+const lvl = (cat, id) => (preview && preview.L && preview.cat === cat && preview.id === id) ? preview.L : ownLvl(cat, id);
 const itemOf = (cat, id) => CAT[cat].find(i => i.id === id) || CAT[cat][0];
 let preview = null;
 const curId = cat => preview && preview.cat === cat ? preview.id : save.use[cat];
@@ -1795,7 +1796,8 @@ function unlockSheet(cat, item) {
   } else {
     opts.push({ html: `Unlock for ${coinHtml(item.coins)}`, cls: 'gold', disabled: save.coins < item.coins, fn: () => { addCoins(-item.coins); done(); } });
     if (item.tier === 'normal') opts.push({ html: '▶ Watch an ad', cls: 'alt', fn: () => showAd(done) });
-    if (save.coins < item.coins) note = `Needs ${item.coins.toLocaleString()} coins. You have ${save.coins.toLocaleString()}. Catch coins and open chests to earn more.`;
+    if (save.coins < item.coins) { note = `Needs ${item.coins.toLocaleString()} coins. You have ${save.coins.toLocaleString()}. Catch coins, open chests, or swap diamonds for coins.`;
+      opts.push({ html: `Get coins with ${gemHtml(0).replace('0', '')}diamonds`, cls: 'alt', fn: () => { clearPreview(); tab = 'gems'; show('shop'); renderShop(); } }); }
   }
   openBuy(item.tier, item.name, opts, note);
 }
@@ -1835,7 +1837,7 @@ function skinCard(item) {
   else { tag.className = 'tag c'; tag.innerHTML = coinHtml(item.coins); }
   b.append(cv, nm, tag);
   { const lv = document.createElement('span'); lv.className = 'lv'; const L = lvl(tab, item.id); lv.textContent = has && item.tier !== 'normal' ? '★'.repeat(L) + '☆'.repeat(3 - L) : ''; b.append(lv); }
-  b.onclick = () => has ? equip(tab, item.id) : unlockSheet(tab, item);
+  b.onclick = () => !has ? unlockSheet(tab, item) : (using && item.tier !== 'normal') ? openLevelSheet(tab, item) : equip(tab, item.id);
   return b;
 }
 function upCost(it, L) {
@@ -1846,24 +1848,49 @@ function upName(cat, it, L) {
   if ((cat === 'pad' || cat === 'world') && it.up && it.up[L - 1]) return it.up[L - 1].name;
   return L === 1 ? 'Glow trail and bigger hit effects' : 'Full aura and maximum effects';
 }
+// Pays for one level up. Returns true when it worked.
+function doUpgrade(cat, it) {
+  const L = ownLvl(cat, it.id); if (L >= 3) return false;
+  const cost = upCost(it, L);
+  if (cost.gems) { if (save.gems < cost.gems) { toast(`You need ${cost.gems} diamonds for this upgrade.`); return false; } addGems(-cost.gems); }
+  else { if (save.coins < cost.coins) { toast(`You need ${cost.coins.toLocaleString()} coins for this upgrade.`); return false; } addCoins(-cost.coins); }
+  save.lv[cat][it.id] = L + 1; persist(); sfx.buy(); toast(`${it.name} is now level ${L + 1}`); return true;
+}
+const costHtml = c => c.gems ? gemHtml(c.gems) : coinHtml(c.coins);
 function renderUpBox() {
   const box = $('upBox');
   if (!['ball', 'pad', 'world'].includes(tab)) { box.hidden = true; return; }
   box.hidden = false;
-  const id = save.use[tab], it = itemOf(tab, id), L = lvl(tab, id);
-  if (it.tier === 'normal') { $('upName').textContent = `${it.name} · Normal skin`; $('upText').textContent = 'Normal skins have no upgrades. Special and Legendary skins can level up to 3.'; $('upBtn').hidden = true; return; }
+  const id = save.use[tab], it = itemOf(tab, id), L = ownLvl(tab, id);
+  let pv = $('upPrev'); if (!pv) { pv = document.createElement('button'); pv.id = 'upPrev'; pv.className = 'link'; pv.style.cssText = 'justify-self:start;padding:4px 0;font-size:13px'; $('upText').after(pv); }
+  if (it.tier === 'normal') { $('upName').textContent = `${it.name} · Normal skin`; $('upText').textContent = 'Normal skins have no upgrades. Special and Legendary skins can level up to 3.'; $('upBtn').hidden = true; pv.hidden = true; return; }
+  pv.hidden = false; pv.textContent = '▶ Preview all levels'; pv.onclick = () => openLevelSheet(tab, it);
   $('upName').textContent = `${it.name} · Level ${L} of 3`;
   if (L >= 3) { $('upText').textContent = 'Fully upgraded. Maximum effects.'; $('upBtn').hidden = true; return; }
   const cost = upCost(it, L);
   $('upText').textContent = `Level ${L + 1}: ${upName(tab, it, L)}`;
-  $('upBtn').hidden = false;
-  if (cost.gems) { $('upBtn').className = 'btn gem sm'; $('upBtn').innerHTML = `Upgrade ${gemHtml(cost.gems)}`; $('upBtn').disabled = false; }
-  else { $('upBtn').className = 'btn gold sm'; $('upBtn').innerHTML = `Upgrade ${coinHtml(cost.coins)}`; $('upBtn').disabled = save.coins < cost.coins; }
-  $('upBtn').onclick = () => {
-    if (cost.gems) { if (save.gems < cost.gems) { toast(`You need ${cost.gems} diamonds for this upgrade.`); tab = 'gems'; renderShop(); return; } addGems(-cost.gems); }
-    else { if (save.coins < cost.coins) return; addCoins(-cost.coins); }
-    save.lv[tab][id] = L + 1; persist(); if (tab === 'world') setWorld(id); sfx.buy(); toast(`${it.name} is now level ${L + 1}`); renderShop();
+  $('upBtn').hidden = false; $('upBtn').className = cost.gems ? 'btn gem sm' : 'btn gold sm'; $('upBtn').innerHTML = `Upgrade ${costHtml(cost)}`;
+  $('upBtn').onclick = () => { if (doUpgrade(tab, it)) { if (tab === 'world') setWorld(id); renderShop(); } else if (cost.gems) { tab = 'gems'; renderShop(); } };
+}
+// Live level preview: switch Level 1, 2, 3 and watch the effect below
+function openLevelSheet(cat, item, startL) {
+  let L = startL || ownLvl(cat, item.id);
+  const render = () => {
+    const own = ownLvl(cat, item.id);
+    preview = { cat, id: item.id, L }; if (cat === 'world') setWorld(item.id); ball.trail = [];
+    $('buyTier').textContent = `${TIER[item.tier][0]} · your level: ${own}`; $('buyTier').className = 'eyebrow ' + item.tier;
+    $('buyName').textContent = item.name; $('buyNote').textContent = '';
+    const box = $('buyOpts'); box.innerHTML = '';
+    const seg = document.createElement('div'); seg.className = 'seg';
+    for (let l = 1; l <= 3; l++) { const b = document.createElement('button'); b.textContent = `Level ${l}${l <= own ? '' : ' 🔒'}`; b.setAttribute('aria-pressed', String(l === L)); b.onclick = () => { L = l; render(); }; seg.append(b); }
+    const d = document.createElement('p'); d.className = 'small';
+    d.textContent = L === 1 ? 'Base effects.' : `Adds: ${upName(cat, item, L - 1)}.` + (L > own ? ' Preview only, not unlocked yet.' : '');
+    box.append(seg, d);
+    if (own < 3) { const c = upCost(item, own), b = document.createElement('button'); b.className = c.gems ? 'btn gem' : 'btn gold'; b.innerHTML = `Upgrade to level ${own + 1} · ${costHtml(c)}`;
+      b.onclick = () => { if (doUpgrade(cat, item)) { L = own + 1; render(); } else if (c.gems) { clearPreview(); tab = 'gems'; show('shop'); renderShop(); } }; box.append(b); }
+    if (save.use[cat] !== item.id) { const u = document.createElement('button'); u.className = 'btn alt'; u.textContent = 'Use this skin'; u.onclick = () => { clearPreview(); equip(cat, item.id); show('shop'); renderShop(); }; box.append(u); }
   };
+  show('buy'); render();
 }
 function renderBoosts() {
   const box = $('list'); box.innerHTML = '';
@@ -1895,6 +1922,14 @@ function renderGems() {
     row.innerHTML = `<b><i class="gemico"></i>${pk.gems.toLocaleString()} diamonds</b>${pk.tag ? `<span class="tagline">${pk.tag}</span>` : '<span></span>'}`;
     const btn = document.createElement('button'); btn.className = 'btn gem sm'; btn.textContent = `${pk.price} (demo)`;
     btn.onclick = () => { addGems(pk.gems); sfx.gem(); toast(`+${pk.gems} diamonds (demo)`); renderShop(); };
+    row.append(btn); box.append(row);
+  });
+  const hdr = document.createElement('div'); hdr.className = 'sec'; hdr.innerHTML = '<b>Swap diamonds for coins</b><span>Instant</span>'; box.append(hdr);
+  [{ g: 10, c: 500 }, { g: 50, c: 3000, tag: '+20% bonus' }, { g: 100, c: 7000, tag: '+40% bonus' }].forEach(x => {
+    const row = document.createElement('div'); row.className = 'boost';
+    row.innerHTML = `<b><i class="coinico"></i>${x.c.toLocaleString()} coins</b>${x.tag ? `<span class="tagline">${x.tag}</span>` : '<span></span>'}`;
+    const btn = document.createElement('button'); btn.className = 'btn gem sm'; btn.innerHTML = `Swap ${gemHtml(x.g)}`;
+    btn.onclick = () => { if (save.gems < x.g) { toast(`You need ${x.g} diamonds.`); return; } addGems(-x.g); addCoins(x.c); sfx.coin(); toast(`+${x.c.toLocaleString()} coins`); renderShop(); };
     row.append(btn); box.append(row);
   });
   const rest = document.createElement('button'); rest.className = 'link'; rest.textContent = 'Restore purchases'; rest.onclick = restorePurchases; box.append(rest);
