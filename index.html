@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Bounce Keeper"><link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="icon" href="apple-touch-icon.png"><meta name="theme-color" content="#17403d"><title>Bounce Keeper</title><style>:root{padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);box-sizing:border-box;height:100%}body{margin:0;height:100%}</style></head><body>
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Bounce Keeper"><link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="icon" href="apple-touch-icon.png"><meta name="theme-color" content="#17403d"><title>Bounce Keeper</title><style>html,body{margin:0;height:100%}</style></head><body>
 <title>Bounce Keeper</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap">
@@ -13,10 +13,11 @@
 }
 *, *::before, *::after { box-sizing: border-box; }
 [hidden] { display: none !important; }
-html, body { height: 100%; overflow: hidden; }
+html, body { position: fixed; inset: 0; width: 100%; height: 100%; overflow: hidden; }
 body { background: var(--deep); color: var(--sand); font-family: var(--body); margin: 0; touch-action: manipulation;
   user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent; }
 #wrap { position: relative; height: 100%; }
+#safe { position: absolute; visibility: hidden; pointer-events: none; padding: env(safe-area-inset-top, 0px) 0 env(safe-area-inset-bottom, 0px); }
 canvas#c { display: block; width: 100%; height: 100%; touch-action: none; }
 
 .coinico { display: inline-block; width: .95em; height: .95em; border-radius: 50%; vertical-align: -.12em; flex: none;
@@ -26,7 +27,7 @@ canvas#c { display: block; width: 100%; height: 100%; touch-action: none; }
 .coins, .gems { display: inline-flex; align-items: center; gap: 6px; font-family: var(--display); font-weight: 700; font-variant-numeric: tabular-nums; }
 .coins { color: var(--gold); } .gems { color: var(--gem); }
 
-#hud { position: absolute; top: 10px; left: max(16px, env(safe-area-inset-left, 0px)); right: max(16px, env(safe-area-inset-right, 0px));
+#hud { position: absolute; top: calc(10px + env(safe-area-inset-top, 0px)); left: max(16px, env(safe-area-inset-left, 0px)); right: max(16px, env(safe-area-inset-right, 0px));
   display: flex; justify-content: space-between; align-items: flex-start; pointer-events: none; text-shadow: 0 1px 2px rgba(0,0,0,.7), 0 2px 12px rgba(0,0,0,.55); }
 #score { font-family: var(--display); font-weight: 700; font-size: clamp(46px, 7vmin, 72px); line-height: 1; font-variant-numeric: tabular-nums; color: #fff8ec; }
 #level { font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); margin-top: 4px; }
@@ -40,7 +41,7 @@ canvas#c { display: block; width: 100%; height: 100%; touch-action: none; }
 .icon-btn { pointer-events: auto; font-family: var(--display); font-weight: 700; font-size: 16px; color: #fff8ec; background: rgba(10,25,24,.55);
   border: 1.5px solid rgba(255,255,255,.25); border-radius: 999px; width: 46px; height: 46px; cursor: pointer; }
 
-.layer { position: absolute; inset: 0; display: grid; place-items: center; padding-inline: max(14px, env(safe-area-inset-left, 0px)) max(14px, env(safe-area-inset-right, 0px)); background: rgba(8,20,19,.38); }
+.layer { position: absolute; inset: 0; display: grid; place-items: center; padding-block: env(safe-area-inset-top, 0px) env(safe-area-inset-bottom, 0px); padding-inline: max(14px, env(safe-area-inset-left, 0px)) max(14px, env(safe-area-inset-right, 0px)); background: rgba(8,20,19,.38); }
 .layer.top { align-items: start; padding-top: 12px; background: rgba(8,20,19,.12); }
 .card { background: var(--card); border: 1.5px solid var(--line); border-radius: 26px; padding: 22px 18px;
   max-width: 380px; width: 100%; text-align: center; display: grid; gap: 12px; max-height: 92%; overflow-y: auto;
@@ -226,7 +227,7 @@ textarea { width: 100%; min-height: 70px; border-radius: 12px; border: 1.5px sol
 </style>
 
 <div id="wrap">
-  <canvas id="c"></canvas>
+  <canvas id="c"></canvas><div id="safe"></div>
 
   <!-- Loading screen: your own world, paddle and ball play behind it -->
   <div class="layer" id="splash">
@@ -1657,12 +1658,15 @@ let loadoutOpen = false, sheetBack = 'shop';
 function sceneWorldId() { if (preview && preview.cat === 'world') return preview.id; if (G.state === 'menu' && loadoutOpen) return save.use.world; return ['play', 'count', 'paused', 'revive', 'over', 'guide'].includes(G.state) ? save.use.world : 'home'; }
 function refreshWorld(force) { const id = sceneWorldId(); if (force || id !== worldId || !world) setWorld(id); }
 
+let SAFE_T = 0, SAFE_B = 0;
+const padHome = () => H - 84 * U - SAFE_B * .6;
 function resize(keepWorld) {
+  { const cs = getComputedStyle($('safe')); SAFE_T = parseFloat(cs.paddingTop) || 0; SAFE_B = parseFloat(cs.paddingBottom) || 0; }
   const d = Math.min(window.devicePixelRatio || 1, Q.dpr);
   W = c.clientWidth; H = c.clientHeight;
   c.width = Math.round(W * d); c.height = Math.round(H * d); ctx.setTransform(d, 0, 0, d, 0, 0);
   U = clamp(Math.min(W, H) / 390, .85, 1.9);
-  ball.r = 14 * U; pad.h = 16 * U; pad.y = H - 84 * U; pad.base = padBase();
+  ball.r = 14 * U; pad.h = 16 * U; pad.y = padHome(); pad.base = padBase();
   if (!pad.w || G.state === 'menu') { pad.w = pad.base; pad.x = clamp(pad.x || W / 2, pad.w / 2, W - pad.w / 2); }
   sizeWorldCanvas();
   if (!keepWorld || !world) refreshWorld(true); else buildWorldPlan(world, W, H, WSC);
@@ -1705,7 +1709,7 @@ function resetGame() {
     shield: save.up.shieldStart > 0, shake: 0, revives: 0, adRev: false, gemRev: 0, chest: false, chestSpawned: false, chestIn: -1, recordShown: false, gemRevUsed: false });
   G.fx = { grow: 0, slow: 0, shrink: 0, turbo: 0, flip: 0 };
   items = []; parts = []; ripples = []; texts = []; windLines = [];
-  pad.base = padBase(); pad.x = W / 2; pad.y = H - 84 * U; pad.dir = R() < .5 ? -1 : 1; pad.w = pad.base;
+  pad.base = padBase(); pad.x = W / 2; pad.y = padHome(); pad.dir = R() < .5 ? -1 : 1; pad.w = pad.base;
   $('hudCoin').textContent = 0; addScore(0); placeBall();
 }
 
@@ -1914,7 +1918,7 @@ function update(k) {
     if (G.state === 'play' && R() < I * .7) P({ x: R() * W, y: H + 5, vx: rn(.6), vy: -(1 + R() * 2) * U * (1 + I), decay: .01, size: (1.2 + R() * 2) * U, col: moodCol(), glow: true, grav: -.005 }); }
   const live = G.state === 'play', demo = G.state === 'menu' || G.state === 'splash';
   if (demo && loadoutOpen && (G.loM = (G.loM || 0) + 1) % 8 === 0) measureLo();
-  if (demo) { const ty = loadoutOpen ? clamp(loTop - 40 * U, 150 * U, H * .58) : H - 84 * U; pad.y += (ty - pad.y) * Math.min(1, .14 * k); }
+  if (demo) { const ty = loadoutOpen ? clamp(loTop - 40 * U, 150 * U, H * .58) : padHome(); pad.y += (ty - pad.y) * Math.min(1, .14 * k); }
   if (!(live || demo)) return;
   const s = k * (live && G.fx.slow > 0 ? .55 : 1);
 
@@ -1951,7 +1955,7 @@ function update(k) {
   ball.sqv += (-.26 * ball.sq - .16 * ball.sqv) * s; ball.sq += ball.sqv * s;
   if (ball.x < ball.r) { ball.x = ball.r; ball.vx = Math.abs(ball.vx) * .85; ball.sqA = PI / 2; ball.sq = Math.min(.25, Math.abs(ball.vx) / U * .03); ball.sqv = 0; if (live) sfx.wall(); }
   if (ball.x > W - ball.r) { ball.x = W - ball.r; ball.vx = -Math.abs(ball.vx) * .85; ball.sqA = PI / 2; ball.sq = Math.min(.25, Math.abs(ball.vx) / U * .03); ball.sqv = 0; if (live) sfx.wall(); }
-  if (ball.y < ball.r + 70 * U) { ball.y = ball.r + 70 * U; ball.vy = Math.abs(ball.vy); ball.sqA = 0; ball.sq = .15; ball.sqv = 0; }
+  if (ball.y < ball.r + 70 * U + SAFE_T * .5) { ball.y = ball.r + 70 * U + SAFE_T * .5; ball.vy = Math.abs(ball.vy); ball.sqA = 0; ball.sq = .15; ball.sqv = 0; }
 
   const top = pad.y - pad.h / 2;
   if (ball.vy > 0 && ball.py + ball.r <= top + 2 && ball.y + ball.r >= top && Math.abs(ball.x - pad.x) <= pad.w / 2 + ball.r * .7) {
