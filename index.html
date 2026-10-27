@@ -1,5 +1,5 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Bounce Keeper"><link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="icon" href="apple-touch-icon.png"><meta name="theme-color" content="#17403d"><title>Bounce Keeper</title><style>html,body{margin:0;height:100%}</style></head><body>
-<title>Bounce Keeper</title>
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Bounzo"><link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="icon" href="apple-touch-icon.png"><meta name="theme-color" content="#17403d"><title>Bounzo</title><style>html,body{margin:0;height:100%}</style></head><body>
+<title>Bounzo</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap">
 <style>
@@ -461,6 +461,10 @@ body:has(#over:not([hidden])) #pauseBtn, body:has(#chest:not([hidden])) #pauseBt
 
 .card.lo .cardhead { flex-wrap: nowrap; } .card.lo .cardhead h2 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
 @media (max-width: 360px) { .card.lo .cardhead h2 { font-size: 18px; } .lohd { gap: 8px; } }
+
+.sp-title { display: flex !important; justify-content: center; align-items: baseline; }
+.sp-title span { font-size: clamp(64px, 19vw, 120px) !important; }
+.card.menu h1 { font-size: 48px; letter-spacing: .01em; }
 </style>
 
 <div id="wrap">
@@ -470,7 +474,7 @@ body:has(#over:not([hidden])) #pauseBtn, body:has(#chest:not([hidden])) #pauseBt
   <div class="layer" id="splash">
     <div class="sp-top">
       <p class="sp-kicker">Tilt · Bounce · Keep it alive</p>
-      <h1 class="sp-title" aria-label="Bounce Keeper"><span class="w1"></span><span class="w2"></span></h1>
+      <h1 class="sp-title" aria-label="Bounzo"><span class="w1"></span><span class="w2"></span></h1>
       <div class="sp-sub"><span class="sp-best" id="spBest"></span></div>
     </div>
     <div class="sp-bottom">
@@ -500,7 +504,7 @@ body:has(#over:not([hidden])) #pauseBtn, body:has(#chest:not([hidden])) #pauseBt
         <span class="pill"><i class="coinico"></i><span class="vCoins">0</span></span>
         <button class="pill gempill" id="menuGems" aria-label="Get diamonds"><i class="gemico"></i><span class="vGems">0</span><b>+</b></button>
       </div>
-      <h1>Bounce Keeper</h1>
+      <h1>Bounzo</h1>
       <p id="menuMsg">Steer the ball onto the moving paddle.</p>
       <div class="lbcard" id="menuBoard"></div>
       <button class="btn play" id="playBtn"><svg class="ico fill" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15a1 1 0 0 0 1.5.9l12-7.5a1 1 0 0 0 0-1.8l-12-7.5A1 1 0 0 0 7 4.5z"/></svg><span>Play</span></button>
@@ -713,7 +717,7 @@ body:has(#over:not([hidden])) #pauseBtn, body:has(#chest:not([hidden])) #pauseBt
         <textarea id="codeBox" hidden aria-label="Backup code"></textarea>
         <button class="btn gold" id="applyCode" hidden>Load this code</button>
         <p class="small" id="codeNote"></p></div>
-      <p class="small" style="text-align:center">Bounce Keeper · version 1.0 · Works offline</p>
+      <p class="small" style="text-align:center">Bounzo · version 1.0 · Works offline</p>
     </div>
   </div>
 
@@ -3471,7 +3475,7 @@ resize();
 { const TIPS = ['Tip: a chest can fall once per game after 20 points.', 'Tip: spiky bubbles are bad. Steer around them.', 'Tip: Mythic skins can only be earned by bouncing.',
     'Tip: upgrade your skins to Level 3 for the biggest effects.', 'Tip: set your straight position in Settings for comfy play.', 'Tip: worlds react to every bounce. Watch the sky.'];
   $('spTip').textContent = pick(TIPS); G.state = 'splash'; LAYERS.forEach(l => $(l).hidden = l !== 'splash'); $('hud').hidden = true;
-  [['w1', 'Bounce'], ['w2', 'Keeper']].forEach(([cls, word], wi) => { const el = document.querySelector('.sp-title .' + cls);
+  [['w1', 'Boun'], ['w2', 'zo']].forEach(([cls, word], wi) => { const el = document.querySelector('.sp-title .' + cls);
     [...word].forEach((ch, i) => { const sp = document.createElement('i'); sp.textContent = ch; sp.style.animationDelay = `${.15 + wi * .35 + i * .06}s, ${1.6 + i * .12}s`; el.append(sp); }); });
   setTimeout(() => document.querySelector('.sp-title').classList.add('glint'), 50);
   if (save.rec.best > 0) $('spBest').textContent = `Best ${save.rec.best}`;
