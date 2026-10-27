@@ -130,7 +130,7 @@ textarea { width: 100%; min-height: 70px; border-radius: 12px; border: 1.5px sol
 .legend-row span { display: flex; align-items: center; gap: 7px; }
 .dot { width: 18px; height: 18px; border-radius: 50%; display: inline-grid; place-items: center; font-size: 11px; color: #fff; font-weight: 800; flex: none; font-style: normal; }
 #buyOpts { display: grid; gap: 10px; }
-#chestCv { width: 220px; height: 190px; justify-self: center; max-width: 100%; }
+#chestCv { width: 260px; height: 240px; justify-self: center; max-width: 100%; }
 #chestPrize { font-family: var(--display); font-size: 26px; min-height: 34px; display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
 
 #countLayer { background: transparent; pointer-events: none; }
@@ -266,6 +266,54 @@ textarea { width: 100%; min-height: 70px; border-radius: 12px; border: 1.5px sol
 .guide.swipe .gfinger { display: block; position: absolute; left: 50%; bottom: 20px; width: 30px; height: 30px; margin-left: -15px; border-radius: 50%; background: rgba(255,248,236,.92); box-shadow: 0 0 0 9px rgba(255,240,200,.22); animation: gslide 2.4s ease-in-out infinite; }
 .guide.swipe .gtrack { bottom: 104px; } .guide.swipe .gball { bottom: 112px; }
 .guide.swipe .gstatus { display: none; }
+
+.xbtn { flex: none; width: 40px; height: 40px; border-radius: 50%; border: 1.5px solid var(--line); background: rgba(255,255,255,.08); color: var(--sand); display: grid; place-items: center; cursor: pointer; padding: 0; }
+.xbtn:hover { background: rgba(255,255,255,.14); } .xbtn:active { transform: scale(.92); }
+
+.boostbtn { display: flex; align-items: center; justify-content: center; gap: 8px; }
+.boostbtn .bico { color: var(--gold); font-size: 18px; }
+.bpips { display: inline-flex; gap: 3px; margin-left: 4px; }
+.bpips i { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,.18); }
+.bpips i.on { background: var(--gold); }
+
+#chestPrize { flex-direction: column; align-items: center; gap: 10px; }
+#chestPrize.pop > * { animation: cpop .5s cubic-bezier(.2,1.6,.4,1) both; } #chestPrize.pop > *:nth-child(2) { animation-delay: .12s; }
+@keyframes cpop { from { transform: scale(.4) translateY(20px); opacity: 0; } to { transform: none; opacity: 1; } }
+.crow { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.cprize { display: flex; gap: 12px; align-items: center; text-align: left; padding: 10px 12px; border-radius: 16px; background: rgba(8,20,19,.6); border: 2px solid #8ff0bf; font-family: var(--body); font-size: 14px; }
+.cprize.legend { border-color: var(--legend, #c9a2ff); background: linear-gradient(160deg, rgba(120,70,200,.35), rgba(8,20,19,.6)); box-shadow: 0 0 24px rgba(180,140,255,.35); }
+.cprize canvas { width: 92px; height: 67px; border-radius: 10px; flex: none; }
+.cprize div { display: grid; gap: 2px; } .cprize b { font-family: var(--display); font-size: 19px; } .cprize span { color: var(--mist); font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
+.cprize em { font-style: normal; font-size: 12.5px; color: #8ff0bf; } .cprize.legend em { color: #e3cfff; }
+#chest .card.legend { border-color: rgba(201,162,255,.55); box-shadow: 0 0 60px rgba(150,100,255,.25), 0 20px 60px rgba(0,0,0,.35); }
+#menuChest.legend { background: linear-gradient(90deg, #ffd57a, #c9a2ff); }
+
+.lcbuy { display: flex; align-items: center; gap: 10px; width: 100%; padding: 8px 12px 8px 8px; border-radius: 16px; cursor: pointer; text-align: left; color: var(--sand); font-family: var(--body);
+  border: 1.5px solid rgba(201,162,255,.6); background: linear-gradient(110deg, rgba(120,70,200,.45), rgba(40,20,80,.5) 60%, rgba(255,213,122,.18)); box-shadow: 0 0 20px rgba(150,100,255,.2); }
+.lcbuy:active { transform: scale(.98); }
+.lcbuy canvas { width: 48px; height: 36px; flex: none; }
+.lcbuy span:nth-child(2) { display: grid; flex: 1; min-width: 0; } .lcbuy b { font-family: var(--display); font-size: 17px; } .lcbuy small { font-size: 11.5px; color: #d9c8ff; }
+.lcprice { display: inline-flex; align-items: center; gap: 4px; font-family: var(--display); font-weight: 700; font-size: 17px; color: var(--ink); background: linear-gradient(180deg, #c9f4ff, #7fbfff); border-radius: 12px; padding: 6px 10px; }
+
+.cprize { position: relative; overflow: hidden; }
+.cprize.isnew::after { content: ""; position: absolute; top: 0; bottom: 0; width: 40%; left: -60%; background: linear-gradient(100deg, transparent, rgba(255,255,255,.35), transparent); animation: cshine 2.2s ease-in-out .4s infinite; }
+@keyframes cshine { to { left: 130%; } }
+.newb { position: absolute; top: 6px; right: 8px; font-style: normal; font: 800 11px var(--body); letter-spacing: .08em; color: var(--ink); background: #8ff0bf; border-radius: 999px; padding: 2px 8px; animation: gpulse 1.2s ease-in-out infinite; }
+.cprize.legend .newb { background: linear-gradient(90deg, #ffd57a, #c9a2ff); }
+
+.odds { display: grid; gap: 4px; text-align: left; background: rgba(8,20,19,.5); border-radius: 14px; padding: 10px 12px; font-size: 13.5px; }
+.odds b { font-family: var(--display); font-size: 15px; margin-bottom: 2px; }
+.odds span { display: flex; justify-content: space-between; gap: 10px; } .odds i { font-style: normal; color: var(--sand); } .odds em { font-style: normal; font-weight: 800; color: var(--gold); }
+.odds small { color: var(--mist); font-size: 12px; margin-top: 4px; }
+
+/* Small phones (iPhone SE): compact start page so everything fits */
+@media (max-height: 620px) and (orientation: portrait) {
+  #menu .card { gap: 8px; padding-block: 14px; }
+  #menu .card h1 { font-size: 32px; }
+  #menuMsg { font-size: 13px; }
+  #menu .btn { padding-block: 10px; font-size: 18px; }
+  .kit canvas { aspect-ratio: 16 / 10; }
+}
 </style>
 
 <div id="wrap">
@@ -312,6 +360,7 @@ textarea { width: 100%; min-height: 70px; border-radius: 12px; border: 1.5px sol
         <button data-k="pad" aria-label="Change paddle"><canvas></canvas><span>Paddle</span></button>
         <button data-k="world" aria-label="Change world"><canvas></canvas><span>World</span></button>
       </div>
+      <button class="btn alt boostbtn" id="boostBtn"><span class="bico" aria-hidden="true">⚡</span><span>Boosts</span><span class="bpips" id="boostPips"></span></button>
       <div class="row"><button class="btn alt" id="shopBtn">Shop</button><button class="btn alt" id="recBtn">Records</button></div>
       <div class="row"><button class="link" id="howBtn">How to play</button><button class="link" id="setBtn">Settings</button></div>
     </div>
@@ -320,7 +369,7 @@ textarea { width: 100%; min-height: 70px; border-radius: 12px; border: 1.5px sol
   <!-- My skins: change and upgrade what you own, and see it live above -->
   <div class="layer bottom" id="loadout" hidden>
     <div class="card wide lo">
-      <div class="cardhead"><h2 id="loTitle">Choose</h2><div class="lohd"><button class="link" id="loShop">Shop</button><button class="btn sm" id="loDone">Done</button></div></div>
+      <div class="cardhead"><h2 id="loTitle">Choose</h2><div class="lohd"><button class="link" id="loShop">Shop</button><button class="xbtn" id="loDone" aria-label="Close"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button></div></div>
       <div class="tabs" id="loTabs" role="tablist">
         <button role="tab" data-lt="ball" aria-selected="true">Ball</button>
         <button role="tab" data-lt="pad" aria-selected="false">Paddle</button>
@@ -345,9 +394,21 @@ textarea { width: 100%; min-height: 70px; border-radius: 12px; border: 1.5px sol
     </div>
   </div>
 
+  <!-- Boosts: permanent upgrades, opened from the start page -->
+  <div class="layer" id="boosts" hidden>
+    <div class="card wide">
+      <div class="cardhead"><h2>Boosts</h2>
+        <div class="wal"><span class="coins"><i class="coinico"></i><span class="vCoins">0</span></span>
+          <span class="gems"><i class="gemico"></i><span class="vGems">0</span></span></div>
+        <button class="xbtn" id="boostBack" aria-label="Close"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button></div>
+      <div class="list" id="boostList"></div>
+      <p class="small">Boosts are permanent and help in every game.</p>
+    </div>
+  </div>
+
   <div class="layer" id="how" hidden>
     <div class="card wide">
-      <div class="cardhead"><h2>How to play</h2><button class="link" id="howBack">Done</button></div>
+      <div class="cardhead"><h2>How to play</h2><button class="xbtn" id="howBack" aria-label="Close"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button></div>
       <ol class="howto">
         <li><i>1</i><span>Steer the ball your way: tilt your phone left and right, or swipe in the strip under the paddle. Change it any time in Settings.</span></li>
         <li><i>2</i><span>The paddle moves by itself. Land the ball on it to score 1 point.</span></li>
@@ -377,14 +438,14 @@ textarea { width: 100%; min-height: 70px; border-radius: 12px; border: 1.5px sol
       <div class="cardhead"><h2>Shop</h2>
         <div class="wal"><span class="coins"><i class="coinico"></i><span class="vCoins">0</span></span>
           <span class="gems"><i class="gemico"></i><span class="vGems">0</span></span><button class="plus" id="plusGems" aria-label="Get diamonds">+</button></div>
-        <button class="link" id="shopBack">Done</button></div>
+        <button class="xbtn" id="shopBack" aria-label="Close"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button></div>
       <div class="tabs" role="tablist">
         <button role="tab" data-tab="ball" aria-selected="true">Ball</button>
         <button role="tab" data-tab="pad" aria-selected="false">Paddle</button>
         <button role="tab" data-tab="world" aria-selected="false">World</button>
-        <button role="tab" data-tab="boost" aria-selected="false">Boosts</button>
         <button role="tab" data-tab="gems" aria-selected="false" aria-label="Diamonds"><i class="gemico"></i></button>
       </div>
+      <button class="lcbuy" id="buyLChest"><canvas id="lcIcon" width="96" height="72" aria-hidden="true"></canvas><span><b>Legendary chest</b><small>Special or Legendary skins, diamonds, gold</small></span><span class="lcprice"><i class="gemico"></i>100</span></button>
       <div class="upbox" id="upBox"><div><b id="upName"></b><span id="upText"></span></div><button class="btn gold sm" id="upBtn"></button></div>
       <div class="grid" id="grid"></div>
       <div class="list" id="list" hidden></div>
@@ -395,7 +456,7 @@ textarea { width: 100%; min-height: 70px; border-radius: 12px; border: 1.5px sol
   <!-- Records -->
   <div class="layer" id="records" hidden>
     <div class="card wide">
-      <div class="cardhead"><h2>Records</h2><button class="link" id="recBack">Done</button></div>
+      <div class="cardhead"><h2>Records</h2><button class="xbtn" id="recBack" aria-label="Close"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button></div>
       <div class="stats" id="stats"></div>
       <h3>Recent games</h3>
       <ol id="hist"></ol>
@@ -407,7 +468,7 @@ textarea { width: 100%; min-height: 70px; border-radius: 12px; border: 1.5px sol
   <!-- Settings -->
   <div class="layer" id="settings" hidden>
     <div class="card wide">
-      <div class="cardhead"><h2>Settings</h2><button class="link" id="setBack">Done</button></div>
+      <div class="cardhead"><h2>Settings</h2><button class="xbtn" id="setBack" aria-label="Close"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button></div>
       <div class="setrow"><label>Sound</label>
         <div class="seg" id="soundSeg"><button data-v="1">On</button><button data-v="0">Off</button></div></div>
       <div class="setrow"><label>Controls</label>
@@ -473,7 +534,7 @@ textarea { width: 100%; min-height: 70px; border-radius: 12px; border: 1.5px sol
   <div class="layer" id="chest" hidden>
     <div class="card">
       <p class="eyebrow" id="chestEyebrow">Treasure chest</p>
-      <canvas id="chestCv" width="440" height="380"></canvas>
+      <canvas id="chestCv" width="520" height="480"></canvas>
       <div id="chestPrize"></div>
       <button class="btn gold" id="chestOpen">Open</button>
       <button class="btn alt" id="chestDone" hidden>Collect</button>
@@ -1633,26 +1694,22 @@ const UPG = [
   { id: 'slow', name: 'Longer slow motion', desc: 'Slow motion lasts 20% longer per level.', max: 5 },
   { id: 'magnet', name: 'Coin magnet', desc: 'Pulls nearby coins into your ball. Bigger reach each level.', max: 5 },
   { id: 'lucky', name: 'Lucky bubbles', desc: 'Fewer bad power-ups fall each level.', max: 5 },
-  { id: 'shieldStart', name: 'Starting shield', desc: 'Every run starts with one free shield.', max: 1, costs: [1500] },
+  { id: 'bigball', name: 'Big ball', desc: 'Makes the Big ball reward bigger each level.', max: 5, costs: [200, 500, 900, 1500, 2500],
+    lv: ['Big ball grows to 140%', 'Big ball grows to 155%', 'Big ball grows to 170%', 'Big ball grows to 185%', 'Big ball grows to 200% and lasts longer'] },
+  { id: 'shieldStart', name: 'Shield', desc: 'Start with a shield. Higher levels bring it back after it saves you.', max: 5, costs: [800, 1500, 2500, 4000, { gems: 40 }],
+    lv: ['Start every game with a shield', 'Shield comes back 20 sec after it saves you', 'Shield comes back after 16 sec', 'Shield comes back after 13 sec', 'Shield comes back after 10 sec'] },
 ];
 const UP_COSTS = [100, 250, 500, 900, 1500];
+const SHIELD_BACK = [0, 0, 20, 16, 13, 10]; // seconds until the shield returns, by Shield level
 // Demo prices. Real prices are set in App Store Connect.
 const GEM_PACKS = [
   { gems: 80, price: '$0.99' }, { gems: 450, price: '$4.99', tag: 'Popular' }, { gems: 1000, price: '$9.99', tag: 'Best value' }, { gems: 2200, price: '$19.99', tag: 'Biggest' },
 ];
 const REVIVE_GEMS = [15, 30, 60];
 const MAX_REVIVES = 3;
-function rollChest() {
-  const r = R();
-  if (r < .04) return { gems: 3 + (R() * 8 | 0), coins: 20 + (R() * 40 | 0), rare: true };   // 4%: diamonds
-  if (r < .09) return { coins: 300 + (R() * 300 | 0), big: true };                          // 5%: big coin pile
-  if (r < .32) return { coins: 120 + (R() * 180 | 0) };                                       // 23%
-  return { coins: 30 + (R() * 90 | 0) };                                                      // 68%
-}
-
 // ================= Save data (works offline) =================
-const DEF = { v: 4, coins: 300, gems: 0, chests: 0, owned: { ball: ['classic'], pad: ['classic'], world: ['pond'] }, use: { ball: 'classic', pad: 'classic', world: 'pond' },
-  lv: { ball: {}, pad: {}, world: {} }, up: { size: 0, grow: 0, slow: 0, magnet: 0, lucky: 0, shieldStart: 0 }, sound: true, sens: 1, dir: 1, zero: 0, ctrl: '', seenHow: false, gemAdDay: '',
+const DEF = { v: 4, coins: 300, gems: 0, chests: 0, lchests: 0, owned: { ball: ['classic'], pad: ['classic'], world: ['pond'] }, use: { ball: 'classic', pad: 'classic', world: 'pond' },
+  lv: { ball: {}, pad: {}, world: {} }, up: { size: 0, grow: 0, slow: 0, magnet: 0, lucky: 0, shieldStart: 0, bigball: 0 }, sound: true, sens: 1, dir: 1, zero: 0, ctrl: '', seenHow: false, gemAdDay: '',
   rec: { best: 0, games: 0, bounces: 0, stars: 0, coins: 0, bestTime: 0, chests: 0, gemsFound: 0, bestBounces: 0, hist: [] } };
 const clone = o => JSON.parse(JSON.stringify(o));
 function normalize(s) {
@@ -1708,7 +1765,8 @@ const padBase = () => clamp(W * .28, 92 * U, 175 * U) * (1 + .04 * save.up.size)
 const wc = document.createElement('canvas'), wctx = wc.getContext('2d');
 { const desc = Object.getOwnPropertyDescriptor(CanvasRenderingContext2D.prototype, 'shadowBlur'); if (desc && desc.set) Object.defineProperty(wctx, 'shadowBlur', { configurable: true, get() { return 0; }, set() {} }); }
 let WSC = 1.5;
-function sizeWorldCanvas() { WSC = Math.min(window.devicePixelRatio || 1, [1.5, 1.2, 1][Q.level]); wc.width = Math.max(1, Math.round(W * WSC)); wc.height = Math.max(1, Math.round(H * WSC)); wctx.setTransform(WSC, 0, 0, WSC, 0, 0); }
+// big screens (iPad) get a pixel budget so the background stays smooth
+function sizeWorldCanvas() { WSC = Math.min(window.devicePixelRatio || 1, [1.5, 1.2, 1][Q.level], Math.sqrt([900e3, 600e3, 420e3][Q.level] / Math.max(1, W * H))); wc.width = Math.max(1, Math.round(W * WSC)); wc.height = Math.max(1, Math.round(H * WSC)); wctx.setTransform(WSC, 0, 0, WSC, 0, 0); }
 // Home background: a calm, plain scene for the loading screen and menus. The player's own world only shows in a game or in a shop preview.
 const HOME_WORLD = { id: 'home', name: 'Home', tier: 'normal', f: [['sky', ['#0f3330', '#1a4f48', '#2c6b5f']], ['glow', { x: .5, y: .1, r: .75, col: 'rgba(170,230,210,.14)' }],
   ['rays', { col: 'rgba(200,255,235,.03)' }], ['bubbles', { n: 16, col: 'rgba(159,211,193,.16)' }], ['dust', { n: 14, col: '#bfeee0' }]] };
@@ -1744,7 +1802,7 @@ function resize(keepWorld) {
     const fullBleed = innerHeight >= sh - 2, rs = document.documentElement.style;
     if (!fullBleed && (SAFE_T || SAFE_B)) { SAFE_T = SAFE_B = 0; rs.setProperty('--sat', '0px'); rs.setProperty('--sab', '0px'); }
     else { rs.removeProperty('--sat'); rs.removeProperty('--sab'); } }
-  const d = Math.min(window.devicePixelRatio || 1, Q.dpr);
+  const d = Math.min(window.devicePixelRatio || 1, Q.dpr, Math.sqrt([3.2e6, 2e6, 1.3e6][Q.level] / Math.max(1, c.clientWidth * c.clientHeight)));
   W = c.clientWidth; H = c.clientHeight;
   c.width = Math.round(W * d); c.height = Math.round(H * d); ctx.setTransform(d, 0, 0, d, 0, 0);
   U = clamp(Math.min(W, H) / 390, .85, 1.9);
@@ -1788,8 +1846,8 @@ function placeBall() { ball.x = pad.x; ball.y = H * .32; ball.py = ball.y; ball.
 
 function resetGame() {
   Object.assign(G, { score: 0, bounces: 0, stars: 0, coins: 0, time: 0, final: false, earned: 0, spawnIn: 320, coinIn: 90, windIn: 600, wind: 0, windT: 0,
-    shield: save.up.shieldStart > 0, shake: 0, revives: 0, adRev: false, gemRev: 0, chest: false, chestSpawned: false, chestIn: -1, recordShown: false, gemRevUsed: false });
-  G.fx = { grow: 0, slow: 0, shrink: 0, turbo: 0, flip: 0 };
+    shield: save.up.shieldStart > 0, shake: 0, revives: 0, adRev: false, gemRev: 0, chest: false, chestSpawned: false, chestIn: -1, recordShown: false, gemRevUsed: false, shieldIn: 0 });
+  G.fx = { grow: 0, slow: 0, shrink: 0, turbo: 0, flip: 0, big: 0 }; G.ballScale = 1; ball.r = 14 * U;
   items = []; parts = []; ripples = []; texts = []; windLines = [];
   pad.base = padBase(); pad.x = W / 2; pad.y = padHome(); pad.dir = R() < .5 ? -1 : 1; pad.w = pad.base;
   $('hudCoin').textContent = 0; addScore(0); placeBall();
@@ -1903,6 +1961,37 @@ const sfx = {
   gem: () => { [1319, 1760, 2093, 2637].forEach((f, i) => tone(f, .06, .8, 'sine', null, i * .09)); },
 };
 
+// ================= Chests =================
+// Normal chest: coins, sometimes diamonds, sometimes a Special skin.
+// Legendary chest (rare): big prizes, often a Special or Legendary skin.
+// A skin you already own gives back 80% of its price (diamonds for Legendary skins, coins for Special skins).
+const REFUND = .8, LEG_CHEST_CHANCE = .08, LEG_CHEST_PRICE = 100;
+const totalChests = () => save.chests + (save.lchests || 0);
+const skinPool = tier => ['ball', 'pad', 'world'].flatMap(cat => CAT[cat].filter(i => i.tier === tier).map(it => ({ cat, it })));
+function withSkin(base, tier) {
+  const p = pick(skinPool(tier));
+  if (!owns(p.cat, p.it.id)) { base.skin = p; return base; }
+  base.dup = p;
+  if (p.it.gems) { base.refund = { gems: Math.round(p.it.gems * REFUND) }; base.gems = (base.gems || 0) + base.refund.gems; }
+  else { base.refund = { coins: Math.round((p.it.coins || 0) * REFUND) }; base.coins = (base.coins || 0) + base.refund.coins; }
+  return base;
+}
+const rint = (a, b) => a + (R() * (b - a + 1) | 0);
+function rollChest(type) {
+  const r = R();
+  if (type === 'legend') {
+    if (r < .18) return withSkin({ coins: rint(200, 500), title: 'Legendary skin!' }, 'legend');
+    if (r < .55) return withSkin({ coins: rint(300, 600), title: 'Special skin!' }, 'special');
+    if (r < .80) return { gems: rint(20, 50), coins: rint(200, 500), title: 'Diamond treasure!' };
+    return { coins: rint(1500, 3000), gems: rint(5, 10), title: 'Mountain of gold!' };
+  }
+  if (r < .05) return withSkin({ coins: rint(30, 80), title: 'Special skin!' }, 'special');
+  if (r < .11) return { gems: rint(5, 12), coins: rint(20, 60), title: 'Rare find!' };
+  if (r < .18) return { coins: rint(300, 600), title: 'Big pile!' };
+  if (r < .40) return { coins: rint(120, 300), title: 'You got' };
+  return { coins: rint(40, 120), title: 'You got' };
+}
+
 // ================= Power-ups, coins and the chest =================
 const ITEMS = {
   coin: { col: '#f5b72e', good: true }, chest: { col: '#f2c14e', good: true, label: 'Chest!' },
@@ -1910,13 +1999,15 @@ const ITEMS = {
   slow: { col: '#4aa8ff', g: '½', good: true, label: 'Slow motion' }, shield: { col: '#9b7bff', g: '◈', good: true, label: 'Shield' },
   shrink: { col: '#ff5d5d', g: '−', good: false, label: 'Small paddle' }, turbo: { col: '#ff9a3c', g: '»', good: false, label: 'Fast paddle' },
   flip: { col: '#e45dbf', g: '⇄', good: false, label: 'Flipped tilt' },
+  big: { col: '#ff8a65', g: '⬤', good: true, label: 'Big ball' },
 };
-const FX_BASE = { grow: 600, slow: 360, shrink: 480, turbo: 360, flip: 300 };
-const fxLen = k => FX_BASE[k] * (k === 'grow' ? 1 + .2 * save.up.grow : k === 'slow' ? 1 + .2 * save.up.slow : 1);
+const BIG_SIZE = [1.25, 1.4, 1.55, 1.7, 1.85, 2]; // Big ball size by boost level (max 200%)
+const FX_BASE = { grow: 600, slow: 360, shrink: 480, turbo: 360, flip: 300, big: 600 };
+const fxLen = k => FX_BASE[k] * (k === 'grow' ? 1 + .2 * save.up.grow : k === 'slow' ? 1 + .2 * save.up.slow : k === 'big' && save.up.bigball >= 5 ? 1.5 : 1);
 const fallSpeed = () => (.55 + Math.min(.45, G.score * .004)) * U;
 function spawnItem() {
   const badChance = Math.max(.12, .32 + Math.min(.2, G.score * .004) - .035 * save.up.lucky);
-  const pool = R() < badChance ? ['shrink', 'turbo', 'flip'] : ['star', 'star', 'grow', 'slow', 'shield'];
+  const pool = R() < badChance ? ['shrink', 'turbo', 'flip'] : ['star', 'star', 'grow', 'slow', 'shield', 'big'];
   items.push({ type: pick(pool), x: 40 * U + R() * (W - 80 * U), y: 120 * U, vy: fallSpeed() * (.8 + R() * .3), age: 0, o: R() * 100 });
 }
 function spawnCoins() {
@@ -1929,25 +2020,131 @@ function drawCoin(g, x, y, t, o) {
   g.save(); g.translate(x, y); g.scale(sx, 1); g.shadowColor = '#ffd57a'; g.shadowBlur = 8; g.fillStyle = '#e09b17'; circle(g, 0, 0, r); g.shadowBlur = 0;
   g.fillStyle = '#ffd966'; circle(g, 0, 0, r * .77); g.fillStyle = '#e8a521'; g.fillRect(-r * .15, -r * .45, r * .3, r * .9); g.restore();
 }
-function drawChest(g, x, y, s, open, t, glow) {
-  const w = s, h = s * .62;
-  g.save(); g.translate(x, y);
-  if (glow) { g.save(); g.globalCompositeOperation = 'lighter'; const gr = g.createRadialGradient(0, -h * .2, 0, 0, -h * .2, s * 1.1); gr.addColorStop(0, `rgba(255,220,120,${glow})`); gr.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = gr; g.fillRect(-s * 1.2, -s * 1.2, s * 2.4, s * 2.4); g.restore(); }
-  g.fillStyle = '#7a3f1c'; rr(g, -w / 2, -h * .15, w, h * .7, w * .06); g.fill();
-  g.fillStyle = '#9b5426'; g.fillRect(-w / 2 + w * .05, -h * .05, w * .9, h * .48);
-  g.fillStyle = '#f2c14e'; g.fillRect(-w / 2, -h * .15, w, h * .09); g.fillRect(-w * .08, -h * .15, w * .16, h * .7);
-  g.save(); g.translate(0, -h * .15 - open * h * .5); g.rotate(-open * .35);
-  g.fillStyle = '#8a4b22'; g.beginPath(); g.moveTo(-w / 2, 0); g.lineTo(-w / 2, -h * .28); g.quadraticCurveTo(0, -h * .62, w / 2, -h * .28); g.lineTo(w / 2, 0); g.closePath(); g.fill();
-  g.strokeStyle = '#f2c14e'; g.lineWidth = w * .06; g.stroke(); g.fillStyle = '#f2c14e'; g.fillRect(-w * .08, -h * .45, w * .16, h * .45);
+// Treasure chests: rounded, polished cartoon chests with gold trim and a glowing orb gem.
+// Normal: white and navy body, silver and gold details, glowing blue orb, soft blue light.
+// Legendary (leg): navy and rich red body, bright gold borders, red-and-gold orb, golden crown, strong golden light and magic particles.
+function star4(g, x, y, r) { g.beginPath(); g.moveTo(x, y - r); g.quadraticCurveTo(x, y, x + r, y); g.quadraticCurveTo(x, y, x, y + r); g.quadraticCurveTo(x, y, x - r, y); g.quadraticCurveTo(x, y, x, y - r); g.fill(); }
+const CHEST_PAL = {
+  normal: { sh1: '#ffffff', sh2: '#c4cde0', sh3: '#8e9bb8', in1: '#2b3d6e', in2: '#14204a', glow: '#62d4ff', line: '#121a36', orb: ['#ffffff', '#59b8ff', '#1a3fb0', '#0a1c66'], light: [120, 200, 255], beam: [255, 230, 150], metal: ['#ffffff', '#d7deea', '#8f9bb3'] },
+  legend: { sh1: '#4a5a9a', sh2: '#25305f', sh3: '#121838', in1: '#d4243b', in2: '#6e0a1c', glow: '#ffb347', line: '#120a1c', orb: ['#fff6cf', '#ff5a3c', '#b0001c', '#4d000c'], light: [255, 200, 90], beam: [255, 215, 120], metal: ['#fff6c4', '#ffc93d', '#a8651a'] },
+};
+function drawChest(g, x, y, s, open, t, glow, leg) {
+  const C = leg ? CHEST_PAL.legend : CHEST_PAL.normal, w = s, lw = Math.max(1, w * .018);
+  const L = -w * .5, Rt = w * .5, lidTop = -w * .42, seam = -w * .03, bot = w * .38, depth = w * .07;
+  const gold = (x0, y0, x1, y1) => { const gr = g.createLinearGradient(x0, y0, x1, y1); gr.addColorStop(0, '#fff6c4'); gr.addColorStop(.4, '#ffcd45'); gr.addColorStop(1, '#a8651a'); return gr; };
+  const shell = (y0, y1) => { const gr = g.createLinearGradient(0, y0, 0, y1); gr.addColorStop(0, C.sh1); gr.addColorStop(.55, C.sh2); gr.addColorStop(1, C.sh3); return gr; };
+  const panel = (y0, y1) => { const gr = g.createLinearGradient(0, y0, 0, y1); gr.addColorStop(0, C.in1); gr.addColorStop(1, C.in2); return gr; };
+  g.save(); g.translate(x, y); g.lineJoin = 'round'; g.lineCap = 'round';
+  // light pool on the ground
+  { g.save(); g.globalCompositeOperation = 'lighter'; const [r1, g1, b1] = C.light, gr = g.createRadialGradient(0, bot, 0, 0, bot, w * .75);
+    gr.addColorStop(0, `rgba(${r1},${g1},${b1},${leg ? .55 : .4})`); gr.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = gr; g.save(); g.scale(1, .25); g.beginPath(); g.arc(0, bot * 4, w * .75, 0, TAU); g.fill(); g.restore();
+    g.strokeStyle = `rgba(${r1},${g1},${b1},.55)`; g.lineWidth = lw; g.beginPath(); g.ellipse(0, bot, w * .6, w * .1, 0, 0, TAU); g.stroke(); g.restore(); }
+  // aura (and golden god-rays for the legendary chest)
+  if (glow) { g.save(); g.globalCompositeOperation = 'lighter'; const [r1, g1, b1] = C.light, gr = g.createRadialGradient(0, -w * .05, 0, 0, -w * .05, w * 1.05);
+    gr.addColorStop(0, `rgba(${r1},${g1},${b1},${glow * .8})`); gr.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = gr; g.fillRect(-w * 1.1, -w * 1.1, w * 2.2, w * 2.2); g.restore(); }
+  if (leg) { g.save(); g.globalCompositeOperation = 'lighter'; g.translate(0, -w * .1); g.rotate(t * .005);
+    for (let i = 0; i < 12; i++) { g.rotate(TAU / 12); const rg = g.createLinearGradient(0, 0, 0, -w * .75); rg.addColorStop(0, 'rgba(255,210,110,.22)'); rg.addColorStop(1, 'rgba(255,210,110,0)');
+      g.fillStyle = rg; g.beginPath(); g.moveTo(-w * .05, 0); g.lineTo(w * .05, 0); g.lineTo(0, -w * .75); g.fill(); }
+    g.restore(); }
+  const accent = (x0, y0, x1, y1) => { g.save(); g.strokeStyle = C.glow; g.lineWidth = w * .022; g.globalAlpha = .9; g.beginPath(); g.moveTo(x0, y0); g.lineTo(x1, y1); g.stroke();
+    g.globalCompositeOperation = 'lighter'; g.globalAlpha = .35; g.lineWidth = w * .05; g.stroke(); g.restore(); };
+  // ---- lid ----
+  const drawLid = (inside) => {
+    // top face (gives the chunky 3D look)
+    g.fillStyle = inside ? panel(lidTop, seam) : C.sh1; rr(g, L + w * .05, lidTop - depth, w * .9, depth + w * .12, w * .12); g.fill(); g.strokeStyle = C.line; g.lineWidth = lw; g.stroke();
+    // lid front
+    g.fillStyle = shell(lidTop, seam); g.beginPath(); g.moveTo(L, seam); g.lineTo(L, lidTop + w * .14); g.quadraticCurveTo(L, lidTop, L + w * .14, lidTop); g.lineTo(Rt - w * .14, lidTop); g.quadraticCurveTo(Rt, lidTop, Rt, lidTop + w * .14); g.lineTo(Rt, seam); g.closePath(); g.fill(); g.stroke();
+    // inner panel on the lid
+    g.fillStyle = panel(lidTop, seam); rr(g, L + w * .17, lidTop + w * .08, w * .66, seam - lidTop - w * .08, w * .06); g.fill(); g.strokeStyle = C.line; g.lineWidth = lw * .8; g.stroke();
+    accent(L + w * .22, lidTop + w * .12, Rt - w * .22, lidTop + w * .12);
+    // glowing rail on top
+    accent(-w * .16, lidTop - depth * .45, w * .16, lidTop - depth * .45);
+    // gloss
+    g.strokeStyle = 'rgba(255,255,255,.55)'; g.lineWidth = w * .022; g.beginPath(); g.moveTo(L + w * .06, seam - w * .06); g.lineTo(L + w * .06, lidTop + w * .14); g.quadraticCurveTo(L + w * .06, lidTop + w * .05, L + w * .16, lidTop + w * .05); g.stroke();
+    // gold corner straps
+    for (const sx of [-1, 1]) { const bx = sx * w * .39; g.fillStyle = gold(bx - w * .045, 0, bx + w * .045, 0); rr(g, bx - w * .045, lidTop + w * .03, w * .09, seam - lidTop - w * .03, w * .03); g.fill(); g.strokeStyle = C.line; g.lineWidth = lw * .8; g.stroke(); }
+    // gold top latch
+    g.fillStyle = gold(0, lidTop - depth, 0, lidTop + w * .06); rr(g, -w * .07, lidTop - depth * .9, w * .14, depth + w * .07, w * .03); g.fill(); g.strokeStyle = C.line; g.stroke();
+    if (leg) drawCrown(g, 0, lidTop - depth * .9, w * .36, t);
+  };
+  // ---- base ----
+  const drawBase = () => {
+    g.fillStyle = shell(seam, bot); g.beginPath(); g.moveTo(L, seam); g.lineTo(Rt, seam); g.lineTo(Rt, bot - w * .1); g.quadraticCurveTo(Rt, bot, Rt - w * .1, bot); g.lineTo(L + w * .1, bot); g.quadraticCurveTo(L, bot, L, bot - w * .1); g.closePath(); g.fill(); g.strokeStyle = C.line; g.lineWidth = lw; g.stroke();
+    g.fillStyle = panel(seam, bot); rr(g, L + w * .17, seam + w * .05, w * .66, bot - seam - w * .12, w * .06); g.fill(); g.strokeStyle = C.line; g.lineWidth = lw * .8; g.stroke();
+    accent(L + w * .22, bot - w * .1, -w * .17, bot - w * .1); accent(w * .17, bot - w * .1, Rt - w * .22, bot - w * .1);
+    // side glow slots (like the reference's light strips)
+    accent(L + w * .1, seam + w * .1, L + w * .1, bot - w * .14); accent(Rt - w * .1, seam + w * .1, Rt - w * .1, bot - w * .14);
+    for (const sx of [-1, 1]) { const bx = sx * w * .39; g.fillStyle = gold(bx - w * .045, 0, bx + w * .045, 0); rr(g, bx - w * .045, seam, w * .09, bot - seam - w * .04, w * .03); g.fill(); g.strokeStyle = C.line; g.lineWidth = lw * .8; g.stroke();
+      g.fillStyle = gold(0, bot - w * .1, 0, bot); rr(g, bx - w * .08, bot - w * .1, w * .16, w * .1, w * .03); g.fill(); g.stroke(); }
+    // gold middle band
+    g.fillStyle = gold(0, seam - w * .045, 0, seam + w * .045); rr(g, L - w * .015, seam - w * .045, w * 1.03, w * .09, w * .03); g.fill(); g.strokeStyle = C.line; g.lineWidth = lw; g.stroke();
+    g.strokeStyle = 'rgba(255,255,255,.5)'; g.lineWidth = lw * .8; g.beginPath(); g.moveTo(L + w * .02, seam - w * .03); g.lineTo(Rt - w * .02, seam - w * .03); g.stroke();
+  };
+  const drawLock = () => {
+    const oy = seam + w * .01, R0 = w * .155;
+    if (leg) { g.fillStyle = gold(0, oy - R0 * 1.5, 0, oy + R0 * 1.5); g.beginPath(); g.moveTo(0, oy - R0 * 1.55); g.lineTo(R0 * 1.25, oy); g.lineTo(0, oy + R0 * 1.55); g.lineTo(-R0 * 1.25, oy); g.closePath(); g.fill(); g.strokeStyle = C.line; g.lineWidth = lw; g.stroke(); }
+    g.fillStyle = gold(0, oy - R0, 0, oy + R0); g.beginPath(); g.arc(0, oy, R0, 0, TAU); g.fill(); g.strokeStyle = C.line; g.lineWidth = lw; g.stroke();
+    g.fillStyle = C.line; g.beginPath(); g.arc(0, oy, R0 * .72, 0, TAU); g.fill();
+    // glowing orb
+    const pulse = .85 + .15 * Math.sin(t * .08), og = g.createRadialGradient(-R0 * .2, oy - R0 * .25, 0, 0, oy, R0 * .68);
+    og.addColorStop(0, C.orb[0]); og.addColorStop(.35, C.orb[1]); og.addColorStop(.8, C.orb[2]); og.addColorStop(1, C.orb[3]);
+    g.fillStyle = og; g.beginPath(); g.arc(0, oy, R0 * .66, 0, TAU); g.fill();
+    g.save(); g.globalCompositeOperation = 'lighter'; const [r1, g1, b1] = leg ? [255, 120, 70] : [90, 180, 255], hg = g.createRadialGradient(0, oy, 0, 0, oy, R0 * 2.1);
+    hg.addColorStop(0, `rgba(${r1},${g1},${b1},${.55 * pulse})`); hg.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = hg; g.beginPath(); g.arc(0, oy, R0 * 2.1, 0, TAU); g.fill();
+    g.fillStyle = 'rgba(255,255,255,.95)'; star4(g, R0 * .22, oy - R0 * .2, R0 * .32 * pulse); g.restore();
+    g.fillStyle = 'rgba(255,255,255,.75)'; g.beginPath(); g.ellipse(-R0 * .25, oy - R0 * .33, R0 * .2, R0 * .11, -.5, 0, TAU); g.fill();
+  };
+  if (open > 0) {
+    // the lid swings back on its hinge: its front shrinks away, then the inside of the lid shows above the box
+    const ease = open < .5 ? 2 * open * open : 1 - Math.pow(-2 * open + 2, 2) / 2, th = ease * 2.0, ky = Math.cos(th), hy = lidTop - depth * .5;
+    // inside of the box
+    const ig = g.createLinearGradient(0, hy, 0, seam); ig.addColorStop(0, C.in2); ig.addColorStop(1, C.line);
+    g.fillStyle = ig; rr(g, L + w * .03, hy, w * .94, seam - hy + w * .02, w * .1); g.fill(); g.strokeStyle = C.line; g.lineWidth = lw; g.stroke();
+    g.save(); g.translate(0, hy); g.scale(1, Math.abs(ky) < .02 ? .02 * Math.sign(ky || 1) : ky); g.translate(0, -hy);
+    if (ky > 0) drawLid(false);
+    else { // inside face of the lid, lit by the treasure
+      g.fillStyle = panel(lidTop, seam); g.beginPath(); g.moveTo(L, seam); g.lineTo(L, lidTop + w * .14); g.quadraticCurveTo(L, lidTop, L + w * .14, lidTop); g.lineTo(Rt - w * .14, lidTop); g.quadraticCurveTo(Rt, lidTop, Rt, lidTop + w * .14); g.lineTo(Rt, seam); g.closePath(); g.fill();
+      g.strokeStyle = gold(0, lidTop, 0, seam); g.lineWidth = w * .05; g.stroke(); g.strokeStyle = C.line; g.lineWidth = lw; g.stroke();
+      accent(L + w * .15, seam - w * .08, Rt - w * .15, seam - w * .08);
+      g.save(); g.globalCompositeOperation = 'lighter'; const [r1, g1, b1] = C.beam, lg = g.createLinearGradient(0, seam, 0, lidTop); lg.addColorStop(0, `rgba(${r1},${g1},${b1},${.5 * ease})`); lg.addColorStop(1, 'rgba(0,0,0,0)');
+      g.fillStyle = lg; g.fillRect(L, lidTop, w, seam - lidTop); g.restore(); }
+    g.restore();
+    // light pouring out
+    g.save(); g.globalCompositeOperation = 'lighter'; const [r1, g1, b1] = C.beam;
+    const bg = g.createLinearGradient(0, seam, 0, seam - w * 1.15); bg.addColorStop(0, `rgba(${r1},${g1},${b1},${.8 * open})`); bg.addColorStop(1, `rgba(${r1},${g1},${b1},0)`);
+    g.fillStyle = bg; g.beginPath(); g.moveTo(L + w * .08, seam); g.lineTo(Rt - w * .08, seam); g.lineTo(Rt + w * .3, seam - w * 1.15); g.lineTo(L - w * .3, seam - w * 1.15); g.closePath(); g.fill();
+    const cg = g.createRadialGradient(0, seam - w * .08, 0, 0, seam - w * .08, w * .55); cg.addColorStop(0, `rgba(255,255,235,${open * .55})`); cg.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = cg; g.fillRect(-w * .6, seam - w * .65, w * 1.2, w * .75);
+    for (let i = 0; i < 5; i++) { const tw = .5 + .5 * Math.sin(t * .15 + i * 2); g.fillStyle = `rgba(255,255,255,${tw * open})`; star4(g, -w * .3 + i * w * .15, seam - w * (.2 + (i % 2) * .15), w * .03 * (1 + tw)); }
+    g.restore();
+    drawBase(); drawLock();
+  } else { drawBase(); drawLid(false); drawLock(); }
+  // sparkles (subtle for normal, lots of magic for legendary)
+  g.save(); g.globalCompositeOperation = 'lighter';
+  const n = leg ? 10 : 4;
+  for (let i = 0; i < n; i++) { const tw = .5 + .5 * Math.sin(t * .09 + i * 1.7), a = i * 2.39 + t * (leg ? .012 : .006), rx = w * (.62 + (i % 3) * .06), ry = w * .45;
+    g.fillStyle = leg ? (i % 2 ? `rgba(255,220,130,${tw})` : `rgba(255,150,90,${tw * .9})`) : `rgba(170,225,255,${tw * .9})`;
+    star4(g, Math.cos(a) * rx, -w * .05 + Math.sin(a) * ry, w * (.025 + .03 * tw)); }
+  if (leg) for (let i = 0; i < 8; i++) { const ph = ((t * .6 + i * 37) % 120) / 120, px = Math.sin(i * 7.3) * w * .45, py = bot - ph * w * 1.1;
+    g.fillStyle = `rgba(255,${190 + (i % 3) * 20},100,${(1 - ph) * .8})`; g.beginPath(); g.arc(px, py, w * .012 * (1.5 - ph), 0, TAU); g.fill(); }
   g.restore();
-  if (!open) { g.fillStyle = '#fff1b0'; circle(g, 0, h * .02, w * .07); g.fillStyle = '#5a2a10'; g.fillRect(-w * .015, h * .0, w * .03, w * .06); }
+  g.restore();
+}
+function drawCrown(g, x, y, s, t) {
+  const w = s, h = s * .55, gold = g.createLinearGradient(0, -h, 0, 0); gold.addColorStop(0, '#fff6c4'); gold.addColorStop(.45, '#ffcd45'); gold.addColorStop(1, '#a8651a');
+  g.save(); g.translate(x, y);
+  g.save(); g.globalCompositeOperation = 'lighter'; const hg = g.createRadialGradient(0, -h * .5, 0, 0, -h * .5, w * .9); hg.addColorStop(0, 'rgba(255,210,110,.5)'); hg.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = hg; g.beginPath(); g.arc(0, -h * .5, w * .9, 0, TAU); g.fill(); g.restore();
+  g.fillStyle = gold; g.strokeStyle = '#3a1a05'; g.lineWidth = Math.max(1, w * .04);
+  g.beginPath(); g.moveTo(-w / 2, 0); g.lineTo(-w / 2, -h * .55); g.lineTo(-w * .27, -h * .25); g.lineTo(0, -h); g.lineTo(w * .27, -h * .25); g.lineTo(w / 2, -h * .55); g.lineTo(w / 2, 0); g.closePath(); g.fill(); g.stroke();
+  for (const [px, py, r] of [[-w / 2, -h * .6, w * .07], [0, -h * 1.05, w * .09], [w / 2, -h * .6, w * .07]]) { g.fillStyle = '#fff1a8'; g.beginPath(); g.arc(px, py, r, 0, TAU); g.fill(); g.stroke(); }
+  for (const [px, c] of [[-w * .25, '#ff4d5e'], [0, '#ff2440'], [w * .25, '#ff4d5e']]) { g.fillStyle = c; g.beginPath(); g.arc(px, -h * .2, w * .055, 0, TAU); g.fill(); }
+  const tw = .5 + .5 * Math.sin(t * .1); g.globalCompositeOperation = 'lighter'; g.fillStyle = `rgba(255,255,255,${tw})`; star4(g, w * .08, -h * 1.05, w * .12 * tw + w * .03);
   g.restore();
 }
 function drawItem(g, it, t) {
-  const a = Math.min(1, it.age / 20);
+  const f = it.fade == null ? 1 : it.fade, a = Math.min(1, it.age / 20) * f;
   if (it.type === 'coin') { g.globalAlpha = a; drawCoin(g, it.x, it.y, t, it.o); g.globalAlpha = 1; return; }
-  if (it.type === 'chest') { g.globalAlpha = a; drawChest(g, it.x, it.y + Math.sin(t / 12) * 4, 42 * U, 0, t, .5 + .2 * Math.sin(t / 8)); g.globalAlpha = 1; return; }
-  const d = ITEMS[it.type], x = it.x + Math.sin((t + it.o) / 25) * 6 * U, r = 17 * U;
+  if (it.type === 'chest') { g.globalAlpha = a; drawChest(g, it.x, it.y + Math.sin(t / 12) * 4, (it.leg ? 48 : 42) * U, 0, t, .5 + .2 * Math.sin(t / 8), it.leg); g.globalAlpha = 1; return; }
+  const d = ITEMS[it.type], x = it.x + Math.sin((t + it.o) / 25) * 6 * U, r = 17 * U * (.6 + .4 * f);
   g.save(); g.globalAlpha = a; g.translate(x, it.y);
   if (!d.good) { g.fillStyle = d.col; g.beginPath(); for (let i = 0; i < 16; i++) { const rr2 = i % 2 ? r : r * 1.35, an = i * PI / 8 + t / 40; g.lineTo(Math.cos(an) * rr2, Math.sin(an) * rr2); } g.fill(); }
   else { g.fillStyle = d.col; g.globalAlpha = a * .25; circle(g, 0, 0, r * 1.45 + Math.sin(t / 10) * 2); g.globalAlpha = a; }
@@ -1957,11 +2154,13 @@ function drawItem(g, it, t) {
 }
 function applyItem(it) {
   if (it.type === 'coin') { G.coins++; $('hudCoin').textContent = G.coins; sfx.coin(); burst(it.x, it.y, 6, { col: ['#ffd966', '#fff'], glow: true, size: 2, decay: .06, grav: 0 }); return; }
-  if (it.type === 'chest') { G.chest = true; sfx.chest(); burst(it.x, it.y, 30, { col: GOLDC, glow: true, size: 3, shape: 'star', grav: 0, decay: .025 });
-    texts.push({ x: it.x, y: it.y - 20 * U, txt: 'Chest! Open it after the game', col: '#ffe9a0', life: 1.3 }); return; }
+  if (it.type === 'chest') { const lg = it.leg; G.chest = lg ? 'legend' : 'normal'; sfx.chest(); if (lg) setTimeout(sfx.gem, 200);
+    burst(it.x, it.y, lg ? 50 : 30, { col: lg ? ['#ffd57a', '#c9a2ff', '#7fe3ff', '#ffffff'] : GOLDC, glow: true, size: 3, shape: 'star', grav: 0, decay: .022 });
+    texts.push({ x: it.x, y: it.y - 20 * U, txt: lg ? 'Legendary chest! Open it after the game' : 'Chest! Open it after the game', col: lg ? '#e3cfff' : '#ffe9a0', life: 1.4 }); return; }
   const d = ITEMS[it.type];
   if (it.type === 'star') { addScore(5); G.stars++; }
   else if (it.type === 'shield') G.shield = true;
+  else if (it.type === 'big') { G.ballScale = BIG_SIZE[save.up.bigball || 0]; G.fx.big = fxLen('big'); d.label = G.ballScale >= 2 ? 'Giant ball!' : 'Big ball'; }
   else { G.fx[it.type] = fxLen(it.type); if (it.type === 'grow') G.fx.shrink = 0; if (it.type === 'shrink') G.fx.grow = 0; }
   texts.push({ x: it.x, y: it.y - 10, txt: d.label, col: d.good ? '#c9ffe0' : '#ffc2c2', life: 1 });
   burst(it.x, it.y, 18, { col: [d.col, '#ffffff'], glow: d.good, size: 3, decay: .03, grav: .02 });
@@ -2022,8 +2221,9 @@ function update(k) {
   if (live) {
     const target = pad.base * Math.max(.66, 1 - G.score * .0035) * (G.fx.grow > 0 ? 1.45 : 1) * (G.fx.shrink > 0 ? .6 : 1);
     pad.w += (target - pad.w) * .12 * k;
-    pad.spd = Math.min(7.5, 1.3 + G.score * .09) * U * (G.fx.turbo > 0 ? 1.7 : 1);
-    if (R() < (.003 + Math.min(.01, G.score * .00015)) * s) pad.dir *= -1;
+    // steady left-right glide that speeds up gently; surprise turns only start after 100 points, and grow slowly
+    pad.spd = Math.min(7.5, 1.2 + G.score * .045) * U * (G.fx.turbo > 0 ? 1.7 : 1);
+    if (G.score >= 100 && R() < Math.min(.006, (G.score - 100) * .00005 + .0008) * s) pad.dir *= -1;
   } else { pad.w += (pad.base - pad.w) * .1; pad.spd = $('buy').hidden ? 0 : 1.4 * U; }
   pad.x += pad.dir * pad.spd * s;
   if (pad.x < pad.w / 2) { pad.x = pad.w / 2; pad.dir = 1; }
@@ -2070,8 +2270,9 @@ function update(k) {
     if (live) { beat = 1; G.bounces++; addScore(1); padSound(cur('pad').snd, G.score); checkMythic(); }
     else if (G.state === 'menu' && !$('buy').hidden) padSound(cur('pad').snd, (t / 40) | 0);
   }
+  if (live && !G.shield && G.shieldIn > 0) { G.shieldIn -= k; if (G.shieldIn <= 0) { G.shieldIn = 0; G.shield = true; sfx.good(); texts.push({ x: W / 2, y: H * .42, txt: 'Shield is back!', col: '#d8ccff', life: 1.2 }); } }
   if (live && G.shield && ball.vy > 0 && ball.y + ball.r >= H - 26 * U) {
-    ball.y = H - 26 * U - ball.r; ball.vy = -bounceV(); ball.sq = .35; ball.sqA = 0; ball.sqv = 0; G.shield = false;
+    ball.y = H - 26 * U - ball.r; ball.vy = -bounceV(); ball.sq = .35; ball.sqA = 0; ball.sqv = 0; G.shield = false; G.shieldIn = (SHIELD_BACK[save.up.shieldStart] || 0) * 60;
     burst(ball.x, H - 26 * U, 26, { up: true, col: ['#9b7bff', '#d8ccff', '#ffffff'], glow: true, sp: 5 }); sfx.good();
     texts.push({ x: ball.x, y: H - 60 * U, txt: 'Saved!', col: '#d8ccff', life: 1 });
   }
@@ -2099,6 +2300,9 @@ function update(k) {
 
   G.time += k;
   for (const key in G.fx) if (G.fx[key] > 0) G.fx[key] = Math.max(0, G.fx[key] - k);
+  // Big ball: grows up to 200% for a while, then shrinks back smoothly
+  if (!(G.fx.big > 0)) G.ballScale = 1;
+  { const tr = 14 * U * (live ? (G.ballScale || 1) : 1); ball.r += (tr - ball.r) * Math.min(1, .12 * k); }
 
   G.spawnIn -= k;
   if (G.spawnIn <= 0) { if (items.filter(i => i.type !== 'coin' && i.type !== 'chest').length < 2) spawnItem(); G.spawnIn = 280 + R() * 280; }
@@ -2108,14 +2312,20 @@ function update(k) {
   if (!G.chestSpawned && G.score >= 20) {
     if (G.chestIn < 0) G.chestIn = 120 + R() * 1200;
     G.chestIn -= k;
-    if (G.chestIn <= 0) { G.chestSpawned = true; items.push({ type: 'chest', x: 50 * U + R() * (W - 100 * U), y: 110 * U, vy: fallSpeed() * .75, age: 0, o: 0 }); texts.push({ x: W / 2, y: 150 * U, txt: 'A chest is falling!', col: '#ffe9a0', life: 1.2 }); }
+    if (G.chestIn <= 0) { G.chestSpawned = true; const leg = R() < LEG_CHEST_CHANCE;
+      items.push({ type: 'chest', leg, x: 50 * U + R() * (W - 100 * U), y: 110 * U, vy: fallSpeed() * (leg ? .65 : .75), age: 0, o: 0 });
+      texts.push({ x: W / 2, y: 150 * U, txt: leg ? 'A LEGENDARY chest is falling!' : 'A chest is falling!', col: leg ? '#e3cfff' : '#ffe9a0', life: 1.4 }); }
   }
   const magnet = ([0, 50, 80, 110, 140, 170][save.up.magnet] || 0) * U;
+  // rewards and hazards fade away by the middle of the play area, so the bottom stays clear and bad ones can be avoided
+  const midY = Math.min(Math.max(pad.y * .55, 210 * U), pad.y - 90 * U), fadeLen = 60 * U;
   for (const it of items) {
     it.age += k; it.y += it.vy * s;
+    it.fade = it.type === 'chest' ? 1 : clamp(1 - (it.y - (midY - fadeLen / 2)) / fadeLen, 0, 1);
+    if (it.fade <= 0) { it.gone = true; continue; }
     const dx = ball.x - it.x, dy = ball.y - it.y, dist = Math.hypot(dx, dy) || 1;
     if (it.type === 'coin' && magnet && dist < magnet) { it.x += dx / dist * 4 * U * k; it.y += dy / dist * 4 * U * k; }
-    if (dist < ball.r + (it.type === 'coin' ? 13 : it.type === 'chest' ? 26 : 18) * U) { it.gone = true; applyItem(it); }
+    if (it.fade > .45 && dist < ball.r + (it.type === 'coin' ? 13 : it.type === 'chest' ? 26 : 18) * U) { it.gone = true; applyItem(it); }
   }
   items = items.filter(it => !it.gone && it.y < H + 40 * U);
 
@@ -2181,12 +2391,12 @@ function draw() {
 }
 
 // ================= HUD =================
-const CHIP = { grow: ['Wide', 'good'], slow: ['Slow', 'good'], shrink: ['Small', 'bad'], turbo: ['Fast', 'bad'], flip: ['Flipped', 'bad'] };
+const CHIP = { big: ['Big ball', 'good'], grow: ['Wide', 'good'], slow: ['Slow', 'good'], shrink: ['Small', 'bad'], turbo: ['Fast', 'bad'], flip: ['Flipped', 'bad'] };
 function renderChips() {
   let html = '';
   for (const key in CHIP) if (G.fx[key] > 0) html += `<span class="chip ${CHIP[key][1]}">${CHIP[key][0]}<i><b style="width:${Math.round(G.fx[key] / fxLen(key) * 100)}%"></b></i></span>`;
-  if (G.shield) html += '<span class="chip good">Shield</span>';
-  if (G.chest) html += '<span class="chip chest">Chest</span>';
+  if (G.shield) html += '<span class="chip good">Shield</span>'; else if (G.shieldIn > 0) html += `<span class="chip neutral">Shield in ${Math.ceil(G.shieldIn / 60)}s</span>`;
+  if (G.chest) html += `<span class="chip chest">${G.chest === 'legend' ? 'Legendary chest' : 'Chest'}</span>`;
   if (G.windT > 0) html += `<span class="chip neutral">Wind ${G.wind > 0 ? '→' : '←'}</span>`;
   $('chips').innerHTML = html;
 }
@@ -2212,16 +2422,17 @@ function loop(now) {
 }
 
 // ================= Screens =================
-const LAYERS = ['splash', 'menu', 'loadout', 'ctrlPick', 'guide', 'how', 'shop', 'records', 'settings', 'pause', 'revive', 'over', 'chest', 'ad', 'buy', 'countLayer'];
+const LAYERS = ['splash', 'menu', 'loadout', 'ctrlPick', 'boosts', 'guide', 'how', 'shop', 'records', 'settings', 'pause', 'revive', 'over', 'chest', 'ad', 'buy', 'countLayer'];
 function show(id) { LAYERS.forEach(l => $(l).hidden = l !== id); $('hud').hidden = !['play', 'paused', 'count', 'over', 'revive'].includes(G.state); }
 
 function toMenu(msg) {
   clearPreview(); texts = [];
-  G.state = 'menu'; refreshWorld(); items = []; G.shield = false; G.fx = { grow: 0, slow: 0, shrink: 0, turbo: 0, flip: 0 }; G.windT = 0;
+  G.state = 'menu'; refreshWorld(); items = []; G.shield = false; G.fx = { grow: 0, slow: 0, shrink: 0, turbo: 0, flip: 0, big: 0 }; G.ballScale = 1; ball.r = 14 * U; G.windT = 0;
   loadoutOpen = false; pad.base = padBase(); $('menuBest').textContent = save.rec.best; wallet(); renderMineIcons();
+  { const tot = UPG.reduce((a, u) => a + u.max, 0), got = UPG.reduce((a, u) => a + (save.up[u.id] || 0), 0); $('boostPips').title = `${got} of ${tot}`; $('boostPips').innerHTML = UPG.map(u => `<i class="${save.up[u.id] ? 'on' : ''}"></i>`).join(''); }
   const nf = nextFree();
   $('menuMsg').textContent = msg || (nf ? `Tilt to steer the ball. Make ${nf} bounces in one game to win 3 free skins.` : 'Tilt your phone to steer the ball. Land it on the moving paddle.');
-  $('menuChest').hidden = save.chests < 1; $('menuChest').textContent = save.chests > 1 ? `Open chests (${save.chests})` : 'Open chest';
+  { const n = totalChests(); $('menuChest').hidden = n < 1; $('menuChest').classList.toggle('legend', (save.lchests || 0) > 0); $('menuChest').textContent = (save.lchests ? '✦ ' : '') + (n > 1 ? `Open chests (${n})` : save.lchests ? 'Open Legendary chest' : 'Open chest'); }
   placeBall(); show('menu');
 }
 
@@ -2307,7 +2518,7 @@ function finalize() {
   const secs = Math.round(G.time / 60); if (secs > r.bestTime) r.bestTime = secs;
   const isBest = G.score > r.best; if (isBest) r.best = G.score;
   r.hist.unshift({ s: G.score, d: Date.now() }); r.hist = r.hist.slice(0, 15);
-  if (G.chest) save.chests++;
+  if (G.chest === 'legend') save.lchests = (save.lchests || 0) + 1; else if (G.chest) save.chests++;
   if (!G.gemRevUsed && G.bounces > (r.bestBounces || 0)) r.bestBounces = G.bounces;
   addCoins(G.earned);
   return isBest;
@@ -2325,7 +2536,7 @@ function lose() {
   show('revive'); renderChips();
 }
 function revive() {
-  G.revives++; G.shield = false; placeBall(); ball.x = pad.x;
+  G.revives++; G.shield = false; G.shieldIn = (SHIELD_BACK[save.up.shieldStart] || 0) * 60; placeBall(); ball.x = pad.x;
   G.fx.shrink = 0; G.fx.turbo = 0; G.fx.flip = 0; items = items.filter(i => i.type === 'chest');
   countdown();
 }
@@ -2335,8 +2546,8 @@ function endRun() {
   $('overScore').textContent = G.score;
   $('overNote').textContent = isBest ? 'New record' : 'Game over';
   $('overMsg').textContent = isBest ? 'Your best score ever. Nicely played.' : `Best: ${save.rec.best}. Take a breath and go again.`;
-  $('overEarn').innerHTML = `<span class="coins"><i class="coinico"></i>+${G.earned}</span>` + (G.chest ? '<span class="coins">+1 chest</span>' : '');
-  $('overChest').hidden = save.chests < 1;
+  $('overEarn').innerHTML = `<span class="coins"><i class="coinico"></i>+${G.earned}</span>` + (G.chest ? `<span class="coins">+1 ${G.chest === 'legend' ? 'Legendary chest' : 'chest'}</span>` : '');
+  $('overChest').hidden = totalChests() < 1;
   show('over'); renderChips();
 }
 
@@ -2348,39 +2559,120 @@ function showAd(done) {
 // ================= Chest opening =================
 let chestAnim = null, chestBack = 'menu';
 function openChestScreen(back) {
-  if (save.chests < 1) return;
-  chestBack = back; show('chest'); $('chestPrize').innerHTML = ''; $('chestOpen').hidden = false; $('chestDone').hidden = true;
-  $('chestEyebrow').textContent = 'Treasure chest'; chestAnim = { open: 0, opened: false, t: 0, prize: null };
-  const cv = $('chestCv'), g = cv.getContext('2d');
+  if (totalChests() < 1) return;
+  const type = save.lchests > 0 ? 'legend' : 'normal', leg = type === 'legend';
+  chestBack = back; show('chest');
+  $('chest').querySelector('.card').classList.toggle('legend', leg);
+  $('chestPrize').innerHTML = ''; $('chestPrize').className = ''; $('chestOpen').hidden = false; $('chestDone').hidden = true;
+  $('chestOpen').textContent = 'Tap to open'; $('chestOpen').className = leg ? 'btn gem' : 'btn gold';
+  $('chestEyebrow').textContent = leg ? 'Legendary chest' : 'Treasure chest'; $('chestEyebrow').className = 'eyebrow' + (leg ? ' legend' : '');
+  chestAnim = { type, leg, phase: 'idle', open: 0, t: 0, ct: 0, prize: null, parts: [], flash: 0, shake: 0 };
+  const cv = $('chestCv'), g = cv.getContext('2d'), CW = cv.width, CH = cv.height, cx = CW / 2, cy = CH * .7;
   const step = () => {
-    if ($('chest').hidden || !chestAnim) return;
+    if ($('chest').hidden || chestAnim === null) return;
     const A = chestAnim; A.t++;
-    g.clearRect(0, 0, cv.width, cv.height);
-    if (A.opened) A.open = Math.min(1, A.open + .06);
-    if (A.opened) { g.save(); g.translate(220, 210); g.globalCompositeOperation = 'lighter';
-      for (let i = 0; i < 12; i++) { g.rotate(TAU / 12 + A.t * .002); g.fillStyle = A.prize && A.prize.gems ? 'rgba(127,227,255,.12)' : 'rgba(255,215,120,.12)'; g.beginPath(); g.moveTo(-14, 0); g.lineTo(14, 0); g.lineTo(0, -200); g.fill(); }
+    g.clearRect(0, 0, CW, CH);
+    if (A.phase === 'charge') { A.ct++; A.shake = 2 + A.ct * .35;
+      if (A.t % 2 === 0) { const a = R() * TAU, d = 150 + R() * 60; A.parts.push({ x: cx + Math.cos(a) * d, y: cy - 30 + Math.sin(a) * d * .7, vx: 0, vy: 0, life: 1, s: 3 + R() * 3, col: leg ? pick(['#c9a2ff', '#ffd57a', '#7fe3ff']) : pick(['#ffd57a', '#fff1b0']), pull: 1 }); }
+      if (A.ct >= (leg ? 55 : 38)) burstChest(A, cx, cy); }
+    if (A.phase === 'burst') { A.open = Math.min(1, A.open + .12); }
+    // rays
+    if (A.open > 0) { g.save(); g.translate(cx, cy - 40); g.globalCompositeOperation = 'lighter'; const n = leg ? 16 : 12;
+      for (let i = 0; i < n; i++) { g.rotate(TAU / n + A.t * .0025); g.fillStyle = leg ? (i % 2 ? 'rgba(200,160,255,.16)' : 'rgba(255,215,120,.16)') : 'rgba(255,215,120,.14)';
+        g.beginPath(); g.moveTo(-16 * A.open, 0); g.lineTo(16 * A.open, 0); g.lineTo(0, -185 * A.open); g.fill(); }
       g.restore(); }
-    const shake = A.opened ? 0 : Math.sin(A.t / 2) * (A.t % 60 < 20 ? 6 : 1);
-    g.save(); g.translate(shake, 0); drawChest(g, 220, 250, 210, A.open, A.t, A.opened ? .8 : .35 + .15 * Math.sin(A.t / 10)); g.restore();
+    const sh = A.phase === 'idle' ? Math.sin(A.t / 3) * (A.t % 90 < 18 ? 3 : 0) : A.phase === 'charge' ? (R() - .5) * A.shake : 0;
+    const bob = A.phase === 'idle' ? Math.sin(A.t / 20) * 4 : 0;
+    const rv = A.reveal ? 1 - Math.pow(1 - Math.min(1, A.reveal.t / 40), 3) : A.rewards ? (1 - Math.pow(1 - Math.min(1, A.rewards.t / 32), 3)) * .6 : 0;
+    g.save(); g.translate(sh + cx, bob + cy + rv * 70); g.scale(1 - rv * .3, 1 - rv * .3); g.translate(-cx, -cy); drawChest(g, cx, cy, leg ? 330 : 305, A.open, A.t, A.phase === 'charge' ? .55 + A.ct * .01 : A.open ? .9 : .32 + .14 * Math.sin(A.t / 10), leg); g.restore();
+    // particles
+    g.save(); g.globalCompositeOperation = 'lighter';
+    A.parts = A.parts.filter(p => p.life > 0);
+    for (const p of A.parts) {
+      if (p.pull) { p.x += (cx - p.x) * .09; p.y += (cy - 40 - p.y) * .09; p.life -= .045; }
+      else { p.vy += p.gr; p.x += p.vx; p.y += p.vy; p.vx *= .985; p.life -= p.dec; p.rot = (p.rot || 0) + .1; }
+      g.globalAlpha = Math.max(0, Math.min(1, p.life)); g.fillStyle = p.col;
+      if (p.shape === 'coin') { g.save(); g.translate(p.x, p.y); g.scale(Math.abs(Math.cos(p.rot)) + .2, 1); g.beginPath(); g.arc(0, 0, p.s, 0, TAU); g.fill(); g.restore(); }
+      else if (p.shape === 'gem') { g.save(); g.translate(p.x, p.y); g.rotate(p.rot * .3); g.beginPath(); g.moveTo(0, -p.s); g.lineTo(p.s * .7, 0); g.lineTo(0, p.s); g.lineTo(-p.s * .7, 0); g.fill(); g.restore(); }
+      else if (p.shape === 'star') star4(g, p.x, p.y, p.s * 1.6);
+      else { g.beginPath(); g.arc(p.x, p.y, p.s, 0, TAU); g.fill(); }
+    }
+    g.restore(); g.globalAlpha = 1;
+    if (A.rewards) { const RW = A.rewards; RW.t++; const n = RW.list.length;
+      RW.list.forEach(([kind, amt], i) => { const e = Math.min(1, Math.max(0, (RW.t - i * 8) / 32)), ease = 1 - Math.pow(1 - e, 3); if (e <= 0) return;
+        const px = cx + (i - (n - 1) / 2) * 150, py = cy - 70 - ease * 170 + Math.sin(RW.t / 14 + i) * 4, sz = 30 + ease * 14;
+        g.save(); g.globalCompositeOperation = 'lighter'; const hg = g.createRadialGradient(px, py, 0, px, py, sz * 2.4); hg.addColorStop(0, kind === 'gem' ? 'rgba(120,200,255,.55)' : 'rgba(255,210,110,.55)'); hg.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = hg; g.beginPath(); g.arc(px, py, sz * 2.4, 0, TAU); g.fill(); g.restore();
+        g.globalAlpha = Math.min(1, e * 2);
+        if (kind === 'coin') { const cg2 = g.createRadialGradient(px - sz * .3, py - sz * .3, 0, px, py, sz); cg2.addColorStop(0, '#fff3b0'); cg2.addColorStop(.6, '#f7c33a'); cg2.addColorStop(1, '#b8781a');
+          g.fillStyle = cg2; g.beginPath(); g.arc(px, py, sz, 0, TAU); g.fill(); g.strokeStyle = '#8a5410'; g.lineWidth = 3; g.stroke(); g.fillStyle = '#fff3b0'; star4(g, px, py, sz * .5); }
+        else { g.save(); g.translate(px, py); const gg = g.createLinearGradient(0, -sz, 0, sz); gg.addColorStop(0, '#e9fbff'); gg.addColorStop(.5, '#59b8ff'); gg.addColorStop(1, '#1a3fb0');
+          g.fillStyle = gg; g.beginPath(); g.moveTo(-sz * .9, -sz * .35); g.lineTo(-sz * .45, -sz * .85); g.lineTo(sz * .45, -sz * .85); g.lineTo(sz * .9, -sz * .35); g.lineTo(0, sz * .9); g.closePath(); g.fill(); g.strokeStyle = '#0d2a7a'; g.lineWidth = 3; g.stroke();
+          g.fillStyle = 'rgba(255,255,255,.7)'; g.beginPath(); g.moveTo(-sz * .45, -sz * .85); g.lineTo(0, -sz * .35); g.lineTo(-sz * .9, -sz * .35); g.closePath(); g.fill(); g.restore(); }
+        g.font = `800 ${28 + ease * 6}px Fredoka, Nunito, system-ui, sans-serif`; g.textAlign = 'center'; g.textBaseline = 'top'; g.lineWidth = 6; g.strokeStyle = 'rgba(10,20,30,.8)';
+        const tx = '+' + amt.toLocaleString(); g.strokeText(tx, px, py + sz + 8); g.fillStyle = kind === 'gem' ? '#c9f4ff' : '#ffe38a'; g.fillText(tx, px, py + sz + 8); g.globalAlpha = 1;
+        if (RW.t === 32 + i * 8) for (let k = 0; k < 14; k++) { const a = R() * TAU, sp = 2 + R() * 4; A.parts.push({ x: px, y: py, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, gr: .05, dec: .025, life: 1, s: 3, shape: 'star', col: kind === 'gem' ? '#c9f4ff' : '#fff1b0' }); } });
+    }
+    if (A.reveal) { const R2 = A.reveal; R2.t++; const e = Math.min(1, R2.t / 40), ease = 1 - Math.pow(1 - e, 3);
+      const rx = cx, ry = cy - 40 - ease * 190, sc = .35 + ease * .9, lg2 = R2.tier === 'legend';
+      g.save(); g.translate(rx, ry); g.globalCompositeOperation = 'lighter';
+      for (let i = 0; i < 14; i++) { g.save(); g.rotate(R2.t * .01 + i * TAU / 14); const rc = lg2 ? (i % 2 ? '200,160,255' : '255,215,120') : '143,240,191', rg = g.createLinearGradient(0, 0, 0, -120 * sc);
+        rg.addColorStop(0, `rgba(${rc},.28)`); rg.addColorStop(1, `rgba(${rc},0)`); g.fillStyle = rg; g.beginPath(); g.moveTo(-10 * sc, 0); g.lineTo(10 * sc, 0); g.lineTo(0, -120 * sc); g.fill(); g.restore(); }
+      const hg = g.createRadialGradient(0, 0, 0, 0, 0, 110 * sc); hg.addColorStop(0, lg2 ? 'rgba(230,210,255,.9)' : 'rgba(200,255,230,.8)'); hg.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = hg; g.beginPath(); g.arc(0, 0, 110 * sc, 0, TAU); g.fill();
+      g.lineWidth = 4; for (let k = 0; k < 2; k++) { g.strokeStyle = lg2 ? `hsla(${(R2.t * 4 + k * 180) % 360},90%,70%,.85)` : 'rgba(143,240,191,.8)'; g.beginPath(); g.ellipse(0, 0, 92 * sc, 30 * sc, R2.t * .03 + k * PI / 2, 0, TAU); g.stroke(); }
+      g.globalCompositeOperation = 'source-over'; const iw = 150 * sc, ih = 108 * sc; g.fillStyle = 'rgba(8,20,19,.75)'; rr(g, -iw / 2 - 6, -ih / 2 - 6, iw + 12, ih + 12, 14 * sc); g.fill();
+      g.strokeStyle = lg2 ? '#c9a2ff' : '#8ff0bf'; g.lineWidth = 3; g.stroke(); g.drawImage(R2.img, -iw / 2, -ih / 2, iw, ih);
+      g.restore();
+      if (R2.t % 6 === 0 && R2.t < 120) A.parts.push({ x: rx + (R() - .5) * 160 * sc, y: ry + (R() - .5) * 110 * sc, vx: (R() - .5) * 2, vy: -1 - R() * 2, gr: .02, dec: .02, life: 1, s: 3 + R() * 3, shape: 'star', col: lg2 ? pick(['#ffffff', '#e3cfff', '#ffd57a']) : pick(['#ffffff', '#c9ffe0']) });
+      if (R2.t === 40) { A.flash = .45; for (let i = 0; i < 40; i++) { const a = R() * TAU, sp = 3 + R() * 6; A.parts.push({ x: rx, y: ry, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, gr: .05, dec: .018, life: 1, s: 3 + R() * 3, shape: 'star', col: lg2 ? pick(['#ffffff', '#c9a2ff', '#ffd57a', '#7fe3ff']) : pick(['#ffffff', '#8ff0bf', '#ffd57a']) }); } sfx.gem(); }
+    }
+    // soft round glow instead of a full flash (gentle on the eyes, no hard square edges)
+    if (A.flash > 0) { g.save(); g.globalCompositeOperation = 'lighter'; const fx = cx, fy = A.reveal ? cy - 200 : cy - 40, fr = Math.min(CW, CH) * .48, fg = g.createRadialGradient(fx, fy, 0, fx, fy, fr);
+      const c0 = leg ? '220,200,255' : '255,235,190'; fg.addColorStop(0, `rgba(${c0},${A.flash * .55})`); fg.addColorStop(.6, `rgba(${c0},${A.flash * .18})`); fg.addColorStop(1, `rgba(${c0},0)`);
+      g.fillStyle = fg; g.beginPath(); g.arc(fx, fy, fr, 0, TAU); g.fill(); g.restore(); A.flash = Math.max(0, A.flash - .045); }
     requestAnimationFrame(step);
   };
   step();
 }
+function burstChest(A, cx, cy) {
+  A.phase = 'burst'; A.flash = 1; const leg = A.leg, P = A.prize;
+  const n = leg ? 110 : 60;
+  for (let i = 0; i < n; i++) { const a = -PI / 2 + (R() - .5) * 2.2, sp = 6 + R() * (leg ? 11 : 8);
+    const shape = P.gems && i % 3 === 0 ? 'gem' : i % 2 ? 'coin' : 'star';
+    A.parts.push({ x: cx, y: cy - 40, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, gr: .28, dec: .011 + R() * .008, life: 1, s: 4 + R() * 4, rot: R() * 6, shape,
+      col: shape === 'gem' ? pick(['#7fe3ff', '#c9f4ff', '#4fc3ff']) : shape === 'coin' ? pick(['#ffd57a', '#f5b72e']) : leg ? pick(['#ffffff', '#e3cfff', '#ffd57a']) : pick(['#ffffff', '#fff1b0']) }); }
+  sfx.chest(); if (P.gems || P.skin || P.dup) setTimeout(sfx.gem, 260); if (leg) setTimeout(sfx.gem, 520);
+  if (P.skin || P.dup) { const sk = P.skin || P.dup; A.reveal = { t: 0, img: thumbCanvas(sk.cat, sk.it, 116, 84), tier: sk.it.tier, isNew: !!P.skin }; }
+  if (!A.reveal) { A.rewards = { t: 0, list: [['coin', P.coins]].concat(P.gems ? [['gem', P.gems]] : []) }; }
+  setTimeout(() => showChestPrize(P, leg), A.reveal ? 1100 : 750);
+}
+function showChestPrize(P, leg) {
+  const box = $('chestPrize'); box.innerHTML = ''; box.className = 'pop';
+  $('chestEyebrow').textContent = P.title;
+  if (P.skin || P.dup) { const s = P.skin || P.dup, card = document.createElement('div'); card.className = 'cprize ' + s.it.tier;
+    const tierName = s.it.tier === 'legend' ? 'Legendary' : 'Special', catName = { ball: 'ball', pad: 'paddle', world: 'world' }[s.cat];
+    if (P.skin) { const nb = document.createElement('i'); nb.className = 'newb'; nb.textContent = 'NEW!'; card.append(nb); card.classList.add('isnew'); }
+    card.append(thumbCanvas(s.cat, s.it, 116, 84));
+    const tx = document.createElement('div'); tx.innerHTML = `<b>${s.it.name}</b><span>${tierName} ${catName}</span>` + (P.dup ? `<em>You already own it, so you get back ${(P.refund || {}).gems ? P.refund.gems + ' diamonds' : ((P.refund || {}).coins || 0).toLocaleString() + ' coins'} (80% of its price)</em>` : '<em>New! Find it in your skins</em>');
+    card.append(tx); box.append(card); }
+  const row = document.createElement('div'); row.className = 'crow';
+  row.innerHTML = `<span class="coins"><i class="coinico"></i>+${P.coins.toLocaleString()}</span>` + (P.gems ? `<span class="gems"><i class="gemico"></i>+${P.gems}</span>` : '');
+  box.append(row);
+  $('chestDone').hidden = false; const n = totalChests();
+  $('chestDone').textContent = n > 0 ? `Collect · open next (${n})` : 'Collect';
+}
 $('chestOpen').onclick = () => {
-  if (!chestAnim || chestAnim.opened) return;
-  const prize = rollChest(); chestAnim.opened = true; chestAnim.prize = prize;
-  save.chests--; save.rec.chests++;
-  if (prize.gems) { save.rec.gemsFound += prize.gems; addGems(prize.gems); setTimeout(sfx.gem, 250); }
-  addCoins(prize.coins); sfx.chest(); persist();
-  $('chestEyebrow').textContent = prize.rare ? 'Rare find!' : prize.big ? 'Big pile!' : 'You got';
-  $('chestPrize').innerHTML = `<span class="coins"><i class="coinico"></i>+${prize.coins}</span>` + (prize.gems ? `<span class="gems"><i class="gemico"></i>+${prize.gems}</span>` : '');
-  $('chestOpen').hidden = true; $('chestDone').hidden = false;
-  $('chestDone').textContent = save.chests > 0 ? `Collect · open next (${save.chests})` : 'Collect';
+  const A = chestAnim; if (!A || A.phase !== 'idle') return;
+  const P = rollChest(A.type); A.prize = P; A.phase = 'charge';
+  if (A.leg) save.lchests--; else save.chests--; save.rec.chests++;
+  if (P.skin) own(P.skin.cat, P.skin.it.id);
+  if (P.gems) { save.rec.gemsFound += P.gems; addGems(P.gems); }
+  addCoins(P.coins); persist(); sfx.tick();
+  $('chestOpen').hidden = true; $('chestEyebrow').textContent = 'Opening…';
 };
 $('chestDone').onclick = () => {
-  if (save.chests > 0) return openChestScreen(chestBack);
+  if (totalChests() > 0) return openChestScreen(chestBack);
   chestAnim = null;
-  if (chestBack === 'over') { $('overChest').hidden = true; show('over'); } else toMenu();
+  if (chestBack === 'over') { $('overChest').hidden = true; show('over'); } else if (chestBack === 'shop') { show('shop'); renderShop(); } else toMenu();
 };
 
 // ================= Shop =================
@@ -2422,11 +2714,11 @@ function unlockSheet(cat, item) {
 
 function renderShop() {
   wallet();
+  { const g = $('lcIcon').getContext('2d'); g.clearRect(0, 0, 96, 72); drawChest(g, 48, 48, 60, 0, 40, .35, true); }
   document.querySelectorAll('#shop .tabs button').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === tab));
   const isGrid = ['ball', 'pad', 'world'].includes(tab);
   $('grid').hidden = !isGrid; $('list').hidden = isGrid;
   renderUpBox();
-  if (tab === 'boost') { $('shopNote').textContent = 'Boosts are permanent and help in every run.'; return renderBoosts(); }
   if (tab === 'gems') { $('shopNote').textContent = 'Demo store: no money is taken here. In the App Store version these open Apple\'s payment sheet.'; return renderGems(); }
   $('shopNote').textContent = 'Tap any skin to preview it live. Normal skins open with coins or an ad, Special with coins, Legendary with diamonds.';
   const grid = $('grid'); grid.innerHTML = '';
@@ -2522,18 +2814,20 @@ function openLevelSheet(cat, item, startL) {
   show('buy'); render();
 }
 function renderBoosts() {
-  const box = $('list'); box.innerHTML = '';
+  wallet(); const box = $('boostList'); box.innerHTML = '';
   UPG.forEach(u => {
-    const L = save.up[u.id] || 0, costs = u.costs || UP_COSTS, maxed = L >= u.max, cost = costs[L];
+    const L = save.up[u.id] || 0, costs = u.costs || UP_COSTS, maxed = L >= u.max, cost = costs[L], gems = cost && typeof cost === 'object';
     const row = document.createElement('div'); row.className = 'boost';
     const b = document.createElement('b'); b.textContent = u.name;
-    const p = document.createElement('p'); p.textContent = u.desc;
+    const p = document.createElement('p'); p.textContent = u.lv ? (L ? `Now: ${u.lv[L - 1]}.` : '') + (maxed ? '' : ` Next: ${u.lv[L]}.`) : u.desc;
     const pips = document.createElement('div'); pips.className = 'pips';
     for (let i = 0; i < u.max; i++) { const pi = document.createElement('i'); if (i < L) pi.className = 'on'; pips.append(pi); }
-    const btn = document.createElement('button'); btn.className = 'btn gold sm';
+    const btn = document.createElement('button'); btn.className = gems ? 'btn gem sm' : 'btn gold sm';
     if (maxed) { btn.textContent = 'Max'; btn.disabled = true; }
+    else if (gems) { btn.innerHTML = gemHtml(cost.gems);
+      btn.onclick = () => { if (save.gems < cost.gems) { toast(`You need ${cost.gems} diamonds for this level.`); tab = 'gems'; show('shop'); renderShop(); return; } addGems(-cost.gems); save.up[u.id] = L + 1; persist(); sfx.buy(); toast(`${u.name} upgraded`); renderBoosts(); }; }
     else { btn.innerHTML = coinHtml(cost); btn.disabled = save.coins < cost;
-      btn.onclick = () => { if (save.coins < cost) return; addCoins(-cost); save.up[u.id] = L + 1; persist(); pad.base = padBase(); sfx.buy(); toast(`${u.name} upgraded`); renderShop(); }; }
+      btn.onclick = () => { if (save.coins < cost) return; addCoins(-cost); save.up[u.id] = L + 1; persist(); pad.base = padBase(); sfx.buy(); toast(`${u.name} upgraded`); renderBoosts(); }; }
     row.append(b, btn, p, pips); box.append(row);
   });
 }
@@ -2714,6 +3008,19 @@ $('overChest').onclick = () => openChestScreen('over');
 $('shopBtn').onclick = () => { sheetBack = 'shop'; show('shop'); renderShop(); };
 $('overShop').onclick = () => { finalize(); toMenu(); show('shop'); renderShop(); };
 $('shopBack').onclick = () => toMenu();
+const CHEST_ODDS = { legend: [['Legendary skin', 18], ['Special skin', 37], ['20–50 diamonds', 25], ['1,500–3,000 coins + diamonds', 20]],
+  normal: [['Special skin', 5], ['5–12 diamonds', 6], ['300–600 coins', 7], ['40–300 coins', 82]] };
+function oddsHtml(type) { return `<div class="odds"><b>Chances</b>${CHEST_ODDS[type].map(([n, p]) => `<span><i>${n}</i><em>${p}%</em></span>`).join('')}<small>A skin you already own gives back 80% of its price.</small></div>`; }
+$('buyLChest').onclick = () => {
+  sheetBack = 'shop';
+  const can = save.gems >= LEG_CHEST_PRICE;
+  openBuy('legend', 'Legendary chest', [{ html: can ? `Buy for ${gemHtml(LEG_CHEST_PRICE)}` : 'Get diamonds', cls: 'gem', fn: () => {
+    if (save.gems < LEG_CHEST_PRICE) { tab = 'gems'; show('shop'); renderShop(); return; }
+    addGems(-LEG_CHEST_PRICE); save.lchests = (save.lchests || 0) + 1; persist(); sfx.buy(); openChestScreen('shop'); } }], can ? '' : `Needs ${LEG_CHEST_PRICE} diamonds. You have ${save.gems}.`);
+  $('buyOpts').insertAdjacentHTML('afterbegin', oddsHtml('legend'));
+};
+$('boostBtn').onclick = () => { show('boosts'); renderBoosts(); };
+$('boostBack').onclick = () => toMenu();
 $('plusGems').onclick = () => { tab = 'gems'; renderShop(); };
 document.querySelectorAll('#shop .tabs button').forEach(b => b.onclick = () => { tab = b.dataset.tab; renderShop(); });
 $('recBtn').onclick = () => { renderRecords(); show('records'); };
