@@ -314,6 +314,73 @@ textarea { width: 100%; min-height: 70px; border-radius: 12px; border: 1.5px sol
   #menu .btn { padding-block: 10px; font-size: 18px; }
   .kit canvas { aspect-ratio: 16 / 10; }
 }
+
+/* ===== Polished UI ===== */
+.ico { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.ico.fill { fill: currentColor; stroke: none; }
+.pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 11px; border-radius: 999px; background: rgba(8,20,19,.55); border: 1px solid var(--line);
+  font-family: var(--display); font-weight: 600; font-size: 17px; color: var(--sand); line-height: 1; }
+.pill .ico { width: 17px; height: 17px; color: var(--gold); }
+.pill.best span { font: 800 11px var(--body); letter-spacing: .1em; text-transform: uppercase; color: var(--mist); }
+.gempill { cursor: pointer; } .gempill b { display: grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: var(--gem); color: var(--ink); font-size: 14px; margin-left: 2px; }
+.card.menu { gap: 11px; }
+.mtop { display: flex; justify-content: space-between; align-items: center; gap: 6px; }
+.mtop .pill { font-size: 15px; padding: 5px 9px; }
+.card.menu h1 { font-size: 42px; margin-top: 4px; text-shadow: 0 3px 0 rgba(0,0,0,.25); }
+#menuMsg { margin: -4px 0 0; text-align: center; color: var(--mist); font-size: 14px; }
+.btn.play { display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 24px; padding: 15px; background: linear-gradient(180deg, #ffc9a8, #ff9d6c); color: var(--ink);
+  box-shadow: 0 6px 0 #c9683d, 0 10px 24px rgba(255,140,90,.3); transform: translateY(-3px); transition: transform .08s, box-shadow .08s; }
+.btn.play:active { transform: translateY(1px); box-shadow: 0 2px 0 #c9683d; }
+.btn.play .ico { width: 22px; height: 22px; }
+.dailybtn { display: flex; align-items: center; justify-content: center; gap: 8px; background: linear-gradient(90deg, #8ff0bf, #7fe3ff); color: var(--ink); font-size: 18px; animation: dglow 1.8s ease-in-out infinite; }
+@keyframes dglow { 0%, 100% { box-shadow: 0 0 0 rgba(127,227,255,0); } 50% { box-shadow: 0 0 22px rgba(127,227,255,.55); } }
+.chestbtn { box-shadow: 0 0 18px rgba(255,213,122,.35); }
+.mnav { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.mnav button { position: relative; display: grid; justify-items: center; gap: 4px; padding: 10px 2px 9px; border-radius: 16px; cursor: pointer;
+  background: rgba(243,227,195,.06); border: 1.5px solid rgba(243,227,195,.18); color: var(--sand); font: 800 12px var(--body); }
+.mnav button:active { transform: scale(.96); } .mnav .ico { width: 24px; height: 24px; color: var(--gold); }
+.mnav .bpips { position: absolute; top: 6px; right: 6px; margin: 0; display: flex; gap: 2px; }
+.mnav .bpips i { width: 4px; height: 4px; }
+.howlink { display: inline-flex; align-items: center; justify-content: center; gap: 6px; justify-self: center; }
+.howlink .ico { width: 18px; height: 18px; }
+.goalbox { display: grid; gap: 6px; padding: 9px 12px; border-radius: 14px; background: rgba(143,240,191,.08); border: 1px solid rgba(143,240,191,.3); text-align: left; }
+.goalbox .gt { display: flex; justify-content: space-between; gap: 8px; font-size: 13px; font-weight: 800; color: #c9ffe0; }
+.goalbox .gt span { color: var(--mist); font-weight: 700; }
+.goalbox .gb { height: 7px; border-radius: 4px; background: rgba(255,255,255,.1); overflow: hidden; } .goalbox .gb b { display: block; height: 100%; border-radius: 4px; background: linear-gradient(90deg, #8ff0bf, #7fe3ff); }
+.goalbox .gthumbs { display: flex; gap: 6px; } .goalbox .gthumbs canvas { width: 46px; height: 33px; border-radius: 8px; background: rgba(8,20,19,.5); }
+/* HUD */
+.hud-l { display: grid; gap: 6px; justify-items: start; }
+.scorebox { display: grid; justify-items: start; padding: 4px 14px 7px; border-radius: 18px; background: rgba(8,20,19,.32); border: 1px solid rgba(255,255,255,.12); }
+#score { font-size: clamp(40px, 6.5vmin, 64px); }
+#level { margin-top: 0; }
+.goalchip { display: flex; align-items: center; gap: 7px; padding: 4px 10px; border-radius: 999px; background: rgba(10,25,24,.7); color: #c9ffe0; font: 800 12px var(--body); text-shadow: none; }
+.goalchip i { display: block; width: 46px; height: 5px; border-radius: 3px; background: rgba(255,255,255,.18); overflow: hidden; } .goalchip i b { display: block; height: 100%; background: linear-gradient(90deg, #8ff0bf, #7fe3ff); }
+.icon-btn { width: 50px; height: 50px; display: grid; place-items: center; background: rgba(10,25,24,.6); }
+.icon-btn .ico { width: 20px; height: 20px; }
+.hud-r .pill { font-size: 17px; text-shadow: none; }
+/* game over */
+.card.over h1 { font-size: 64px; color: #fff8ec; }
+.card.over #overMsg { margin: -6px 0 0; text-align: center; color: var(--mist); }
+.row .btn .ico { width: 20px; height: 20px; } .row .btn { display: flex; align-items: center; justify-content: center; gap: 8px; }
+/* daily gift */
+.dgrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.dday { display: grid; justify-items: center; gap: 4px; padding: 9px 4px; border-radius: 14px; background: rgba(8,20,19,.55); border: 1.5px solid var(--line); font: 800 11px var(--body); color: var(--mist); }
+.dday b { font-family: var(--display); font-size: 16px; color: var(--sand); display: inline-flex; gap: 3px; align-items: center; }
+.dday.done { opacity: .45; } .dday.done::after { content: "✓"; color: #8ff0bf; font-size: 14px; }
+.dday.today { border-color: var(--gold); background: rgba(255,213,122,.12); box-shadow: 0 0 16px rgba(255,213,122,.3); color: var(--gold); }
+.dday.big { grid-column: span 2; background: linear-gradient(135deg, rgba(127,227,255,.18), rgba(8,20,19,.55)); }
+@media (max-height: 620px) and (orientation: portrait) { .card.menu h1 { font-size: 30px; } .btn.play { padding: 11px; font-size: 21px; } .mnav button { padding: 7px 2px; } .mtop .pill { font-size: 13px; } #menuGoal { display: none; } }
+@media (max-height: 500px) and (orientation: landscape) { .card.menu h1 { font-size: 24px; } .btn.play { padding: 9px; font-size: 19px; } .mnav button { padding: 6px 2px; gap: 2px; } .mnav .ico { width: 20px; height: 20px; } #menuGoal, .howlink { display: none; } }
+
+body:has(#over:not([hidden])) #pauseBtn, body:has(#chest:not([hidden])) #pauseBtn, body:has(#revive:not([hidden])) #pauseBtn { visibility: hidden; }
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .card.menu { display: grid; grid-template-columns: 1fr 1fr; column-gap: 14px; max-width: 680px !important; align-items: start; }
+  .card.menu > * { grid-column: 1; }
+  .card.menu > .kit { grid-column: 2; grid-row: 1 / span 3; align-self: start; }
+  .card.menu > .mnav { grid-column: 2; grid-row: 4 / span 3; }
+  .card.menu .kit canvas { aspect-ratio: 4 / 3; }
+}
 </style>
 
 <div id="wrap">
@@ -334,35 +401,43 @@ textarea { width: 100%; min-height: 70px; border-radius: 12px; border: 1.5px sol
   </div>
 
   <div id="hud" hidden>
-    <div>
-      <div id="score">0</div>
-      <div id="level">Calm</div>
+    <div class="hud-l">
+      <div class="scorebox"><div id="score">0</div><div id="level">Calm</div></div>
+      <div id="goalChip" class="goalchip" hidden></div>
       <div id="chips"></div>
     </div>
     <div class="hud-r">
-      <button class="icon-btn" id="pauseBtn" aria-label="Pause">II</button>
-      <span class="coins"><i class="coinico"></i><span id="hudCoin">0</span></span>
+      <button class="icon-btn" id="pauseBtn" aria-label="Pause"><svg class="ico fill" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4.2" height="14" rx="1.4"/><rect x="13.8" y="5" width="4.2" height="14" rx="1.4"/></svg></button>
+      <span class="coins pill"><i class="coinico"></i><span id="hudCoin">0</span></span>
     </div>
   </div>
 
   <!-- Menu -->
   <div class="layer" id="menu">
-    <div class="card">
+    <div class="card menu">
+      <div class="mtop">
+        <span class="pill best"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4h8v5a4 4 0 0 1-8 0V4z"/><path d="M8 6H5a3 3 0 0 0 3.5 4M16 6h3a3 3 0 0 1-3.5 4M12 13v4M9 21h6M10 17h4v4h-4z"/></svg><span>Best</span><strong id="menuBest">0</strong></span>
+        <span class="pill"><i class="coinico"></i><span class="vCoins">0</span></span>
+        <button class="pill gempill" id="menuGems" aria-label="Get diamonds"><i class="gemico"></i><span class="vGems">0</span><b>+</b></button>
+      </div>
       <h1>Bounce Keeper</h1>
-      <p id="menuMsg">Tilt your phone to steer the ball. Land it on the moving paddle.</p>
-      <div class="wallet"><span>Best <strong id="menuBest">0</strong></span>
-        <span class="coins"><i class="coinico"></i><span class="vCoins">0</span></span>
-        <span class="gems"><i class="gemico"></i><span class="vGems">0</span></span></div>
-      <button class="btn" id="playBtn">Play</button>
-      <button class="btn gold" id="menuChest" hidden>Open chest</button>
+      <p id="menuMsg">Steer the ball onto the moving paddle.</p>
+      <div class="goalbox" id="menuGoal" hidden></div>
+      <button class="btn play" id="playBtn"><svg class="ico fill" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15a1 1 0 0 0 1.5.9l12-7.5a1 1 0 0 0 0-1.8l-12-7.5A1 1 0 0 0 7 4.5z"/></svg><span>Play</span></button>
+      <button class="btn gold chestbtn" id="menuChest" hidden>Open chest</button>
+      <button class="btn dailybtn" id="dailyBtn" hidden><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11h16v10H4zM3 7h18v4H3zM12 7v14"/><path d="M12 7c-1.5-3.5-6-3.5-5-.5.4 1 2.5.5 5 .5zM12 7c1.5-3.5 6-3.5 5-.5-.4 1-2.5.5-5 .5z"/></svg><span>Daily gift ready</span></button>
       <div class="kit" id="kit">
         <button data-k="ball" aria-label="Change ball"><canvas></canvas><span>Ball</span></button>
         <button data-k="pad" aria-label="Change paddle"><canvas></canvas><span>Paddle</span></button>
         <button data-k="world" aria-label="Change world"><canvas></canvas><span>World</span></button>
       </div>
-      <button class="btn alt boostbtn" id="boostBtn"><span class="bico" aria-hidden="true">⚡</span><span>Boosts</span><span class="bpips" id="boostPips"></span></button>
-      <div class="row"><button class="btn alt" id="shopBtn">Shop</button><button class="btn alt" id="recBtn">Records</button></div>
-      <div class="row"><button class="link" id="howBtn">How to play</button><button class="link" id="setBtn">Settings</button></div>
+      <nav class="mnav" aria-label="Menu">
+        <button id="shopBtn"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1.2 12H6.2L5 8z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg><span>Shop</span></button>
+        <button id="boostBtn"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2.5L4.5 13.5h6.5l-1 8 8.5-11h-6.5l1-8z"/></svg><span>Boosts</span><i class="bpips" id="boostPips"></i></button>
+        <button id="recBtn"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4h8v5a4 4 0 0 1-8 0V4z"/><path d="M8 6H5a3 3 0 0 0 3.5 4M16 6h3a3 3 0 0 1-3.5 4M12 13v4M9 21h6M10 17h4v4h-4z"/></svg><span>Records</span></button>
+        <button id="setBtn"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></svg><span>Settings</span></button>
+      </nav>
+      <button class="link howlink" id="howBtn"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.7M12 17h.01"/></svg><span>How to play</span></button>
     </div>
   </div>
 
@@ -406,12 +481,22 @@ textarea { width: 100%; min-height: 70px; border-radius: 12px; border: 1.5px sol
     </div>
   </div>
 
+  <!-- Daily gift -->
+  <div class="layer" id="daily" hidden>
+    <div class="card">
+      <div class="cardhead"><h2>Daily gift</h2><button class="xbtn" id="dailyBack" aria-label="Close"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button></div>
+      <p class="small" id="dailyNote">Come back every day. Day 7 gives the best gift.</p>
+      <div class="dgrid" id="dailyGrid"></div>
+      <button class="btn gold" id="dailyClaim">Claim</button>
+    </div>
+  </div>
+
   <div class="layer" id="how" hidden>
     <div class="card wide">
       <div class="cardhead"><h2>How to play</h2><button class="xbtn" id="howBack" aria-label="Close"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button></div>
       <ol class="howto">
         <li><i>1</i><span>Steer the ball your way: tilt your phone left and right, or swipe in the strip under the paddle. Change it any time in Settings.</span></li>
-        <li><i>2</i><span>The paddle moves by itself. Land the ball on it to score 1 point.</span></li>
+        <li><i>2</i><span>The paddle moves by itself. Land the ball on it to score 1 point. Score 50, 75, 100 and 125 in one game to win free skin sets.</span></li>
         <li><i>3</i><span>The game slowly gets harder: the paddle speeds up, shrinks, and wind starts at 20 points.</span></li>
         <li><i>4</i><span>Rewards float down from the top. Steer the ball into the good ones and avoid the spiky ones.</span></li>
         <li><i>5</i><span>After 20 points a treasure chest may fall once per game. Catch it and open it after the game for coins, or rarely diamonds.</span></li>
@@ -519,14 +604,15 @@ textarea { width: 100%; min-height: 70px; border-radius: 12px; border: 1.5px sol
 
   <!-- Results -->
   <div class="layer" id="over" hidden>
-    <div class="card">
+    <div class="card over">
       <p class="eyebrow" id="overNote">Game over</p>
       <h1 id="overScore">0</h1>
       <p id="overMsg"></p>
       <div class="earned" id="overEarn"></div>
-      <button class="btn gold" id="overChest" hidden>Open chest</button>
-      <button class="btn" id="againBtn">Play again</button>
-      <div class="row"><button class="btn alt" id="overShop">Shop</button><button class="btn alt" id="homeBtn">Menu</button></div>
+      <div class="goalbox" id="overGoal" hidden></div>
+      <button class="btn gold chestbtn" id="overChest" hidden>Open chest</button>
+      <button class="btn play" id="againBtn"><svg class="ico fill" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15a1 1 0 0 0 1.5.9l12-7.5a1 1 0 0 0 0-1.8l-12-7.5A1 1 0 0 0 7 4.5z"/></svg><span>Play again</span></button>
+      <div class="row"><button class="btn alt" id="homeBtn"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-7 8 7v9h-5v-6H9v6H4z"/></svg><span>Menu</span></button><button class="btn alt" id="overShop"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1.2 12H6.2L5 8z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg><span>Shop</span></button></div>
     </div>
   </div>
 
@@ -1709,7 +1795,7 @@ const REVIVE_GEMS = [15, 30, 60];
 const MAX_REVIVES = 3;
 // ================= Save data (works offline) =================
 const DEF = { v: 4, coins: 300, gems: 0, chests: 0, lchests: 0, owned: { ball: ['classic'], pad: ['classic'], world: ['pond'] }, use: { ball: 'classic', pad: 'classic', world: 'pond' },
-  lv: { ball: {}, pad: {}, world: {} }, up: { size: 0, grow: 0, slow: 0, magnet: 0, lucky: 0, shieldStart: 0, bigball: 0 }, sound: true, sens: 1, dir: 1, zero: 0, ctrl: '', seenHow: false, gemAdDay: '',
+  lv: { ball: {}, pad: {}, world: {} }, up: { size: 0, grow: 0, slow: 0, magnet: 0, lucky: 0, shieldStart: 0, bigball: 0 }, sound: true, sens: 1, dir: 1, zero: 0, ctrl: '', daily: { day: '', streak: 0 }, seenHow: false, gemAdDay: '',
   rec: { best: 0, games: 0, bounces: 0, stars: 0, coins: 0, bestTime: 0, chests: 0, gemsFound: 0, bestBounces: 0, hist: [] } };
 const clone = o => JSON.parse(JSON.stringify(o));
 function normalize(s) {
@@ -1799,9 +1885,14 @@ function resize(keepWorld) {
     // the notch and home-bar spaces. When the game doesn't reach the screen edges, those spaces are already
     // outside the game, so don't leave them empty a second time.
     const land = innerWidth > innerHeight, sh = land ? Math.min(screen.width, screen.height) : Math.max(screen.width, screen.height);
-    const fullBleed = innerHeight >= sh - 2, rs = document.documentElement.style;
-    if (!fullBleed && (SAFE_T || SAFE_B)) { SAFE_T = SAFE_B = 0; rs.setProperty('--sat', '0px'); rs.setProperty('--sab', '0px'); }
-    else { rs.removeProperty('--sat'); rs.removeProperty('--sab'); } }
+    // Work out which edges really sit under the notch / home bar. iPhone sometimes keeps its own bar at
+    // the top or bottom of a Home Screen web app; that edge then needs no extra space.
+    const gap = sh - innerHeight, rs = document.documentElement.style;
+    if (gap > 2 && (SAFE_T || SAFE_B)) {
+      if (gap >= SAFE_T + SAFE_B - 4) { SAFE_T = SAFE_B = 0; }
+      else if (Math.abs(gap - SAFE_B) <= Math.abs(gap - SAFE_T)) SAFE_B = 0; else SAFE_T = 0;
+    }
+    rs.setProperty('--sat', SAFE_T + 'px'); rs.setProperty('--sab', SAFE_B + 'px'); }
   const d = Math.min(window.devicePixelRatio || 1, Q.dpr, Math.sqrt([3.2e6, 2e6, 1.3e6][Q.level] / Math.max(1, c.clientWidth * c.clientHeight)));
   W = c.clientWidth; H = c.clientHeight;
   c.width = Math.round(W * d); c.height = Math.round(H * d); ctx.setTransform(d, 0, 0, d, 0, 0);
@@ -1821,6 +1912,7 @@ function addScore(n) {
   if (G.state !== 'play') return;
   const m = MILESTONES.find(v => before < v && G.score >= v); if (m) celebrate(`${levelName(G.score)} · ${m}`, moodCol());
   if (!G.recordShown && save.rec.best > 0 && G.score > save.rec.best) { G.recordShown = true; celebrate('New record!', '#ffd57a'); }
+  checkFree();
 }
 const moodCol = () => WORLD_MOOD[worldId] || '#ffffff';
 const moodI = () => ['play', 'paused', 'count', 'revive', 'over'].includes(G.state) ? clamp((G.score - 10) / 90, 0, 1) : 0;
@@ -1847,7 +1939,7 @@ function placeBall() { ball.x = pad.x; ball.y = H * .32; ball.py = ball.y; ball.
 function resetGame() {
   Object.assign(G, { score: 0, bounces: 0, stars: 0, coins: 0, time: 0, final: false, earned: 0, spawnIn: 320, coinIn: 90, windIn: 600, wind: 0, windT: 0,
     shield: save.up.shieldStart > 0, shake: 0, revives: 0, adRev: false, gemRev: 0, chest: false, chestSpawned: false, chestIn: -1, recordShown: false, gemRevUsed: false, shieldIn: 0 });
-  G.fx = { grow: 0, slow: 0, shrink: 0, turbo: 0, flip: 0, big: 0 }; G.ballScale = 1; ball.r = 14 * U;
+  G.fx = { grow: 0, slow: 0, shrink: 0, turbo: 0, flip: 0, big: 0 }; G.ballScale = 1; ball.r = 14 * U; G.freeWon = 0;
   items = []; parts = []; ripples = []; texts = []; windLines = [];
   pad.base = padBase(); pad.x = W / 2; pad.y = padHome(); pad.dir = R() < .5 ? -1 : 1; pad.w = pad.base;
   $('hudCoin').textContent = 0; addScore(0); placeBall();
@@ -1980,16 +2072,15 @@ const rint = (a, b) => a + (R() * (b - a + 1) | 0);
 function rollChest(type) {
   const r = R();
   if (type === 'legend') {
-    if (r < .18) return withSkin({ coins: rint(200, 500), title: 'Legendary skin!' }, 'legend');
-    if (r < .55) return withSkin({ coins: rint(300, 600), title: 'Special skin!' }, 'special');
-    if (r < .80) return { gems: rint(20, 50), coins: rint(200, 500), title: 'Diamond treasure!' };
-    return { coins: rint(1500, 3000), gems: rint(5, 10), title: 'Mountain of gold!' };
+    if (r < .22) return withSkin({ coins: rint(300, 600), title: 'Legendary skin!' }, 'legend');
+    if (r < .55) return withSkin({ coins: rint(400, 800), title: 'Special skin!' }, 'special');
+    if (r < .80) return { gems: rint(30, 80), coins: rint(300, 600), title: 'Diamond treasure!' };
+    return { coins: rint(3000, 6000), gems: rint(5, 15), title: 'Mountain of gold!' };
   }
-  if (r < .05) return withSkin({ coins: rint(30, 80), title: 'Special skin!' }, 'special');
-  if (r < .11) return { gems: rint(5, 12), coins: rint(20, 60), title: 'Rare find!' };
-  if (r < .18) return { coins: rint(300, 600), title: 'Big pile!' };
-  if (r < .40) return { coins: rint(120, 300), title: 'You got' };
-  return { coins: rint(40, 120), title: 'You got' };
+  if (r < .04) return withSkin({ coins: rint(50, 100), title: 'Special skin!' }, 'special');
+  if (r < .12) return { gems: rint(5, 15), coins: rint(40, 80), title: 'Rare find!' };
+  if (r < .25) return { coins: rint(250, 500), title: 'Big pile!' };
+  return { coins: rint(60, 200), title: 'Nice!' };
 }
 
 // ================= Power-ups, coins and the chest =================
@@ -2394,6 +2485,7 @@ function draw() {
 const CHIP = { big: ['Big ball', 'good'], grow: ['Wide', 'good'], slow: ['Slow', 'good'], shrink: ['Small', 'bad'], turbo: ['Fast', 'bad'], flip: ['Flipped', 'bad'] };
 function renderChips() {
   let html = '';
+  if (G.state === 'over' || G.state === 'menu') { $('chips').innerHTML = ''; renderGoal(); return; }
   for (const key in CHIP) if (G.fx[key] > 0) html += `<span class="chip ${CHIP[key][1]}">${CHIP[key][0]}<i><b style="width:${Math.round(G.fx[key] / fxLen(key) * 100)}%"></b></i></span>`;
   if (G.shield) html += '<span class="chip good">Shield</span>'; else if (G.shieldIn > 0) html += `<span class="chip neutral">Shield in ${Math.ceil(G.shieldIn / 60)}s</span>`;
   if (G.chest) html += `<span class="chip chest">${G.chest === 'legend' ? 'Legendary chest' : 'Chest'}</span>`;
@@ -2422,7 +2514,7 @@ function loop(now) {
 }
 
 // ================= Screens =================
-const LAYERS = ['splash', 'menu', 'loadout', 'ctrlPick', 'boosts', 'guide', 'how', 'shop', 'records', 'settings', 'pause', 'revive', 'over', 'chest', 'ad', 'buy', 'countLayer'];
+const LAYERS = ['splash', 'menu', 'loadout', 'ctrlPick', 'boosts', 'daily', 'guide', 'how', 'shop', 'records', 'settings', 'pause', 'revive', 'over', 'chest', 'ad', 'buy', 'countLayer'];
 function show(id) { LAYERS.forEach(l => $(l).hidden = l !== id); $('hud').hidden = !['play', 'paused', 'count', 'over', 'revive'].includes(G.state); }
 
 function toMenu(msg) {
@@ -2431,13 +2523,15 @@ function toMenu(msg) {
   loadoutOpen = false; pad.base = padBase(); $('menuBest').textContent = save.rec.best; wallet(); renderMineIcons();
   { const tot = UPG.reduce((a, u) => a + u.max, 0), got = UPG.reduce((a, u) => a + (save.up[u.id] || 0), 0); $('boostPips').title = `${got} of ${tot}`; $('boostPips').innerHTML = UPG.map(u => `<i class="${save.up[u.id] ? 'on' : ''}"></i>`).join(''); }
   const nf = nextFree();
-  $('menuMsg').textContent = msg || (nf ? `Tilt to steer the ball. Make ${nf} bounces in one game to win 3 free skins.` : 'Tilt your phone to steer the ball. Land it on the moving paddle.');
+  $('menuMsg').textContent = msg || 'Steer the ball onto the moving paddle.';
+  goalBox($('menuGoal'), save.rec.best || 0, gi => `Score ${gi.n} in one game: 3 free skins`); $('dailyBtn').hidden = !dailyReady();
   { const n = totalChests(); $('menuChest').hidden = n < 1; $('menuChest').classList.toggle('legend', (save.lchests || 0) > 0); $('menuChest').textContent = (save.lchests ? '✦ ' : '') + (n > 1 ? `Open chests (${n})` : save.lchests ? 'Open Legendary chest' : 'Open chest'); }
   placeBall(); show('menu');
 }
 
 let countIv = 0;
 function countdown() {
+  setTimeout(renderGoal, 0);
   G.state = 'count'; show('countLayer'); let n = 3; $('countNum').textContent = n; sfx.tick();
   clearInterval(countIv);
   countIv = setInterval(() => {
@@ -2545,10 +2639,13 @@ function endRun() {
   const isBest = finalize();
   $('overScore').textContent = G.score;
   $('overNote').textContent = isBest ? 'New record' : 'Game over';
-  $('overMsg').textContent = isBest ? 'Your best score ever. Nicely played.' : `Best: ${save.rec.best}. Take a breath and go again.`;
+  $('overMsg').textContent = isBest ? 'New best score. Nicely played!' : `Best ${save.rec.best} · ${G.bounces} bounces`;
+  goalBox($('overGoal'), G.score, gi => `Next free skins at ${gi.n} points`);
   $('overEarn').innerHTML = `<span class="coins"><i class="coinico"></i>+${G.earned}</span>` + (G.chest ? `<span class="coins">+1 ${G.chest === 'legend' ? 'Legendary chest' : 'chest'}</span>` : '');
-  $('overChest').hidden = totalChests() < 1;
+  $('overChest').hidden = totalChests() < 1 || !!G.chest;
   show('over'); renderChips();
+  // a chest won in this game opens right away; the results screen shows after it is opened
+  if (G.chest && totalChests() > 0) setTimeout(() => { if (!$('over').hidden) openChestScreen('over'); }, 650);
 }
 
 function showAd(done) {
@@ -2572,6 +2669,12 @@ function openChestScreen(back) {
     if ($('chest').hidden || chestAnim === null) return;
     const A = chestAnim; A.t++;
     g.clearRect(0, 0, CW, CH);
+    if (A.phase === 'charge' || (A.phase === 'burst' && A.open < 1)) { // rarity glow: its colour hints at the prize
+      const k = A.phase === 'charge' ? Math.min(1, A.ct / (leg ? 55 : 38)) : 1, [r1, g1, b1] = A.tier || [255, 220, 140];
+      g.save(); g.globalCompositeOperation = 'lighter'; const rg = g.createRadialGradient(cx, cy - 30, 0, cx, cy - 30, 230); rg.addColorStop(0, `rgba(${r1},${g1},${b1},${.55 * k})`); rg.addColorStop(1, 'rgba(0,0,0,0)');
+      g.fillStyle = rg; g.beginPath(); g.arc(cx, cy - 30, 230, 0, TAU); g.fill();
+      g.strokeStyle = `rgba(${r1},${g1},${b1},${.8 * k})`; g.lineWidth = 4; for (let q = 0; q < 2; q++) { const rr2 = 120 + ((A.t * 3 + q * 60) % 120); g.globalAlpha = 1 - (rr2 - 120) / 120; g.beginPath(); g.ellipse(cx, cy + 50, rr2, rr2 * .28, 0, 0, TAU); g.stroke(); }
+      g.restore(); g.globalAlpha = 1; }
     if (A.phase === 'charge') { A.ct++; A.shake = 2 + A.ct * .35;
       if (A.t % 2 === 0) { const a = R() * TAU, d = 150 + R() * 60; A.parts.push({ x: cx + Math.cos(a) * d, y: cy - 30 + Math.sin(a) * d * .7, vx: 0, vy: 0, life: 1, s: 3 + R() * 3, col: leg ? pick(['#c9a2ff', '#ffd57a', '#7fe3ff']) : pick(['#ffd57a', '#fff1b0']), pull: 1 }); }
       if (A.ct >= (leg ? 55 : 38)) burstChest(A, cx, cy); }
@@ -2663,6 +2766,7 @@ function showChestPrize(P, leg) {
 $('chestOpen').onclick = () => {
   const A = chestAnim; if (!A || A.phase !== 'idle') return;
   const P = rollChest(A.type); A.prize = P; A.phase = 'charge';
+  const tk = P.skin || P.dup; A.tier = tk ? (tk.it.tier === 'legend' ? [200, 150, 255] : [120, 240, 180]) : P.gems ? [120, 200, 255] : P.coins >= 1000 || P.coins >= 250 ? [255, 210, 110] : [255, 240, 200];
   if (A.leg) save.lchests--; else save.chests--; save.rec.chests++;
   if (P.skin) own(P.skin.cat, P.skin.it.id);
   if (P.gems) { save.rec.gemsFound += P.gems; addGems(P.gems); }
@@ -2708,7 +2812,7 @@ function unlockSheet(cat, item) {
     if (save.coins < item.coins) { note = `Needs ${item.coins.toLocaleString()} coins. You have ${save.coins.toLocaleString()}. Catch coins, open chests, or swap diamonds for coins.`;
       opts.push({ html: `Get coins with ${gemHtml(0).replace('0', '')}diamonds`, cls: 'alt', fn: () => { clearPreview(); tab = 'gems'; show('shop'); renderShop(); } }); }
   }
-  if (item.tier === 'special' && freeReq(cat, item)) { const n = freeReq(cat, item); note = (note ? note + ' ' : '') + `Or get it free: make ${n} bounces in one game and you also get the matching ball, paddle and world. Your best: ${save.rec.bestBounces || 0}.`; }
+  if (item.tier === 'special' && freeReq(cat, item)) { const n = freeReq(cat, item); note = (note ? note + ' ' : '') + `Or get it free: score ${n} points in one game and you also get the matching ball, paddle and world. Your best: ${save.rec.best || 0}.`; }
   openBuy(item.tier, item.name, opts, note);
 }
 
@@ -2756,7 +2860,7 @@ function skinCard(item) {
   else { tag.className = 'tag c'; tag.innerHTML = coinHtml(item.coins); }
   const fr = !has && item.tier === 'special' ? freeReq(tab, item) : 0;
   b.append(cv, nm, tag);
-  { const lv = document.createElement('span'); lv.className = 'lv'; const L = lvl(tab, item.id); lv.textContent = has && item.tier !== 'normal' ? '★'.repeat(L) + '☆'.repeat(3 - L) : fr ? `or free at ${fr} bounces` : ''; if (fr) lv.style.cssText = 'letter-spacing:0;color:#8ff0bf;font-weight:800'; b.append(lv); }
+  { const lv = document.createElement('span'); lv.className = 'lv'; const L = lvl(tab, item.id); lv.textContent = has && item.tier !== 'normal' ? '★'.repeat(L) + '☆'.repeat(3 - L) : fr ? `or free at ${fr} points` : ''; if (fr) lv.style.cssText = 'letter-spacing:0;color:#8ff0bf;font-weight:800'; b.append(lv); }
   b.onclick = () => !has ? (item.tier === 'mythic' ? mythicSheet(tab, item) : unlockSheet(tab, item)) : (using && !['normal', 'mythic'].includes(item.tier)) ? (sheetBack = 'shop', openLevelSheet(tab, item)) : equip(tab, item.id);
   return b;
 }
@@ -2877,20 +2981,32 @@ function grantFreeSet(i) {
   ['ball', 'pad', 'world'].forEach(cat => { const it = freeItem(cat, i); if (it && !owns(cat, it.id)) { own(cat, it.id); got.push(it.name); } });
   return got;
 }
+// free skin sets are won by SCORE in one game (stars count, revives are fine)
 function checkFree() {
-  const i = FREE_AT.indexOf(G.bounces); if (i < 0) return;
-  const got = grantFreeSet(i);
-  if (got.length) { celebrate(`${FREE_AT[i]} bounces! Free skins`, '#8ff0bf'); sfx.gem(); toast(`New skins: ${got.join(', ')}. Find them in My skins.`); }
+  FREE_AT.forEach((n, i) => { if (G.score >= n) { const got = grantFreeSet(i);
+    if (got.length) { celebrate(`${n} points! 3 free skins`, '#8ff0bf'); sfx.gem(); toast(`New skins: ${got.join(', ')}`); G.freeWon = (G.freeWon || 0) + 1; } } });
+  renderGoal();
 }
 function grantFreeByBest() {
-  const best = save.rec.bestBounces || 0, got = [];
+  const best = Math.max(save.rec.best || 0, save.rec.bestBounces || 0), got = [];
   FREE_AT.forEach((n, i) => { if (best >= n) got.push(...grantFreeSet(i)); });
-  if (got.length) toast(`Free skins for your bounce record: ${got.join(', ')}`);
+  if (got.length) toast(`Free skins for your record: ${got.join(', ')}`);
+}
+// progress toward the next free skin set
+function goalInfo(score) { const i = FREE_AT.findIndex((n, j) => ['ball', 'pad', 'world'].some(c => freeItem(c, j) && !owns(c, freeItem(c, j).id))); if (i < 0) return null;
+  return { i, n: FREE_AT[i], have: Math.min(score, FREE_AT[i]), items: ['ball', 'pad', 'world'].map(c => [c, freeItem(c, i)]) }; }
+function renderGoal() {
+  const el = $('goalChip'); if (!el) return; const gi = G.state === 'play' || G.state === 'count' || G.state === 'paused' || G.state === 'revive' ? goalInfo(G.score) : null;
+  el.hidden = !gi; if (gi) el.innerHTML = `🎁 ${gi.have}/${gi.n}<i><b style="width:${Math.round(gi.have / gi.n * 100)}%"></b></i>`;
+}
+function goalBox(el, score, title) {
+  const gi = goalInfo(score); el.hidden = !gi; if (!gi) return;
+  el.innerHTML = `<div class="gt">${title(gi)}<span>${gi.have}/${gi.n}</span></div><div class="gb"><b style="width:${Math.round(gi.have / gi.n * 100)}%"></b></div><div class="gthumbs"></div>`;
+  const th = el.querySelector('.gthumbs'); gi.items.forEach(([c, it]) => th.append(thumbCanvas(c, it, 46, 33)));
 }
 function nextFree() { return FREE_AT.find((n, i) => ['ball', 'pad', 'world'].some(c => freeItem(c, i) && !owns(c, freeItem(c, i).id))); }
 function checkMythic() {
   if (G.gemRevUsed) return;
-  checkFree();
   ['ball', 'pad', 'world'].forEach(cat => {
     const it = CAT[cat].find(i => i.tier === 'mythic');
     if (it && !owns(cat, it.id) && G.bounces >= MYTHIC_REQ[cat]) { own(cat, it.id); celebrate(`Mythic unlocked: ${it.name}`, '#ffd57a'); sfx.gem(); toast(`${it.name} is yours. Find it in the Shop.`); }
@@ -2966,6 +3082,29 @@ $('loDone').onclick = closeLoadout;
 $('loShop').onclick = () => { loadoutOpen = false; refreshWorld(); tab = ltab; sheetBack = 'shop'; show('shop'); renderShop(); };
 document.querySelectorAll('#loTabs button').forEach(b => b.onclick = () => { ltab = b.dataset.lt; renderLoadout(); });
 
+// ================= Daily gift (7-day streak) =================
+const DAILY = [{ c: 100 }, { c: 150 }, { g: 5 }, { c: 250 }, { chest: 1 }, { c: 400 }, { g: 20, c: 300 }];
+const dayStr = d => new Date(d).toISOString().slice(0, 10);
+function dailyState() { const d = save.daily || { day: '', streak: 0 }, yest = dayStr(Date.now() - 864e5);
+  const keep = d.day === yest || d.day === today(); return { ready: d.day !== today(), idx: keep ? (d.day === today() ? (d.streak - 1 + 7) % 7 : d.streak % 7) : 0, streak: keep ? d.streak : 0 }; }
+const dailyReady = () => dailyState().ready;
+const dailyHtml = r => (r.c ? `<b><i class="coinico"></i>${r.c}</b>` : '') + (r.g ? `<b><i class="gemico"></i>${r.g}</b>` : '') + (r.chest ? '<b>🎁 Chest</b>' : '');
+function openDaily() {
+  const st = dailyState(); show('daily');
+  $('dailyGrid').innerHTML = DAILY.map((r, i) => `<div class="dday${i < st.idx || (!st.ready && i === st.idx) ? ' done' : ''}${i === st.idx && st.ready ? ' today' : ''}${i === 6 ? ' big' : ''}">Day ${i + 1}${dailyHtml(r)}</div>`).join('');
+  $('dailyClaim').hidden = !st.ready; $('dailyNote').textContent = st.ready ? `Day ${st.idx + 1} of 7. Come back every day; Day 7 is the best.` : 'Claimed today. Come back tomorrow for the next gift.';
+}
+$('dailyClaim').onclick = () => {
+  const st = dailyState(); if (!st.ready) return; const r = DAILY[st.idx];
+  if (r.c) addCoins(r.c); if (r.g) { addGems(r.g); save.rec.gemsFound += r.g; } if (r.chest) save.chests++;
+  if (r.chest) { persist(); setTimeout(() => openChestScreen('menu'), 750); }
+  save.daily = { day: today(), streak: st.idx + 1 }; persist(); sfx.chest(); setTimeout(sfx.gem, 200);
+  toast('Daily gift: ' + [r.c ? `+${r.c} coins` : '', r.g ? `+${r.g} diamonds` : '', r.chest ? '+1 chest' : ''].filter(Boolean).join(', '));
+  openDaily(); if (!r.chest) setTimeout(toMenu, 700);
+};
+$('dailyBack').onclick = () => toMenu();
+$('dailyBtn').onclick = openDaily;
+
 // ================= Records =================
 function fmtTime(s) { return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }
 function renderRecords() {
@@ -3008,8 +3147,9 @@ $('overChest').onclick = () => openChestScreen('over');
 $('shopBtn').onclick = () => { sheetBack = 'shop'; show('shop'); renderShop(); };
 $('overShop').onclick = () => { finalize(); toMenu(); show('shop'); renderShop(); };
 $('shopBack').onclick = () => toMenu();
-const CHEST_ODDS = { legend: [['Legendary skin', 18], ['Special skin', 37], ['20–50 diamonds', 25], ['1,500–3,000 coins + diamonds', 20]],
-  normal: [['Special skin', 5], ['5–12 diamonds', 6], ['300–600 coins', 7], ['40–300 coins', 82]] };
+$('menuGems').onclick = () => { sheetBack = 'shop'; tab = 'gems'; show('shop'); renderShop(); };
+const CHEST_ODDS = { legend: [['Legendary skin', 22], ['Special skin', 33], ['30–80 diamonds', 25], ['3,000–6,000 coins + diamonds', 20]],
+  normal: [['Special skin', 4], ['5–15 diamonds', 8], ['250–500 coins', 13], ['60–200 coins', 75]] };
 function oddsHtml(type) { return `<div class="odds"><b>Chances</b>${CHEST_ODDS[type].map(([n, p]) => `<span><i>${n}</i><em>${p}%</em></span>`).join('')}<small>A skin you already own gives back 80% of its price.</small></div>`; }
 $('buyLChest').onclick = () => {
   sheetBack = 'shop';
@@ -3088,7 +3228,7 @@ resize();
   pad.x = W / 2; placeBall();
   requestAnimationFrame(() => requestAnimationFrame(() => $('spFill').style.width = '100%'));
   let ready = false, gone = false;
-  const go = () => { if (gone || !ready) return; gone = true; $('splash').classList.add('out'); setTimeout(() => { $('splash').classList.remove('out'); toMenu(); grantFreeByBest(); if (!save.seenHow) show('how'); }, 450); };
+  const go = () => { if (gone || !ready) return; gone = true; $('splash').classList.add('out'); setTimeout(() => { $('splash').classList.remove('out'); toMenu(); grantFreeByBest(); if (!save.seenHow) show('how'); else if (dailyReady()) openDaily(); }, 450); };
   Promise.all([new Promise(r => setTimeout(r, 2600)), (document.fonts && document.fonts.ready) || Promise.resolve()]).then(() => { ready = true; $('spLoad').textContent = 'Ready'; $('spLoad').classList.add('ready'); setTimeout(go, 700); });
   $('splash').onclick = () => { if (ready) go(); }; }
 requestAnimationFrame(loop);
