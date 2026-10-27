@@ -5,7 +5,7 @@
 <style>
 /* Layout: one full-screen canvas world; HUD on top; floating cards for menu, shop, records, settings */
 :root {
-  --deep: #17403d; --card: rgba(18, 48, 46, .96); --line: rgba(159, 211, 193, .28);
+  --deep: #17403d; --card: #12302e; --line: rgba(159, 211, 193, .28);
   --mist: #9fd3c1; --sand: #f3e3c3; --peach: #ffb38a; --gold: #ffd57a; --ink: #0f2b29; --gem: #7fe3ff; --legend: #c9a0ff;
   --display: "Fredoka", "Arial Rounded MT Bold", system-ui, sans-serif;
   --body: "Nunito", system-ui, -apple-system, sans-serif;
@@ -43,7 +43,7 @@ canvas#c { display: block; width: 100%; height: 100%; touch-action: none; }
 
 .layer { position: absolute; inset: 0; display: grid; place-items: center; padding-block: var(--sat, env(safe-area-inset-top, 0px)) var(--sab, env(safe-area-inset-bottom, 0px)); padding-inline: max(14px, env(safe-area-inset-left, 0px)) max(14px, env(safe-area-inset-right, 0px)); background: rgba(8,20,19,.38); }
 .layer.top { align-items: start; padding-top: 12px; background: rgba(8,20,19,.12); }
-.card { background: var(--card); border: 1.5px solid var(--line); border-radius: 26px; padding: 22px 18px;
+.card { --cpt: 22px; --cpx: 18px; background: var(--card); border: 1.5px solid var(--line); border-radius: 26px; padding: var(--cpt) var(--cpx);
   max-width: 380px; width: 100%; text-align: center; display: grid; gap: 12px; max-height: 92%; overflow-y: auto;
   touch-action: pan-y; -webkit-overflow-scrolling: touch; box-shadow: 0 20px 60px rgba(0,0,0,.35); }
 .card.wide { max-width: 460px; text-align: left; }
@@ -173,7 +173,7 @@ textarea { width: 100%; min-height: 70px; border-radius: 12px; border: 1.5px sol
 #splash { z-index: 20; display: block; cursor: pointer; transition: opacity .55s ease;
   background: linear-gradient(180deg, rgba(5,12,14,.72) 0%, rgba(5,12,14,.15) 38%, rgba(5,12,14,0) 55%, rgba(5,12,14,.55) 100%); }
 #splash.out { opacity: 0; pointer-events: none; }
-.sp-top { position: absolute; left: 0; right: 0; top: 11%; display: grid; justify-items: center; gap: 10px; text-align: center; padding-inline: 16px; }
+.sp-top { position: absolute; left: 0; right: 0; top: calc(9% + var(--sat, 0px)); display: grid; justify-items: center; gap: 10px; text-align: center; padding-inline: 16px; }
 .sp-kicker { margin: 0; font-weight: 800; letter-spacing: .28em; text-transform: uppercase; font-size: 12px; color: rgba(255,241,176,.85); opacity: 0; animation: spFade .8s .9s forwards; }
 .sp-title { margin: 0; font-family: var(--display); font-weight: 700; line-height: .9; display: grid; justify-items: center; }
 .sp-title span { display: flex; font-size: clamp(54px, 15vw, 96px); }
@@ -185,19 +185,19 @@ textarea { width: 100%; min-height: 70px; border-radius: 12px; border: 1.5px sol
 .sp-sub { min-height: 22px; opacity: 0; animation: spFade .8s 1.2s forwards; }
 .sp-best { font-family: var(--display); font-weight: 600; font-size: 16px; color: #fff1b0; background: rgba(10,25,24,.55); border: 1.5px solid rgba(255,213,122,.35); border-radius: 999px; padding: 5px 14px; }
 .sp-best:empty { display: none; }
-.sp-bottom { position: absolute; left: 0; right: 0; bottom: calc(205px + var(--sab, env(safe-area-inset-bottom, 0px))); display: grid; justify-items: center; gap: 8px; text-align: center; padding-inline: 16px; }
+.sp-bottom { position: absolute; left: 0; right: 0; bottom: calc(34px + var(--sab, env(safe-area-inset-bottom, 0px))); display: grid; justify-items: center; gap: 8px; text-align: center; padding-inline: 16px; }
 .sp-bar { width: min(260px, 70vw); height: 10px; border-radius: 5px; background: rgba(0,0,0,.35); border: 1.5px solid rgba(255,241,176,.35); overflow: hidden; }
 .sp-bar i { display: block; height: 100%; width: 0; border-radius: 5px; background: linear-gradient(90deg, #ffb38a, #ffd57a, #fff6d8); box-shadow: 0 0 12px rgba(255,213,122,.7); transition: width 2.4s cubic-bezier(.3,.6,.4,1); }
 .sp-load { margin: 0; font-family: var(--display); font-weight: 600; font-size: 15px; letter-spacing: .12em; text-transform: uppercase; color: #fff8ec; text-shadow: 0 2px 10px rgba(0,0,0,.6); }
 .sp-load.ready { animation: spPulse 1.2s ease-in-out infinite; }
-.sp-tip { margin: 0; font-size: 14px; color: #e4f2ec; max-width: 300px; min-height: 40px; line-height: 1.45; text-shadow: 0 2px 10px rgba(0,0,0,.7); }
+.sp-tip { margin: 0; font-size: 13.5px; color: #e4f2ec; max-width: 320px; min-height: 40px; padding: 8px 14px; border-radius: 14px; background: rgba(8,20,19,.45); line-height: 1.45; text-shadow: 0 2px 10px rgba(0,0,0,.7); }
 @keyframes spDrop { to { opacity: 1; transform: none; } }
 @keyframes spBob { 0%, 100% { transform: none; } 50% { transform: translateY(-4px); } }
 @keyframes spFade { to { opacity: 1; } }
 @keyframes spPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .55; transform: scale(.97); } }
 @media (prefers-reduced-motion: reduce) { .sp-title i, .sp-kicker, .sp-sub { animation-duration: .01s; animation-delay: 0s; } }
 
-@media (max-width: 360px) { .card h2 { font-size: 22px; } .cardhead .wal { font-size: 15px; gap: 8px; } .tabs button { font-size: 12.5px; } .card { padding: 18px 14px; } }
+@media (max-width: 360px) { .card h2 { font-size: 22px; } .cardhead .wal { font-size: 15px; gap: 8px; } .tabs button { font-size: 12.5px; } .card { --cpt: 18px; --cpx: 14px; } }
 
 .layer.bottom { align-items: end; padding-bottom: calc(10px + var(--sab, env(safe-area-inset-bottom, 0px))); background: linear-gradient(180deg, rgba(8,20,19,0) 55%, rgba(8,20,19,.35) 100%); }
 .card.lo { max-height: 64%; overflow-y: auto; gap: 10px; padding: 14px 14px 10px; border-radius: 24px; background: rgba(16,36,34,.94); }
@@ -214,7 +214,7 @@ textarea { width: 100%; min-height: 70px; border-radius: 12px; border: 1.5px sol
 .card.lo .upbox b { font-size: 16px; }
 .lohd { display: flex; gap: 14px; align-items: center; } .lohd .btn.sm { padding: 7px 16px; min-height: 0; }
 .card.lo .upbox b { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-@media (max-height: 640px) { .card.lo { max-height: 72%; gap: 8px; } .strip .skin { flex-basis: 112px; padding: 6px 6px 7px; gap: 3px; } .strip .skin canvas { width: 98px; height: 71px; } .strip .skin .nm { min-height: 0; font-size: 13px; } .card.lo .upbox { padding: 8px 10px; } #loPrev { display: none; } }
+@media (max-height: 640px) { .card.lo { max-height: 78%; gap: 8px; } .strip .skin { flex-basis: 112px; padding: 6px 6px 7px; gap: 3px; } .strip .skin canvas { width: 98px; height: 71px; } .strip .skin .nm { min-height: 0; font-size: 13px; } .card.lo .upbox { padding: 8px 10px; } #loPrev { display: none; } }
 .btn.mine { justify-content: center; gap: 10px; display: flex; align-items: center; }
 .mine-ic { display: inline-flex; gap: 4px; }
 .mine-ic canvas { width: 34px; height: 24px; border-radius: 6px; background: rgba(255,255,255,.06); }
@@ -227,7 +227,7 @@ textarea { width: 100%; min-height: 70px; border-radius: 12px; border: 1.5px sol
 
 /* Short landscape phones: compact cards so everything fits without scrolling */
 @media (max-height: 500px) and (orientation: landscape) {
-  .card { padding: 12px 16px; gap: 8px; max-height: 96%; }
+  .card { --cpt: 12px; --cpx: 16px; gap: 8px; max-height: 96%; }
   .card h1 { font-size: 26px; }
   #menu .card { max-width: 560px; }
   #menuMsg { display: none; }
@@ -410,6 +410,57 @@ body:has(#over:not([hidden])) #pauseBtn, body:has(#chest:not([hidden])) #pauseBt
 .rankpill.rwready { cursor: pointer; background: linear-gradient(90deg, #ffd57a, #ffb38a); color: var(--ink); border: 0; animation: dglow 1.8s ease-in-out infinite; }
 @media (max-height: 620px) and (orientation: portrait) { .lbcard .lbrow:nth-of-type(n+3) { display: none; } }
 @media (max-height: 500px) and (orientation: landscape) { .card.menu > .lbcard { grid-column: 1; grid-row: 4 / span 4; } .lbcard .lbrow:nth-of-type(n+3) { display: none; } }
+
+/* ===== cleanup pass ===== */
+.layer { padding-block: calc(var(--sat, 0px) + 10px) calc(var(--sab, 0px) + 10px); }
+.layer.top { padding-top: calc(var(--sat, 0px) + 12px); }
+.layer > .card { max-height: 100%; }
+.cardhead { position: sticky; top: calc(-1 * var(--cpt)); z-index: 3; margin: calc(-1 * var(--cpt)) calc(-1 * var(--cpx)) 0; padding: var(--cpt) var(--cpx) 10px; background: #12302e; border-radius: 26px 26px 0 0; box-shadow: 0 8px 12px -8px rgba(0,0,0,.5); }
+.card.lo .cardhead, #daily .cardhead { position: static; margin: 0; padding: 0; background: none; }
+#shop .cardhead { flex-wrap: nowrap; } #shop .cardhead h2 { flex: none; } #shop .wal { margin-left: auto; font-size: 16px; gap: 8px; }
+.skin .tag.own { color: var(--mist); }
+.howcard { gap: 10px; text-align: left; }
+.hsec { display: grid; gap: 6px; padding: 10px 12px; border-radius: 14px; background: rgba(8,20,19,.4); }
+.hsec h3 { margin: 0; font-family: var(--display); font-size: 17px; color: #fff8ec; }
+.hsec p, .hsec li { margin: 0; font-size: 13.5px; line-height: 1.45; color: #d3e8df; } .hsec b { color: #fff8ec; }
+.hsec ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; }
+.legend-row em { font-style: normal; color: #ff9b9b; font-weight: 800; }
+/* HUD effect icons */
+.fx { position: relative; width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; background: conic-gradient(var(--c) calc(var(--p) * 1%), rgba(255,255,255,.14) 0); text-shadow: none; }
+.fx i { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-style: normal; font-weight: 800; font-size: 15px; color: #fff; background: var(--c); box-shadow: inset 0 -3px 0 rgba(0,0,0,.18), 0 0 0 2px rgba(10,25,24,.85); }
+.fx.bad i { box-shadow: inset 0 -3px 0 rgba(0,0,0,.18), 0 0 0 2px rgba(10,25,24,.85), 0 0 10px var(--c); }
+.fx.bad::after { content: ""; position: absolute; inset: -3px; border-radius: 50%; border: 2px dashed var(--c); opacity: .7; }
+.fx img { width: 30px; height: 30px; }
+#chips { gap: 6px; }
+
+
+.namein { width: 100%; font: 700 20px var(--display); text-align: center; color: var(--sand); background: rgba(8,20,19,.6); border: 1.5px solid var(--line); border-radius: 14px; padding: 12px; outline: none; user-select: text; -webkit-user-select: text; }
+.namein:focus { border-color: var(--gold); }
+.setrow .row .namein { font-size: 17px; padding: 9px 12px; text-align: left; } .setrow .row .btn { flex: none; }
+
+.card.sheet { gap: 10px; text-align: left; }
+.sheethead { display: flex; justify-content: space-between; align-items: center; gap: 10px; } .sheethead h2 { margin: 2px 0 0; }
+#buySub, #buyNote { margin: 0; } #buyNote:empty { display: none; }
+#buyOpts { display: grid; gap: 10px; }
+.lvseg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.lvseg button { display: grid; justify-items: center; gap: 2px; padding: 8px 4px; border-radius: 14px; border: 1.5px solid var(--line); background: rgba(8,20,19,.5); color: var(--mist); font: 800 13px var(--body); cursor: pointer; }
+.lvseg button b { font: 600 12px var(--body); letter-spacing: .1em; color: var(--gold); }
+.lvseg button[aria-pressed="true"] { background: var(--sand); color: var(--ink); border-color: var(--sand); } .lvseg button[aria-pressed="true"] b { color: #a8701c; }
+.lvseg button.lock { opacity: .75; }
+.lvinfo { display: grid; gap: 3px; padding: 10px 12px; border-radius: 14px; background: rgba(8,20,19,.45); font-size: 13.5px; color: #d3e8df; }
+.lvinfo b { color: #fff8ec; font-size: 14px; } .lvinfo .tagl { justify-self: start; font: 800 11px var(--body); letter-spacing: .08em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; background: rgba(143,240,191,.15); color: #8ff0bf; }
+.lvinfo .tagl.lock { background: rgba(255,213,122,.15); color: var(--gold); }
+
+.lobox { display: grid; gap: 8px; padding: 10px 12px; border-radius: 16px; background: rgba(255,213,122,.07); border: 1.5px solid rgba(255,213,122,.28); }
+.lotop { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; } .lotop b { font-family: var(--display); font-size: 17px; } .lotop span { font: 800 12px var(--body); color: var(--mist); white-space: nowrap; }
+.lodesc { margin: 0; font-size: 13px; color: #d3e8df; } .lodesc:empty { display: none; }
+#loBtn { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 18px; padding: 11px; white-space: nowrap; }
+.lobox .lvseg button { padding: 6px 4px; }
+#buyOpts .btn { white-space: nowrap; display: flex; align-items: center; justify-content: center; gap: 6px; }
+@media (max-height: 640px) { .lobox { gap: 6px; padding: 8px 10px; } .lobox .lvseg button { padding: 4px; font-size: 12px; } #loBtn { padding: 8px; font-size: 16px; } }
+
+.card.lo .cardhead { flex-wrap: nowrap; } .card.lo .cardhead h2 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+@media (max-width: 360px) { .card.lo .cardhead h2 { font-size: 18px; } .lohd { gap: 8px; } }
 </style>
 
 <div id="wrap">
@@ -481,11 +532,27 @@ body:has(#over:not([hidden])) #pauseBtn, body:has(#chest:not([hidden])) #pauseBt
         <button role="tab" data-lt="world" aria-selected="false">World</button>
       </div>
       <div class="strip" id="loStrip"></div>
-      <div class="upbox" id="loUp"><div><b id="loName"></b><span id="loText"></span><button class="link" id="loPrev" style="justify-self:start;padding:4px 0;font-size:13px">▶ Preview all levels</button></div><button class="btn gold sm" id="loBtn"></button></div>
+      <div class="lobox" id="loUp">
+        <div class="lotop"><b id="loName"></b><span id="loText"></span></div>
+        <div class="lvseg" id="loLv"></div>
+        <p class="lodesc" id="loDesc"></p>
+        <button class="btn gold" id="loBtn"></button>
+      </div>
     </div>
   </div>
 
   <!-- How to play -->
+  <!-- Player name (shown on the leaderboard) -->
+  <div class="layer" id="nameAsk" hidden>
+    <div class="card">
+      <p class="eyebrow">Welcome</p>
+      <h2>What's your name?</h2>
+      <input id="nameIn" class="namein" maxlength="14" autocomplete="nickname" placeholder="Your name" aria-label="Your name">
+      <button class="btn gold" id="nameOk">Continue</button>
+      <p class="small">Shown on the leaderboard. You can change it any time in Settings.</p>
+    </div>
+  </div>
+
   <!-- First game: choose how to steer -->
   <div class="layer" id="ctrlPick" hidden>
     <div class="card">
@@ -533,27 +600,47 @@ body:has(#over:not([hidden])) #pauseBtn, body:has(#chest:not([hidden])) #pauseBt
   </div>
 
   <div class="layer" id="how" hidden>
-    <div class="card wide">
+    <div class="card wide howcard">
       <div class="cardhead"><h2>How to play</h2><button class="xbtn" id="howBack" aria-label="Close"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button></div>
-      <ol class="howto">
-        <li><i>1</i><span>Steer the ball your way: tilt your phone left and right, or swipe in the strip under the paddle. Change it any time in Settings.</span></li>
-        <li><i>2</i><span>The paddle moves by itself. Land the ball on it to score 1 point. Score 50, 75, 100 and 125 in one game to win free skin sets.</span></li>
-        <li><i>3</i><span>The game slowly gets harder: the paddle speeds up, shrinks, and wind starts at 20 points.</span></li>
-        <li><i>4</i><span>Rewards float down from the top. Steer the ball into the good ones and avoid the spiky ones.</span></li>
-        <li><i>5</i><span>After 20 points a treasure chest may fall once per game. Catch it and open it after the game for coins, or rarely diamonds.</span></li>
-        <li><i>6</i><span>If the ball falls, you can revive with an ad or with diamonds.</span></li>
-        <li><i>7</i><span>Spend coins on skins, upgrades and boosts. Legendary skins need diamonds.</span></li>
-      </ol>
-      <div class="legend-row">
-        <span><i class="dot" style="background:#f5b72e">¢</i>Coin</span>
-        <span><i class="dot" style="background:#f5c84c">★</i>Star +5</span>
-        <span><i class="dot" style="background:#4cc38a">↔</i>Wide paddle</span>
-        <span><i class="dot" style="background:#ff5d5d">−</i>Small paddle</span>
-        <span><i class="dot" style="background:#4aa8ff">½</i>Slow motion</span>
-        <span><i class="dot" style="background:#ff9a3c">»</i>Fast paddle</span>
-        <span><i class="dot" style="background:#9b7bff">◈</i>Shield</span>
-        <span><i class="dot" style="background:#e45dbf">⇄</i>Flipped tilt</span>
-      </div>
+      <section class="hsec"><h3>🎯 The goal</h3>
+        <p>The paddle moves by itself. Steer the <b>ball</b> so it lands on the paddle. Each bounce is <b>+1 point</b>. If the ball falls past the paddle, the game ends. Beat your best score!</p></section>
+      <section class="hsec"><h3>🎮 Controls</h3>
+        <ul><li><b>Swipe</b> (easiest): slide your finger in the glowing strip under the paddle. Hold to one side to keep pushing.</li>
+        <li><b>Tilt</b>: tilt your phone left and right.</li><li>Change it any time in Settings.</li></ul></section>
+      <section class="hsec"><h3>📈 Getting harder</h3>
+        <ul><li>The paddle slowly speeds up and gets smaller.</li><li>From 20 points, wind pushes the ball sideways.</li><li>After 100 points the paddle sometimes turns by surprise.</li></ul></section>
+      <section class="hsec"><h3>🫧 Falling rewards</h3>
+        <p>Steer the ball into good bubbles. Avoid the spiky ones. Bubbles fade away by the middle of the screen.</p>
+        <div class="legend-row">
+          <span><i class="dot" style="background:#f5b72e">¢</i>Coin</span><span><i class="dot" style="background:#f5c84c">★</i>Star: +5 points</span>
+          <span><i class="dot" style="background:#4cc38a">↔</i>Wide paddle</span><span><i class="dot" style="background:#4aa8ff">½</i>Slow motion</span>
+          <span><i class="dot" style="background:#9b7bff">◈</i>Shield: saves you once</span><span><i class="dot" style="background:#ff8a65">⬤</i>Big ball</span>
+          <span><i class="dot" style="background:#ff5d5d">−</i><em>Bad:</em> Small paddle</span><span><i class="dot" style="background:#ff9a3c">»</i><em>Bad:</em> Fast paddle</span>
+          <span><i class="dot" style="background:#e45dbf">⇄</i><em>Bad:</em> Flipped controls</span></div>
+        <p class="small">Active effects show as round icons at the top. The ring shows the time left.</p></section>
+      <section class="hsec"><h3>🧰 Treasure chests</h3>
+        <ul><li>After 20 points a chest may fall <b>once per game</b>. Catch it with the ball.</li>
+        <li>About <b>8%</b> are <b>Legendary</b> chests. You can also buy one in the Shop for 100 diamonds.</li>
+        <li>The chest opens <b>right after the game</b>. Its glow hints at the prize: gold coins, blue diamonds, green Special skin, purple Legendary skin.</li>
+        <li><b>Normal chest:</b> coins, sometimes diamonds or a Special skin.</li>
+        <li><b>Legendary chest:</b> Legendary or Special skins, many diamonds or lots of coins.</li>
+        <li>A skin you already own gives back <b>80%</b> of its price.</li></ul></section>
+      <section class="hsec"><h3>✨ Skins</h3>
+        <ul><li>Change your <b>Ball</b>, <b>Paddle</b> and <b>World</b> with the tiles on the start page.</li>
+        <li><b>Normal</b> skins: coins or one ad. <b>Special</b>: coins. <b>Legendary</b>: diamonds.</li>
+        <li>Special and Legendary skins can be upgraded to <b>Level 3</b> for bigger effects.</li>
+        <li><b>Free skin sets:</b> score 50, 75, 100 and 125 in one game.</li>
+        <li><b>Mythic Celestia set:</b> make 150, 250 and 400 bounces in one game.</li></ul></section>
+      <section class="hsec"><h3>⚡ Boosts</h3>
+        <p>Permanent upgrades: bigger paddle, longer power-ups, coin magnet, fewer bad bubbles, Big ball size and a Shield that comes back.</p></section>
+      <section class="hsec"><h3>🎁 Rewards</h3>
+        <ul><li><b>Daily gift:</b> a 7-day streak. Day 7 is the best.</li>
+        <li><b>Monthly challenge:</b> play on 5, 10, 15, 20, 25 and 30 days in a month.</li>
+        <li><b>Milestones:</b> reach scores from 20 to 1000 for coins, chests, skins and badges.</li></ul></section>
+      <section class="hsec"><h3>❤️ Revive</h3>
+        <p>When the ball falls, revive with a free ad (once per game) or diamonds (15, 30, 60). Up to 3 revives.</p></section>
+      <section class="hsec"><h3>🏆 Ranks</h3>
+        <p>Your 10 best games, badges and stats. World ranking comes with Apple Game Center in the App Store version.</p></section>
       <button class="btn" id="howPlay">Got it</button>
     </div>
   </div>
@@ -572,7 +659,7 @@ body:has(#over:not([hidden])) #pauseBtn, body:has(#chest:not([hidden])) #pauseBt
         <button role="tab" data-tab="gems" aria-selected="false" aria-label="Diamonds"><i class="gemico"></i></button>
       </div>
       <button class="lcbuy" id="buyLChest"><canvas id="lcIcon" width="96" height="72" aria-hidden="true"></canvas><span><b>Legendary chest</b><small>Special or Legendary skins, diamonds, gold</small></span><span class="lcprice"><i class="gemico"></i>100</span></button>
-      <div class="upbox" id="upBox"><div><b id="upName"></b><span id="upText"></span></div><button class="btn gold sm" id="upBtn"></button></div>
+      <div class="upbox" id="upBox" hidden><div><b id="upName"></b><span id="upText"></span></div><button class="btn gold sm" id="upBtn"></button></div>
       <div class="grid" id="grid"></div>
       <div class="list" id="list" hidden></div>
       <p class="small" id="shopNote"></p>
@@ -601,6 +688,8 @@ body:has(#over:not([hidden])) #pauseBtn, body:has(#chest:not([hidden])) #pauseBt
       <div class="cardhead"><h2>Settings</h2><button class="xbtn" id="setBack" aria-label="Close"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button></div>
       <div class="setrow"><label>Sound</label>
         <div class="seg" id="soundSeg"><button data-v="1">On</button><button data-v="0">Off</button></div></div>
+      <div class="setrow"><label>Player name</label>
+        <div class="row"><input id="setName" class="namein" maxlength="14" placeholder="Your name" aria-label="Player name"><button class="btn alt sm" id="setNameOk">Save</button></div></div>
       <div class="setrow"><label>Controls</label>
         <div class="seg" id="ctrlSeg"><button data-v="tilt">Tilt phone</button><button data-v="swipe">Swipe</button></div>
         <p class="small" id="ctrlNote"></p></div>
@@ -684,14 +773,13 @@ body:has(#over:not([hidden])) #pauseBtn, body:has(#chest:not([hidden])) #pauseBt
 
   <!-- Unlock sheet (top aligned so the live preview shows below) -->
   <div class="layer top" id="buy" hidden>
-    <div class="card">
-      <p class="eyebrow" id="buyTier">Legendary</p>
-      <h2 id="buyName">Fireball</h2>
-      <p class="small">Preview is playing below.</p>
+    <div class="card sheet">
+      <div class="sheethead"><div><p class="eyebrow" id="buyTier">Legendary</p><h2 id="buyName">Fireball</h2></div><button class="xbtn" id="buyNo" aria-label="Close"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button></div>
+      <p class="small" id="buySub">Preview is playing below.</p>
       <div id="buyOpts"></div>
       <p class="small" id="buyNote"></p>
-      <button class="link" id="buyNo">Cancel</button>
     </div>
+  </div>
   </div>
 
   <!-- Tilt guide before each game -->
@@ -1841,7 +1929,7 @@ const REVIVE_GEMS = [15, 30, 60];
 const MAX_REVIVES = 3;
 // ================= Save data (works offline) =================
 const DEF = { v: 4, coins: 300, gems: 0, chests: 0, lchests: 0, owned: { ball: ['classic'], pad: ['classic'], world: ['pond'] }, use: { ball: 'classic', pad: 'classic', world: 'pond' },
-  lv: { ball: {}, pad: {}, world: {} }, up: { size: 0, grow: 0, slow: 0, magnet: 0, lucky: 0, shieldStart: 0, bigball: 0 }, sound: true, sens: 1, dir: 1, zero: 0, ctrl: '', daily: { day: '', streak: 0 }, seenHow: false, gemAdDay: '',
+  lv: { ball: {}, pad: {}, world: {} }, up: { size: 0, grow: 0, slow: 0, magnet: 0, lucky: 0, shieldStart: 0, bigball: 0 }, sound: true, sens: 1, dir: 1, zero: 0, name: '', ctrl: '', daily: { day: '', streak: 0 }, seenHow: false, gemAdDay: '',
   rec: { top: [], best: 0, games: 0, bounces: 0, stars: 0, coins: 0, bestTime: 0, chests: 0, gemsFound: 0, bestBounces: 0, hist: [] } };
 const clone = o => JSON.parse(JSON.stringify(o));
 function normalize(s) {
@@ -1920,7 +2008,7 @@ function tintBars() {
   } catch (e) {}
 }
 
-let SAFE_T = 0, SAFE_B = 0;
+let SAFE_T = 0, SAFE_B = 0, buyBot = 0;
 const swipeMode = () => save.ctrl === 'swipe';
 // Swipe strip: sits under the paddle, big enough for a thumb but not too tall
 const zoneH = () => clamp(H * .14, 100, 156);
@@ -1936,10 +2024,7 @@ function resize(keepWorld) {
     // Work out which edges really sit under the notch / home bar. iPhone sometimes keeps its own bar at
     // the top or bottom of a Home Screen web app; that edge then needs no extra space.
     const gap = sh - innerHeight, rs = document.documentElement.style;
-    if (gap > 2 && (SAFE_T || SAFE_B)) {
-      if (gap >= SAFE_T + SAFE_B - 4) { SAFE_T = SAFE_B = 0; }
-      else if (Math.abs(gap - SAFE_B) <= Math.abs(gap - SAFE_T)) SAFE_B = 0; else SAFE_T = 0;
-    }
+    if (gap > 2) SAFE_B = 0; // the bottom edge is already covered by an iPhone bar
     rs.setProperty('--sat', SAFE_T + 'px'); rs.setProperty('--sab', SAFE_B + 'px'); }
   const d = Math.min(window.devicePixelRatio || 1, Q.dpr, Math.sqrt([3.2e6, 2e6, 1.3e6][Q.level] / Math.max(1, c.clientWidth * c.clientHeight)));
   W = c.clientWidth; H = c.clientHeight;
@@ -2348,9 +2433,10 @@ function update(k) {
     if (G.state === 'play' && R() < I * .7) P({ x: R() * W, y: H + 5, vx: rn(.6), vy: -(1 + R() * 2) * U * (1 + I), decay: .01, size: (1.2 + R() * 2) * U, col: moodCol(), glow: true, grav: -.005 }); }
   const live = G.state === 'play', demo = G.state === 'menu' || G.state === 'splash';
   if (demo && loadoutOpen && (G.loM = (G.loM || 0) + 1) % 8 === 0) measureLo();
+  if (demo && !$('buy').hidden && (G.loB = (G.loB || 0) + 1) % 8 === 0) { const r = $('buy').querySelector('.card').getBoundingClientRect(); buyBot = r.bottom - c.getBoundingClientRect().top; }
   if (demo) {
-    const side = loadoutOpen && loLeft > W * .35; // landscape: panel on the right, ball and paddle on the left
-    const ty = side ? H * .66 : loadoutOpen ? clamp(loTop - 40 * U, 150 * U, H * .58) : padHome();
+    const side = loadoutOpen && loLeft > W * .35, splashY = G.state === 'splash' ? H * .6 : !$('buy').hidden && buyBot ? clamp(buyBot + 190 * U, H * .5, H - 90 * U) : 0; // landscape: panel on the right, ball and paddle on the left
+    const ty = splashY ? splashY : side ? H * .66 : loadoutOpen ? clamp(loTop - 40 * U, 150 * U, H * .58) : padHome();
     pad.y += (ty - pad.y) * Math.min(1, .14 * k);
     if ($('buy').hidden) { const tx = side ? loLeft / 2 : W / 2; pad.x += (tx - pad.x) * Math.min(1, .14 * k); }
   }
@@ -2397,7 +2483,8 @@ function update(k) {
   ball.sqv += (-.26 * ball.sq - .16 * ball.sqv) * s; ball.sq += ball.sqv * s;
   if (ball.x < ball.r) { ball.x = ball.r; ball.vx = Math.abs(ball.vx) * .85; ball.sqA = PI / 2; ball.sq = Math.min(.25, Math.abs(ball.vx) / U * .03); ball.sqv = 0; if (live) sfx.wall(); }
   if (ball.x > W - ball.r) { ball.x = W - ball.r; ball.vx = -Math.abs(ball.vx) * .85; ball.sqA = PI / 2; ball.sq = Math.min(.25, Math.abs(ball.vx) / U * .03); ball.sqv = 0; if (live) sfx.wall(); }
-  if (ball.y < ball.r + 70 * U + SAFE_T * .5) { ball.y = ball.r + 70 * U + SAFE_T * .5; ball.vy = Math.abs(ball.vy); ball.sqA = 0; ball.sq = .15; ball.sqv = 0; }
+  const ceilY = demo && !$('buy').hidden && buyBot ? Math.min(buyBot + 10, pad.y - 120 * U) : 70 * U + SAFE_T * .5;
+  if (ball.y < ball.r + ceilY) { ball.y = ball.r + ceilY; ball.vy = Math.abs(ball.vy); ball.sqA = 0; ball.sq = .15; ball.sqv = 0; }
 
   const top = pad.y - pad.h / 2;
   if (ball.vy > 0 && ball.py + ball.r <= top + 2 && ball.y + ball.r >= top && Math.abs(ball.x - pad.x) <= pad.w / 2 + ball.r * .7) {
@@ -2531,13 +2618,17 @@ function draw() {
 
 // ================= HUD =================
 const CHIP = { big: ['Big ball', 'good'], grow: ['Wide', 'good'], slow: ['Slow', 'good'], shrink: ['Small', 'bad'], turbo: ['Fast', 'bad'], flip: ['Flipped', 'bad'] };
+const FXI = { big: ['#ff8a65', '⬤'], grow: ['#4cc38a', '↔'], slow: ['#4aa8ff', '½'], shrink: ['#ff5d5d', '−'], turbo: ['#ff9a3c', '»'], flip: ['#e45dbf', '⇄'] };
+let chestIco = {};
+function chestIcon(leg) { const k = leg ? 'l' : 'n'; if (!chestIco[k]) { const c = document.createElement('canvas'); c.width = c.height = 72; drawChest(c.getContext('2d'), 36, 42, 46, 0, 30, 0, leg); chestIco[k] = c.toDataURL(); } return chestIco[k]; }
+const fxBadge = (col, glyph, pct, bad, label) => `<span class="fx${bad ? ' bad' : ''}" style="--c:${col};--p:${pct}" role="img" aria-label="${label}"><i>${glyph}</i></span>`;
 function renderChips() {
   let html = '';
   if (G.state === 'over' || G.state === 'menu') { $('chips').innerHTML = ''; renderGoal(); return; }
-  for (const key in CHIP) if (G.fx[key] > 0) html += `<span class="chip ${CHIP[key][1]}">${CHIP[key][0]}<i><b style="width:${Math.round(G.fx[key] / fxLen(key) * 100)}%"></b></i></span>`;
-  if (G.shield) html += '<span class="chip good">Shield</span>'; else if (G.shieldIn > 0) html += `<span class="chip neutral">Shield in ${Math.ceil(G.shieldIn / 60)}s</span>`;
-  if (G.chest) html += `<span class="chip chest">${G.chest === 'legend' ? 'Legendary chest' : 'Chest'}</span>`;
-  if (G.windT > 0) html += `<span class="chip neutral">Wind ${G.wind > 0 ? '→' : '←'}</span>`;
+  for (const key in FXI) if (G.fx[key] > 0) html += fxBadge(FXI[key][0], FXI[key][1], Math.round(G.fx[key] / fxLen(key) * 100), CHIP[key] && CHIP[key][1] === 'bad', CHIP[key] ? CHIP[key][0] : key);
+  if (G.shield) html += fxBadge('#9b7bff', '◈', 100, false, 'Shield'); else if (G.shieldIn > 0) html += fxBadge('#6b5aa8', Math.ceil(G.shieldIn / 60), Math.round((1 - G.shieldIn / ((SHIELD_BACK[save.up.shieldStart] || 1) * 60)) * 100), false, 'Shield recharging');
+  if (G.chest) html += `<span class="fx" style="--c:${G.chest === 'legend' ? '#c9a2ff' : '#ffd57a'};--p:100" role="img" aria-label="Chest"><img src="${chestIcon(G.chest === 'legend')}" alt=""></span>`;
+  if (G.windT > 0) html += fxBadge('#7fb4d6', G.wind > 0 ? '→' : '←', Math.round(G.windT / 240 * 100), false, 'Wind');
   $('chips').innerHTML = html;
 }
 
@@ -2562,7 +2653,7 @@ function loop(now) {
 }
 
 // ================= Screens =================
-const LAYERS = ['splash', 'menu', 'loadout', 'ctrlPick', 'boosts', 'daily', 'rewards', 'guide', 'how', 'shop', 'records', 'settings', 'pause', 'revive', 'over', 'chest', 'ad', 'buy', 'countLayer'];
+const LAYERS = ['splash', 'menu', 'loadout', 'nameAsk', 'ctrlPick', 'boosts', 'daily', 'rewards', 'guide', 'how', 'shop', 'records', 'settings', 'pause', 'revive', 'over', 'chest', 'ad', 'buy', 'countLayer'];
 function show(id) { LAYERS.forEach(l => $(l).hidden = l !== id); $('hud').hidden = !['play', 'paused', 'count', 'over', 'revive'].includes(G.state); }
 
 function toMenu(msg) {
@@ -2590,6 +2681,7 @@ function countdown() {
   }, 700);
 }
 async function play() {
+  if (!save.name) { askName(play); return; } // first game: player name for the leaderboard
   if (!save.ctrl) { show('ctrlPick'); return; } // first game: choose tilt or swipe
   if (!swipeMode()) await enableTilt();
   resetGame(); G.state = 'guide'; refreshWorld(); show('guide');
@@ -2837,7 +2929,14 @@ const TIER = { normal: ['Normal', 'Coins or one ad'], special: ['Special', 'Effe
 function setPreview(cat, id) { preview = { cat, id }; if (cat === 'world') setWorld(id); ball.trail = []; }
 function clearPreview() { if (!preview) return; const wasWorld = preview.cat === 'world'; preview = null; if (wasWorld) refreshWorld(true); ball.trail = []; }
 
+function ownedSheet(cat, item) {
+  sheetBack = 'shop';
+  if (!['normal', 'mythic'].includes(item.tier)) return openLevelSheet(cat, item);
+  setPreview(cat, item.id);
+  openBuy(item.tier, item.name, save.use[cat] === item.id ? [] : [{ html: 'Use this skin', cls: 'alt', fn: () => { clearPreview(); equip(cat, item.id); backFromSheet(); } }], save.use[cat] === item.id ? 'You own this skin and it is in use.' : 'You own this skin.');
+}
 function openBuy(tierKey, name, opts, note) {
+  $('buySub').hidden = !preview; $('buySub').textContent = 'Preview is playing below.';
   $('buyTier').textContent = TIER[tierKey] ? TIER[tierKey][0] : tierKey; $('buyTier').className = 'eyebrow ' + tierKey;
   $('buyName').textContent = name; $('buyNote').textContent = note || '';
   const box = $('buyOpts'); box.innerHTML = '';
@@ -2872,7 +2971,6 @@ function renderShop() {
   document.querySelectorAll('#shop .tabs button').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === tab));
   const isGrid = ['ball', 'pad', 'world'].includes(tab);
   $('grid').hidden = !isGrid; $('list').hidden = isGrid;
-  renderUpBox();
   if (tab === 'gems') { $('shopNote').textContent = 'Demo store: no money is taken here. In the App Store version these open Apple\'s payment sheet.'; return renderGems(); }
   $('shopNote').textContent = 'Tap any skin to preview it live. Normal skins open with coins or an ad, Special with coins, Legendary with diamonds.';
   const grid = $('grid'); grid.innerHTML = '';
@@ -2902,8 +3000,8 @@ function skinCard(item) {
   U = oldU;
   const nm = document.createElement('span'); nm.className = 'nm'; nm.textContent = item.name;
   const tag = document.createElement('span');
-  if (using) { tag.className = 'tag use'; tag.textContent = 'Using'; }
-  else if (has) { tag.className = 'tag'; tag.textContent = 'Tap to use'; }
+  if (using) { tag.className = 'tag use'; tag.textContent = '✓ In use'; }
+  else if (has) { tag.className = 'tag own'; tag.textContent = '✓ Owned'; }
   else if (item.tier === 'mythic') { tag.className = 'tag c'; tag.textContent = `🔒 ${Math.min(save.rec.bestBounces || 0, MYTHIC_REQ[tab])}/${MYTHIC_REQ[tab]} bounces`; }
   else if (item.tier === 'legend') { tag.className = 'tag g'; tag.innerHTML = gemHtml(item.gems); }
   else if (item.tier === 'normal') { tag.className = 'tag c'; tag.innerHTML = `${coinHtml(item.coins)} or ▶`; }
@@ -2911,7 +3009,8 @@ function skinCard(item) {
   const fr = !has && item.tier === 'special' ? freeReq(tab, item) : 0;
   b.append(cv, nm, tag);
   { const lv = document.createElement('span'); lv.className = 'lv'; const L = lvl(tab, item.id); lv.textContent = has && item.tier !== 'normal' ? '★'.repeat(L) + '☆'.repeat(3 - L) : fr ? `or free at ${fr} points` : ''; if (fr) lv.style.cssText = 'letter-spacing:0;color:#8ff0bf;font-weight:800'; b.append(lv); }
-  b.onclick = () => !has ? (item.tier === 'mythic' ? mythicSheet(tab, item) : unlockSheet(tab, item)) : (using && !['normal', 'mythic'].includes(item.tier)) ? (sheetBack = 'shop', openLevelSheet(tab, item)) : equip(tab, item.id);
+  // the Shop is for buying: tapping a skin you own shows its details (levels, upgrade, use)
+  b.onclick = () => !has ? (item.tier === 'mythic' ? mythicSheet(tab, item) : unlockSheet(tab, item)) : ownedSheet(tab, item);
   return b;
 }
 function upCost(it, L) {
@@ -2950,18 +3049,20 @@ function renderUpBox() {
 // Live level preview: switch Level 1, 2, 3 and watch the effect below
 function openLevelSheet(cat, item, startL) {
   let L = startL || ownLvl(cat, item.id);
+  $('buySub').hidden = false;
   const render = () => {
     const own = ownLvl(cat, item.id);
     preview = { cat, id: item.id, L }; if (cat === 'world') setWorld(item.id); ball.trail = [];
-    $('buyTier').textContent = `${TIER[item.tier][0]} · your level: ${own}`; $('buyTier').className = 'eyebrow ' + item.tier;
-    $('buyName').textContent = item.name; $('buyNote').textContent = '';
+    $('buyTier').textContent = `${TIER[item.tier][0]} · your level ${own} of 3`; $('buyTier').className = 'eyebrow ' + item.tier;
+    $('buyName').textContent = item.name; $('buyNote').textContent = ''; $('buySub').textContent = 'Tap a level to preview it below.';
     const box = $('buyOpts'); box.innerHTML = '';
-    const seg = document.createElement('div'); seg.className = 'seg';
-    for (let l = 1; l <= 3; l++) { const b = document.createElement('button'); b.textContent = `Level ${l}${l <= own ? '' : ' 🔒'}`; b.setAttribute('aria-pressed', String(l === L)); b.onclick = () => { L = l; render(); }; seg.append(b); }
-    const d = document.createElement('p'); d.className = 'small';
-    d.textContent = L === 1 ? 'Base effects.' : `Adds: ${upName(cat, item, L - 1)}.` + (L > own ? ' Preview only, not unlocked yet.' : '');
+    const seg = document.createElement('div'); seg.className = 'lvseg';
+    for (let l = 1; l <= 3; l++) { const b = document.createElement('button'); b.className = l > own ? 'lock' : ''; b.innerHTML = `Level ${l}<b>${'★'.repeat(l)}${'☆'.repeat(3 - l)}</b>${l > own ? '🔒' : ''}`;
+      b.setAttribute('aria-pressed', String(l === L)); b.onclick = () => { L = l; render(); }; seg.append(b); }
+    const d = document.createElement('div'); d.className = 'lvinfo';
+    d.innerHTML = `<span class="tagl${L > own ? ' lock' : ''}">${L > own ? 'Preview · not unlocked yet' : 'Unlocked'}</span><b>Level ${L}</b>${L === 1 ? 'Base effects.' : 'Adds: ' + upName(cat, item, L - 1) + '.'}`;
     box.append(seg, d);
-    if (own < 3) { const c = upCost(item, own), b = document.createElement('button'); b.className = c.gems ? 'btn gem' : 'btn gold'; b.innerHTML = `Upgrade to level ${own + 1} · ${costHtml(c)}`;
+    if (own < 3) { const c = upCost(item, own), b = document.createElement('button'); b.className = c.gems ? 'btn gem' : 'btn gold'; b.innerHTML = `Upgrade to Level ${own + 1} · ${costHtml(c)}`;
       b.onclick = () => { if (doUpgrade(cat, item)) { L = own + 1; render(); } else if (c.gems) { loadoutOpen = false; sheetBack = 'shop'; clearPreview(); tab = 'gems'; show('shop'); renderShop(); } }; box.append(b); }
     if (save.use[cat] !== item.id) { const u = document.createElement('button'); u.className = 'btn alt'; u.textContent = 'Use this skin'; u.onclick = () => { clearPreview(); equip(cat, item.id); backFromSheet(); }; box.append(u); }
   };
@@ -3096,7 +3197,7 @@ function drawKit(t) {
 }
 document.querySelectorAll('#kit button').forEach(b => b.onclick = () => { ltab = b.dataset.k; openLoadout(); });
 function openLoadout() { loadoutOpen = true; sheetBack = 'loadout'; show('loadout'); refreshWorld(); renderLoadout(); measureLo(); }
-function closeLoadout() { loadoutOpen = false; toMenu(); }
+function closeLoadout() { loadoutOpen = false; loPrevL = null; toMenu(); }
 function renderLoadout() {
   wallet();
   document.querySelectorAll('#loTabs button').forEach(b => b.setAttribute('aria-selected', String(b.dataset.lt === ltab)));
@@ -3109,28 +3210,35 @@ function renderLoadout() {
     const tg = document.createElement('span'); tg.className = 'tag' + (using ? ' use' : ''); tg.textContent = using ? '✓ Using' : 'Tap to use';
     const lv = document.createElement('span'); lv.className = 'lv'; lv.textContent = it.tier === 'normal' ? '' : '★'.repeat(L) + '☆'.repeat(3 - L);
     b.append(thumbCanvas(ltab, it, 116, 84), nm, lv, tg);
-    b.onclick = () => { if (!using) { equip(ltab, it.id); renderLoadout(); } };
+    b.onclick = () => { if (!using) { loPrevL = null; clearPreview(); equip(ltab, it.id); renderLoadout(); } };
     strip.append(b); if (using) sel = b;
   });
   if (sel) requestAnimationFrame(() => { strip.scrollLeft = sel.offsetLeft - (strip.clientWidth - sel.offsetWidth) / 2; });
+  // level box: tap a level to see it live above, upgrade right here
   const it = itemOf(ltab, save.use[ltab]), L = ownLvl(ltab, it.id), fixed = ['normal', 'mythic'].includes(it.tier);
-  const cost = L < 3 && !fixed ? upCost(it, L) : null;
+  if (loPrevL && (loPrevL.id !== it.id || loPrevL.cat !== ltab)) loPrevL = null;
+  const selL = loPrevL ? loPrevL.L : L, cost = L < 3 && !fixed ? upCost(it, L) : null;
   $('loName').textContent = it.name;
-  $('loText').textContent = it.tier === 'normal' ? 'Normal skin · no upgrades' : it.tier === 'mythic' ? 'Mythic · every effect at maximum' : L >= 3 ? 'Level 3 of 3 · fully upgraded' : `Level ${L} of 3 · next: ${upName(ltab, it, L)}`;
-  $('loPrev').hidden = fixed;
-  $('loPrev').onclick = () => { sheetBack = 'loadout'; openLevelSheet(ltab, it); };
+  $('loText').textContent = it.tier === 'normal' ? 'Normal · no levels' : it.tier === 'mythic' ? 'Mythic · max level' : `Level ${L} of 3`;
+  const seg = $('loLv'); seg.hidden = fixed; seg.innerHTML = '';
+  if (!fixed) for (let l = 1; l <= 3; l++) { const b = document.createElement('button'); b.className = l > L ? 'lock' : '';
+    b.innerHTML = `Level ${l}<b>${'★'.repeat(l)}${'☆'.repeat(3 - l)}</b>${l > L ? '🔒' : ''}`; b.setAttribute('aria-pressed', String(l === selL));
+    b.onclick = () => { if (l === L) { loPrevL = null; clearPreview(); } else { loPrevL = { cat: ltab, id: it.id, L: l }; preview = { cat: ltab, id: it.id, L: l }; if (ltab === 'world') setWorld(it.id); ball.trail = []; } renderLoadout(); };
+    seg.append(b); }
+  $('loDesc').textContent = fixed ? (it.tier === 'mythic' ? 'Every effect is already at maximum.' : 'Normal skins have no special effects.') : selL === 1 ? 'Level 1: base effects.' + (selL !== L ? ' (preview)' : '') : `Level ${selL} adds: ${upName(ltab, it, selL - 1)}.` + (selL > L ? ' Showing a preview above.' : '');
   $('loBtn').hidden = !cost;
   if (cost) {
-    $('loBtn').className = cost.gems ? 'btn gem sm' : 'btn gold sm'; $('loBtn').innerHTML = `Upgrade ${costHtml(cost)}`;
+    $('loBtn').className = cost.gems ? 'btn gem' : 'btn gold'; $('loBtn').innerHTML = `Upgrade to Level ${L + 1} · ${costHtml(cost)}`;
     $('loBtn').onclick = () => {
-      if (doUpgrade(ltab, it)) { if (ltab === 'world') refreshWorld(true); renderLoadout(); renderMineIcons(); }
-      else if (cost.gems) { loadoutOpen = false; sheetBack = 'shop'; refreshWorld(); tab = 'gems'; show('shop'); renderShop(); }
+      if (doUpgrade(ltab, it)) { loPrevL = null; clearPreview(); if (ltab === 'world') refreshWorld(true); renderLoadout(); renderMineIcons(); burst(pad.x, pad.y - 30 * U, 30, { col: ['#ffd57a', '#ffffff', '#8ff0bf'], glow: true, shape: 'star', grav: 0, decay: .025 }); }
+      else if (cost.gems) { loadoutOpen = false; loPrevL = null; clearPreview(); sheetBack = 'shop'; refreshWorld(); tab = 'gems'; show('shop'); renderShop(); }
     };
   }
 }
+let loPrevL = null;
 $('loDone').onclick = closeLoadout;
-$('loShop').onclick = () => { loadoutOpen = false; refreshWorld(); tab = ltab; sheetBack = 'shop'; show('shop'); renderShop(); };
-document.querySelectorAll('#loTabs button').forEach(b => b.onclick = () => { ltab = b.dataset.lt; renderLoadout(); });
+$('loShop').onclick = () => { loadoutOpen = false; loPrevL = null; clearPreview(); refreshWorld(); tab = ltab; sheetBack = 'shop'; show('shop'); renderShop(); };
+document.querySelectorAll('#loTabs button').forEach(b => b.onclick = () => { loPrevL = null; clearPreview(); ltab = b.dataset.lt; renderLoadout(); });
 
 // ================= Daily gift (7-day streak) =================
 const DAILY = [{ c: 100 }, { c: 150 }, { g: 5 }, { c: 250 }, { chest: 1 }, { c: 400 }, { g: 20, c: 300 }];
@@ -3227,13 +3335,22 @@ $('rwBtn').onclick = () => openRewards();
 $('rwBack').onclick = () => toMenu();
 
 // ================= Leaderboard (this device; world ranking via Game Center in the App Store version) =================
-function addTopScore(score, bounces) { const e = { s: score, b: bounces, d: Date.now() }, t = (save.rec.top || []).concat(e);
+function addTopScore(score, bounces) { const e = { s: score, b: bounces, d: Date.now(), n: save.name || 'Player' }, t = (save.rec.top || []).concat(e);
   t.sort((a, b) => b.s - a.s || (a.d || 0) - (b.d || 0)); save.rec.top = t.slice(0, 10); return save.rec.top.indexOf(e); }
 const MEDAL = ['🥇', '🥈', '🥉'];
+const esc = t => String(t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const cleanName = t => String(t || '').replace(/\s+/g, ' ').trim().slice(0, 14);
+let nameNext = null;
+function askName(next) { nameNext = next; show('nameAsk'); $('nameIn').value = save.name || ''; setTimeout(() => $('nameIn').focus(), 50); }
+$('nameOk').onclick = () => { const n = cleanName($('nameIn').value); if (!n) { $('nameIn').focus(); toast('Please type a name'); return; }
+  const old = save.name; save.name = n; (save.rec.top || []).forEach(e => { if (!e.n || e.n === old) e.n = n; }); persist(); sfx.tick(); const f = nameNext; nameNext = null; f ? f() : toMenu(); };
+$('nameIn').addEventListener('keydown', e => { if (e.key === 'Enter') $('nameOk').click(); });
+$('setNameOk').onclick = () => { const n = cleanName($('setName').value); if (!n) { toast('Please type a name'); return; } const old = save.name; save.name = n;
+  (save.rec.top || []).forEach(e => { if (!e.n || e.n === old) e.n = n; }); persist(); sfx.good(); toast('Name saved'); };
 const fmtDay = d => new Date(d).toLocaleDateString([], { day: 'numeric', month: 'short' });
 function boardRows(n, hi) { const t = (save.rec.top || []).slice(0, n);
   if (!t.length) return '<div class="lbempty">Play a game to get on the board.</div>';
-  return t.map((e, i) => `<div class="lbrow${i === hi ? ' me' : ''}"><span class="lbpos">${MEDAL[i] || '#' + (i + 1)}</span><span class="lbname">You<small>${e.d ? fmtDay(e.d) + ' · ' : ''}${e.b ? e.b + ' bounces' : 'best score'}</small></span><b>${e.s}</b></div>`).join(''); }
+  return t.map((e, i) => `<div class="lbrow${i === hi ? ' me' : ''}"><span class="lbpos">${MEDAL[i] || '#' + (i + 1)}</span><span class="lbname">${esc(e.n || save.name || 'Player')}<small>${e.d ? fmtDay(e.d) + ' · ' : ''}${e.b ? e.b + ' bounces' : 'best score'}</small></span><b>${e.s}</b></div>`).join(''); }
 function renderMenuBoard() { $('menuBoard').innerHTML = `<div class="lbhead"><b>🏆 Top scores</b><button class="link" id="lbAll">See all ›</button></div>${boardRows(3, -1)}`;
   $('lbAll').onclick = () => { renderRecords(); show('records'); }; }
 
@@ -3265,6 +3382,7 @@ function renderRecords() {
 // ================= Settings & backup =================
 function renderSettings() {
   const set = (id, val) => document.querySelectorAll(`#${id} button`).forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === String(val))));
+  $('setName').value = save.name || '';
   set('soundSeg', save.sound ? 1 : 0); set('sensSeg', save.sens); set('dirSeg', save.dir); set('ctrlSeg', save.ctrl || 'tilt');
   document.querySelectorAll('#settings .tiltonly').forEach(r => r.hidden = swipeMode());
   $('ctrlNote').textContent = swipeMode() ? 'Slide your finger in the strip under the paddle.' : 'Tilt your phone left and right.';
